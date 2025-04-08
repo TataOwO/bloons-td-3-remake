@@ -17,6 +17,8 @@ public:
 
     RoutePath& operator=(RoutePath&&) = delete;
 
+	~RoutePath() = default;
+
 	std::shared_ptr<Route> get_start_route() const;
 private:
     std::vector<std::shared_ptr<Route>> m_routes;

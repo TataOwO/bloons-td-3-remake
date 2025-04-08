@@ -16,6 +16,20 @@ namespace bloons {
 		return m_hp;
 	};
 
+	glm::vec2 BaseBloon::get_pos() {
+		return m_Transform.translation;
+	};
+
+	int BaseBloon::get_length_to_exit() {
+		glm::vec2 route_end = m_current_route->get_end_point();
+		glm::vec2 end_point_diff = {
+			route_end[0] - m_Transform.translation[0],
+			route_end[1] - m_Transform.translation[2],
+		};
+		
+		return glm::length(end_point_diff) + m_current_route->get_length_to_exit();
+	};
+
 	void BaseBloon::m_move() {
 		if (is_at_end()) throw std::runtime_error("bloon is at the end");
 
@@ -37,5 +51,7 @@ namespace bloons {
 				m_Transform.translation[1] + diff[1] * m_speed / diff_distance
 			};
 		}
+		
+		m_hitbox->set_position(m_Transform.translation);
 	};
 }

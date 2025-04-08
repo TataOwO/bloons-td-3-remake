@@ -3,6 +3,8 @@
 
 #include "bloons/BaseBloon.hpp"
 
+#include "hitboxes/CircularHitbox.hpp"
+
 #include <string>
 
 namespace bloons {
@@ -19,11 +21,17 @@ public:
 
     Bloon& operator=(Bloon&&) = delete;
 
+	~Bloon() override = default;
+
 	void update() override;
+	
+	void TAKE_DAMAGE(int damage) override; // TODO: remove this
+	
+	bool has_hp_left() const {return m_hp>0;}
 private:
 	std::string m_image_path;
 	
-	int m_radius;
+	void set_bloon_type(bloons::BLOON_TYPE type);
 	
 	void m_take_damage(int damage) override;
 };

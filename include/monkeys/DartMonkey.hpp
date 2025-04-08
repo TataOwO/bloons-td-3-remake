@@ -5,7 +5,7 @@
 
 namespace monkeys {
 
-class DartMonkey : public monkeys::BaseMonkey {
+class DartMonkey : public monkeys::BaseMonkey, public monkeys::I_MonkeyAttacker {
 public:
 	DartMonkey(glm::vec2 position);
 
@@ -17,6 +17,28 @@ public:
 
     DartMonkey& operator=(DartMonkey&&) = delete;
 
+	~DartMonkey() = default;
+	
+	void scan_bloon(std::shared_ptr<bloons::BaseBloon> bloon) override;
+	
+	void reset_target() override;
+	
+	std::shared_ptr<bloons::BaseBloon> get_target() override;
+	
+	bool has_projectile() override {return m_spawned_projectile!=nullptr;}
+
+	std::shared_ptr<projectiles::BaseProjectile> get_spawned_projectile() override;
+	
+	void attack() override;
+
+	bool can_attack() override;
+
+private: // I monkey attacker
+	void update_attack_interval() override;
+	
+	void spawn_projectile(glm::vec2 position) override;
+	
+	void face_towards(glm::vec2 position) override; // TODO: change this to protected
 private:
 };
 

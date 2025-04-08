@@ -4,32 +4,27 @@
 
 namespace monkeys {
     BaseMonkey::BaseMonkey(glm::vec2 position) {
-        m_position = position;
+		m_base_hitbox	= std::make_shared<hitboxes::CircularHitbox>(position, 0);
+		m_radius_hitbox	= std::make_shared<hitboxes::CircularHitbox>(position, 0);
 		
 		this->SetZIndex(1.5);
 		this->SetVisible(true);
     }
-	
+
 	bool BaseMonkey::is_collided_with_route(std::shared_ptr<map::route::Route>) const {
 		return false;
 	};
-	
+
 	bool BaseMonkey::is_collided_with_monkey(std::shared_ptr<BaseMonkey>) const {
 		return false;
 	};
-	
+
 	int BaseMonkey::get_radius() const {
-		return m_radius;
+		return m_radius_hitbox->get_radius();
 	};
-	
+
 	glm::vec2 BaseMonkey::get_position() const {
-		return m_position;
+		return m_base_hitbox->get_position();
 	};
-	
-	void BaseMonkey::face_towards(glm::vec2 position) {
-		int x_diff = position[0] - m_position[0];
-		int y_diff = position[1] - m_position[1];
-		
-		m_Transform.rotation = std::atan2(y_diff, x_diff) - 1.68;
-	};
+
 }

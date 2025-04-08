@@ -6,14 +6,22 @@
 
 #include "Util/GameObject.hpp"
 
+#include "hitboxes/I_BaseHitbox.hpp"
+#include "hitboxes/CircularHitbox.hpp"
+
 #include "map/route/Route.hpp"
+
+#include "bloons/BaseBloon.hpp"
+
+#include "projectiles/BaseProjectile.hpp"
 
 namespace monkeys {
 
 class BaseMonkey : public Util::GameObject {
-public:
+protected:
 	BaseMonkey(glm::vec2 position);
 
+public:
 	BaseMonkey(const BaseMonkey&) = delete;
 
 	BaseMonkey(BaseMonkey&&) = delete;
@@ -21,6 +29,8 @@ public:
 	BaseMonkey& operator=(const BaseMonkey&) = delete;
 
 	BaseMonkey& operator=(BaseMonkey&&) = delete;
+
+	virtual ~BaseMonkey() = default;
 
 	bool is_collided_with_route(std::shared_ptr<map::route::Route>) const;
 
@@ -30,16 +40,16 @@ public:
 
 	glm::vec2 get_position() const;
 
-	void face_towards(glm::vec2 position); // TODO: change this to protected
-
 protected:
 
 protected:
 	std::string m_image_path;
 
-	// will be used for route
-	glm::vec2 m_position;
-	int m_radius = 0;
+	// for route collision
+	std::shared_ptr<hitboxes::CircularHitbox> m_base_hitbox;
+
+	// for buff/attack radius
+	std::shared_ptr<hitboxes::CircularHitbox> m_radius_hitbox;
 
 	// for bloons
 	glm::vec2 m_face_position;
@@ -47,15 +57,34 @@ protected:
 
 class I_MonkeyAttacker {
 public:
-	virtual void update_attack_interval();
-	virtual void attack();
+	virtual void attack() = 0;
 
-	virtual bool can_attack();
-private:
+	virtual bool can_attack() = 0;
+
+	virtual void scan_bloon(std::shared_ptr<bloons::BaseBloon> bloon) = 0;
+
+	virtual void reset_target() = 0;
+
+	virtual std::shared_ptr<bloons::BaseBloon> get_target() = 0;
+
+	virtual bool has_projectile() = 0;
+
+	virtual std::shared_ptr<projectiles::BaseProjectile> get_spawned_projectile() = 0;
+protected:
+	virtual void update_attack_interval() = 0;
+
+	virtual void face_towards(glm::vec2 position) = 0;
+protected:
 	glm::vec2 m_projectile_spawn_position;
 
 	int m_attack_interval = 0;
 	int m_attack_cooldown = 0;
+
+	std::shared_ptr<projectiles::BaseProjectile> m_spawned_projectile;
+
+	virtual void spawn_projectile(glm::vec2 position) = 0;
+
+	std::shared_ptr<bloons::BaseBloon> m_target_bloon = nullptr;
 };
 
 }

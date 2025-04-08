@@ -10,8 +10,8 @@
 
 namespace map::route {
 	Route::Route(glm::vec2 start_point, glm::vec2 end_point) {
-		m_start_point = start_point;
-		m_end_point   = end_point;
+		m_start_point = convert_pos(start_point);
+		m_end_point   = convert_pos(end_point);
 
 		m_center_point = {
 			(m_start_point[0] + m_end_point[0]) * 0.5,
@@ -29,10 +29,16 @@ namespace map::route {
 		m_Transform.translation = m_center_point;
 		m_Transform.rotation = atan(m_diff[1] / m_diff[0]);
 
+		m_hitbox = std::make_shared<hitboxes::RectangularHitbox>(
+			m_Transform.translation,
+			glm::vec2{m_length, 15},
+			m_Transform.rotation
+		);
+
 		m_Drawable = std::make_shared<Util::Image>(m_image_path);
 
 		this->SetZIndex(2);
-		this->SetVisible(true);
+		this->SetVisible(false);
 	};
 
 	RouteConnection Route::route_is_connected(Route route) {
@@ -73,8 +79,6 @@ namespace map::route {
 		
 		m_length_to_exit = m_next_route->recursive_calculate_exit_length();
 		
-		std::cout << m_length << " " << m_length_to_exit << std::endl;
-		
 		return m_length + m_length_to_exit;
 	};
 	
@@ -85,4 +89,11 @@ namespace map::route {
 	void Route::set_next_route(std::shared_ptr<Route> next_route) {
 		m_next_route = next_route;
 	};
+	
+	glm::vec2 Route::convert_pos(glm::vec2 v) {
+		return glm::vec2{
+			 v.x - 480,
+			-v.y + 360,
+		};
+	}
 }
