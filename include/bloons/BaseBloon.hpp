@@ -51,14 +51,20 @@ public:
 	int get_length_to_exit();
 	
 	std::shared_ptr<hitboxes::I_BaseHitbox> get_hitbox() {return m_hitbox;}
+	
+	int get_accumulated_money() {return m_accumulated_money;}
+	void reset_accumulated_money() {m_accumulated_money=0;}
 protected:
 	std::shared_ptr<map::route::Route> m_current_route;
+	glm::vec2 m_target_point;
 
 	BLOON_TYPE m_type = RED;
 
 	double m_speed = 0;
 
 	int m_hp = 0;
+	
+	int m_accumulated_money = 0;
 
 	std::shared_ptr<hitboxes::I_BaseHitbox> m_hitbox;
 protected:

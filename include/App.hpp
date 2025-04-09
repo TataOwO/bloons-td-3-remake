@@ -41,7 +41,8 @@ private:
 
 	int game_tick = 0;
 	int game_hp = 200;
-	float money = 0;
+	int money = 0;
+	bool money_changed = false;
 
 	std::shared_ptr<map::route::PathManager> m_path_manager;
 
@@ -63,8 +64,9 @@ private:
 	std::vector<std::shared_ptr<projectiles::BaseProjectile>> projectile_vec = {};
 
 	// TODO: menu
-	std::shared_ptr<Util::GameObject> hp_display = std::make_shared<Util::GameObject>();
-	std::shared_ptr<Util::Text> hp_text_obj = std::make_shared<Util::Text>(RESOURCE_DIR"/fonts/VeraMono.ttf", 40, "200");
+	std::shared_ptr<Util::GameObject> status_display = std::make_shared<Util::GameObject>();
+	std::string status_text;
+	std::shared_ptr<Util::Text> status_text_obj = std::make_shared<Util::Text>(RESOURCE_DIR"/fonts/VeraMono.ttf", 30, "hp: 200\nmoney: 0");
 
 private:
     State m_CurrentState = State::START;

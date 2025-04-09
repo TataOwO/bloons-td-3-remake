@@ -18,7 +18,7 @@ DartProjectile::DartProjectile(const glm::vec2& position, float rotation) : Base
 	
 	// Setting initial velocity based on rotation
 	// Since rotation=0 faces upwards, we need to calculate velocity accordingly
-	float speed = 20; // Adjust dart speed as needed
+	float speed = 30; // Adjust dart speed as needed
 	m_velocity = utility::rotate_vec2(glm::vec2(0, -speed), rotation+3.14);
 	
 	SetVisible(true);

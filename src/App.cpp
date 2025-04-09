@@ -66,10 +66,12 @@ void App::Start() {
 	}
 
 	// hp display
-	hp_display->SetDrawable(hp_text_obj);
-	m_render_manager->AddChild(hp_display);
-	hp_display->SetZIndex(10);
+	status_text_obj->SetColor(Util::Color(255,255,255));
 
+	status_display->SetDrawable(status_text_obj);
+	m_render_manager->AddChild(status_display);
+	status_display->SetZIndex(10);
+	status_display->m_Transform.translation = {365, 300};
     m_CurrentState = State::UPDATE;
 }
 
@@ -114,9 +116,12 @@ void App::Update() {
 
 		if (bloon->is_at_end()) {
 			game_hp -= bloon->get_hp();
-			std::cout << game_hp << std::endl;
 
-			hp_text_obj->SetText(std::to_string(game_hp));
+			status_text = "hp: ";
+			status_text.append(std::to_string(game_hp));
+			status_text.append("\nmoney: ");
+			status_text.append(std::to_string(money));
+			status_text_obj->SetText(status_text);
 
 			m_render_manager->RemoveChild(bloon);
 			bloon_vec.erase(bloon_vec.begin()+i);
@@ -139,6 +144,9 @@ void App::Update() {
 		for (auto bloon: bloon_vec) {
 			if (p->is_collided_with(bloon)) {
 				p->deal_damage(bloon);
+				money += bloon->get_accumulated_money();
+				bloon->reset_accumulated_money();
+				money_changed = true;
 			}
 		}
 
@@ -149,6 +157,14 @@ void App::Update() {
 		}
 	}
 
+	if (money_changed) {
+		status_text = "hp: ";
+		status_text.append(std::to_string(game_hp));
+		status_text.append("\nmoney: ");
+		status_text.append(std::to_string(money));
+		status_text_obj->SetText(status_text);
+		money_changed = false;
+	}
 
     // https://zh.wikipedia.org/zh-tw/%E8%B2%9D%E8%8C%B2%E6%9B%B2%E7%B7%9A
 	// curve for boomerang

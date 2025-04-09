@@ -1,52 +1,53 @@
 #include "bloons/Bloon.hpp"
 
 #include <iostream>
+#include <cstdlib>
 
 namespace bloons {
 	Bloon::Bloon(std::shared_ptr<map::route::Route> start_route, bloons::BLOON_TYPE type)
 	: BaseBloon(start_route) {
 		m_type = type;
-		
+
 		set_bloon_type(type);
-		
+
 		m_Transform.translation = start_route->get_start_point();
 		m_Transform.scale = {1,1};
-		
-		this->SetZIndex(3);
+
+		this->SetZIndex(3 + (std::rand()%10)*0.1);
 		this->SetVisible(true);
 	};
 
 	void Bloon::update() {
 		m_move();
 	};
-	
+
 	void Bloon::TAKE_DAMAGE(int damage) {
 		m_take_damage(damage);
-		
+
 		switch (m_hp) {
-		case 1: 
+		case 1:
 			set_bloon_type(bloons::BLOON_TYPE::RED);
 		break;
-		case 2: 
+		case 2:
 			set_bloon_type(bloons::BLOON_TYPE::BLUE);
 		break;
-		case 3: 
+		case 3:
 			set_bloon_type(bloons::BLOON_TYPE::GREEN);
 		break;
-		case 4: 
+		case 4:
 			set_bloon_type(bloons::BLOON_TYPE::YELLOW);
 		break;
-		case 6: 
+		case 6:
 			set_bloon_type(bloons::BLOON_TYPE::WHITE);
 		break;
-		case 8: 
+		case 8:
 			set_bloon_type(bloons::BLOON_TYPE::RAINBOW);
 		break;
 		default:
 		break;
 		}
 	};
-	
+
 	void Bloon::set_bloon_type(bloons::BLOON_TYPE type) {
 		switch(type) {
 		case RED    :
@@ -120,8 +121,9 @@ namespace bloons {
 		break;
 		}
 	}
-	
+
 	void Bloon::m_take_damage(int damage) {
 		m_hp -= damage;
+		m_accumulated_money += damage;
 	};
 }
