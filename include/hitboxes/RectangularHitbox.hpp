@@ -11,16 +11,6 @@ class RectangularHitbox : public I_BaseHitbox {
 public:
 	// Constructor
 	RectangularHitbox(const glm::vec2& center, const glm::vec2& dimensions, float rotation = 0.0f);
-	
-	RectangularHitbox(const RectangularHitbox&) = delete;
-
-	RectangularHitbox(RectangularHitbox&&) = delete;
-
-	RectangularHitbox& operator=(const RectangularHitbox&) = delete;
-
-	RectangularHitbox& operator=(RectangularHitbox&&) = delete;
-
-	~RectangularHitbox() override = default;
 
 	// Collision detection methods
 	bool is_collided_with(std::shared_ptr<I_BaseHitbox> box) const override;
@@ -55,6 +45,17 @@ private:
 	glm::vec2 dimensions;  // Width and height of the rectangle
 	float rotation;		// Rotation in radians (counter-clockwise)
 
+// base
+public:
+	RectangularHitbox(const RectangularHitbox&) = delete;
+
+	RectangularHitbox(RectangularHitbox&&) = delete;
+
+	RectangularHitbox& operator=(const RectangularHitbox&) = delete;
+
+	RectangularHitbox& operator=(RectangularHitbox&&) = delete;
+
+	~RectangularHitbox() override = default;
 };
 
 }

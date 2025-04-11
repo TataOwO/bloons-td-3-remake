@@ -14,8 +14,6 @@ enum class HitboxType {
 
 class I_BaseHitbox {
 public:
-    virtual ~I_BaseHitbox() = default;
-    
     virtual bool is_collided_with(std::shared_ptr<I_BaseHitbox> box) const = 0;
     
     virtual glm::vec2 get_position() const = 0;
@@ -31,6 +29,9 @@ public:
     virtual bool contains_point(const glm::vec2& point) const = 0;
     
     virtual glm::vec2 get_closest_point(const glm::vec2& point) const = 0;
+
+public:
+    virtual ~I_BaseHitbox() = default;
 };
 
 }

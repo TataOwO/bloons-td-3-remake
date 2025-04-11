@@ -26,6 +26,9 @@ enum class BLOON_TYPE {
 
 // https://bloons.fandom.com/wiki/Massive_Ornary_Air_Blimp_(MOAB)
 class BaseBloon : public Util::GameObject {
+// protected constructor to prevent direct use of this class
+protected:
+	explicit BaseBloon(const std::shared_ptr<map::route::Route> &start_route);
 public:
 	virtual void update() = 0;
 
@@ -63,8 +66,6 @@ protected:
 private:
 	static glm::vec2 twist_pos(glm::vec2 pos);
 // base
-protected:
-	explicit BaseBloon(const std::shared_ptr<map::route::Route> &start_route);
 public:
     BaseBloon(const BaseBloon&) = delete;
 

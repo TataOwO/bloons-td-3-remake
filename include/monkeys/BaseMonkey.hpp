@@ -17,6 +17,29 @@
 namespace monkeys {
 
 class BaseMonkey : public Util::GameObject {
+public:
+	bool is_collided_with_route(const std::shared_ptr<map::route::Route> &route) const;
+
+	bool is_collided_with_monkey(const std::shared_ptr<BaseMonkey> &monke) const;
+
+	float get_radius() const;
+
+	glm::vec2 get_position() const;
+
+	std::shared_ptr<hitboxes::CircularHitbox> get_hitbox() {return m_base_hitbox;}
+
+protected:
+	std::string m_image_path;
+
+	// for route collision
+	std::shared_ptr<hitboxes::CircularHitbox> m_base_hitbox;
+
+	// for buff/attack radius
+	std::shared_ptr<hitboxes::CircularHitbox> m_radius_hitbox;
+
+	// for bloons
+	glm::vec2 m_face_position;
+
 protected:
 	BaseMonkey(glm::vec2 position);
 
@@ -30,29 +53,6 @@ public:
 	BaseMonkey& operator=(BaseMonkey&&) = delete;
 
 	virtual ~BaseMonkey() override = default;
-
-	bool is_collided_with_route(const std::shared_ptr<map::route::Route> &route) const;
-
-	bool is_collided_with_monkey(const std::shared_ptr<BaseMonkey> &monke) const;
-
-	float get_radius() const;
-
-	glm::vec2 get_position() const;
-
-	std::shared_ptr<hitboxes::CircularHitbox> get_hitbox() {return m_base_hitbox;}
-protected:
-
-protected:
-	std::string m_image_path;
-
-	// for route collision
-	std::shared_ptr<hitboxes::CircularHitbox> m_base_hitbox;
-
-	// for buff/attack radius
-	std::shared_ptr<hitboxes::CircularHitbox> m_radius_hitbox;
-
-	// for bloons
-	glm::vec2 m_face_position;
 };
 
 class I_MonkeyAttacker {

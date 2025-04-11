@@ -8,16 +8,6 @@ namespace hitboxes {
 class CircularHitbox final : public I_BaseHitbox {
 public:
 	CircularHitbox(const glm::vec2& center, float radius);
-	
-	CircularHitbox(const CircularHitbox&) = delete;
-
-	CircularHitbox(CircularHitbox&&) = delete;
-
-	CircularHitbox& operator=(const CircularHitbox&) = delete;
-
-	CircularHitbox& operator=(CircularHitbox&&) = delete;
-
-	~CircularHitbox() override = default;
 
 	// collision detection
 	bool is_collided_with(std::shared_ptr<I_BaseHitbox> box) const override;
@@ -48,6 +38,17 @@ private:
 	float m_radius;
 	float rotation;
 
+// base
+public:
+	CircularHitbox(const CircularHitbox&) = delete;
+
+	CircularHitbox(CircularHitbox&&) = delete;
+
+	CircularHitbox& operator=(const CircularHitbox&) = delete;
+
+	CircularHitbox& operator=(CircularHitbox&&) = delete;
+
+	~CircularHitbox() override = default;
 };
 
 };

@@ -11,16 +11,6 @@ public:
 	// Constructor
 	OvalHitbox(const glm::vec2& center, const glm::vec2& radii, float rotation = 0.0f);
 
-	OvalHitbox(const OvalHitbox&) = delete;
-
-	OvalHitbox(OvalHitbox&&) = delete;
-
-	OvalHitbox& operator=(const OvalHitbox&) = delete;
-
-	OvalHitbox& operator=(OvalHitbox&&) = delete;
-
-	~OvalHitbox() override = default;
-
 	// Collision detection methods
 	bool is_collided_with(std::shared_ptr<I_BaseHitbox> box) const override;
 	bool check_collision_circular(const std::shared_ptr<class CircularHitbox>& other) const;
@@ -53,6 +43,19 @@ private:
 	glm::vec2 center;	  // Center position of the oval
 	glm::vec2 radii;	   // X and Y radii (semi-major and semi-minor axes)
 	float rotation;		// Rotation in radians (counter-clockwise)
+
+// base
+public:
+
+	OvalHitbox(const OvalHitbox&) = delete;
+
+	OvalHitbox(OvalHitbox&&) = delete;
+
+	OvalHitbox& operator=(const OvalHitbox&) = delete;
+
+	OvalHitbox& operator=(OvalHitbox&&) = delete;
+
+	~OvalHitbox() override = default;
 };
 
 }

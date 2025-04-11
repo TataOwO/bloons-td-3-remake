@@ -3,7 +3,7 @@
 
 namespace handlers {
 
-class ClickHandler {
+class ClickHandler final {
 public:
 	
 private:

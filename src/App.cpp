@@ -43,6 +43,9 @@ void App::Start() {
 		std::make_shared<map::route::RoutePath>(route_vec1),
 	};
 
+	// initialize monkey manager
+	m_monkey_manager = std::make_shared<handlers::MonkeyManager>(m_render_manager);
+
 	// add route paths to manager
 	m_path_manager = std::make_shared<handlers::PathManager>(route_paths, m_render_manager);
 
@@ -85,21 +88,15 @@ void App::Update() {
 	}
 
 	// CHICKEN ATTACK uhm sorry i mean monkey attack
-	for (auto monke: m_monkey_vec) {
-		for (int i=bloon_vec.size()-1; i>=0; --i) {
-			std::shared_ptr<bloons::Bloon> bloon = bloon_vec.at(i);
-			monke->scan_bloon(bloon);
-		}
-		monke->attack();
+	m_monkey_manager->scan_bloons(bloon_vec);
+	m_monkey_manager->process_attacks();
 
-		if (monke->has_projectile()) {
-			auto p = monke->get_spawned_projectile();
-			projectile_vec.push_back(p);
-			m_render_manager->AddChild(p);
-		}
+	// add new projectiles
+	auto new_projectiles = m_monkey_manager->get_new_projectiles();
+	projectile_vec.insert(projectile_vec.end(), new_projectiles.begin(), new_projectiles.end());
 
-		monke->reset_target();
-	}
+	// removes projectile from monkey manager
+	m_monkey_manager->clear_new_projectiles();
 
 	// TODO: this is for bloons manager
 	for (unsigned i=0; i<bloon_vec.size(); ++i) {
@@ -175,28 +172,20 @@ void App::Update() {
 			monkey_place_holder->SetDrawable(dart_red);
 		}
 		if (!monke_place_hold_has_collision) {
-			for (auto monke: m_monkey_vec) {
-				auto other = monke->get_hitbox();
-				if (!utility::hitboxes_are_collided(monke_placeholder_hitbox, other)) continue;
-
+			if (m_monkey_manager->hitbox_is_collided_with_monkeys(monke_placeholder_hitbox)) {
 				monke_place_hold_has_collision = true;
-
 				monkey_place_holder->SetDrawable(dart_red);
 			}
 		}
 		if (!monke_place_hold_has_collision) monkey_place_holder->SetDrawable(dart_img);
 	}
-	
+
 	// places monkey
-	if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB) && !monke_place_hold_has_collision && money >= 50) {
+	if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB) && !monke_place_hold_has_collision) {
 		glm::vec2 monke_pos = monke_placeholder_hitbox->get_position();
-		
-		auto new_monke = std::make_shared<monkeys::DartMonkey>(monke_pos);
-		
-		m_monkey_vec.push_back(new_monke);
-		m_render_manager->AddChild(new_monke);
-		
-		money -= 50;
+		if (m_monkey_manager->place_dart_monkey(monke_pos, money)) {
+			money_changed = true;
+		}
 	}
 
 	// https://zh.wikipedia.org/zh-tw/%E8%B2%9D%E8%8C%B2%E6%9B%B2%E7%B7%9A

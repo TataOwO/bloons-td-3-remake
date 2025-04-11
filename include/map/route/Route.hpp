@@ -17,16 +17,6 @@ class Route : public Util::GameObject {
 public:
 	Route(glm::vec2 start_point, glm::vec2 end_point);
 
-    Route(const Route&) = delete;
-
-    Route(Route&&) = delete;
-
-    Route& operator=(const Route&) = delete;
-
-    Route& operator=(Route&&) = delete;
-
-	~Route() override = default;
-
 	RouteConnection route_is_connected(const std::shared_ptr<Route> &route);
 
 	std::shared_ptr<Route> get_next_route() const;
@@ -57,6 +47,19 @@ private:
 	std::shared_ptr<hitboxes::RectangularHitbox> m_hitbox;
 
 	std::shared_ptr<Route> m_next_route = nullptr;
+
+// base
+public:
+
+    Route(const Route&) = delete;
+
+    Route(Route&&) = delete;
+
+    Route& operator=(const Route&) = delete;
+
+    Route& operator=(Route&&) = delete;
+
+	~Route() override = default;
 };
 
 }

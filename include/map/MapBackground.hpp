@@ -11,16 +11,6 @@ namespace map {
 class MapBackground {
 public:
 	explicit MapBackground(float z_index=0);
-	
-	MapBackground(const MapBackground&) = delete;
-
-	MapBackground(MapBackground&&) = delete;
-
-	MapBackground& operator=(const MapBackground&) = delete;
-
-	MapBackground& operator=(MapBackground&&) = delete;
-
-	virtual ~MapBackground() = default;
 
 	void set_layers(const std::vector<std::string>& layers);
 	
@@ -33,6 +23,18 @@ protected:
 	std::vector<std::shared_ptr<Util::GameObject>> m_layers = {};
 	
 	float m_z_index;
+
+// base
+public:
+	MapBackground(const MapBackground&) = delete;
+
+	MapBackground(MapBackground&&) = delete;
+
+	MapBackground& operator=(const MapBackground&) = delete;
+
+	MapBackground& operator=(MapBackground&&) = delete;
+
+	virtual ~MapBackground() = default;
 };
 
 }

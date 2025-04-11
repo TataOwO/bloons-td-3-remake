@@ -54,8 +54,8 @@ private:
 		RESOURCE_DIR"/images/maps/ice_map_sleeping_frog.png"
 	};
 
-	// TODO: monkey manager
-	std::vector<std::shared_ptr<monkeys::DartMonkey>> m_monkey_vec = {};
+	// monkey manager
+	std::shared_ptr<handlers::MonkeyManager> m_monkey_manager;
 
 	// TODO: bloons manager
 	std::vector<std::shared_ptr<bloons::Bloon>> bloon_vec = {};
@@ -66,7 +66,7 @@ private:
 	// TODO: UI
 	std::shared_ptr<Util::GameObject> status_display = std::make_shared<Util::GameObject>();
 	std::string status_text;
-	std::shared_ptr<Util::Text> status_text_obj = std::make_shared<Util::Text>(RESOURCE_DIR"/fonts/VeraMono.ttf", 30, "hp: 200\nmoney: 0");
+	std::shared_ptr<Util::Text> status_text_obj = std::make_shared<Util::Text>(RESOURCE_DIR"/fonts/VeraMono.ttf", 30, "hp: 200\nmoney: 160");
 
     // TODO: UI
 	bool monke_place_hold_has_collision = false;
