@@ -25,21 +25,21 @@ public:
 
     Route& operator=(Route&&) = delete;
 
-	~Route() = default;
+	~Route() override = default;
 
-	RouteConnection route_is_connected(Route route);
+	RouteConnection route_is_connected(const std::shared_ptr<Route> &route);
 
 	std::shared_ptr<Route> get_next_route() const;
 
-	[[nodiscard]] glm::vec2 get_start_point() const;
-	[[nodiscard]] glm::vec2 get_end_point() const;
+	glm::vec2 get_start_point() const;
+	glm::vec2 get_end_point() const;
 
 	double recursive_calculate_exit_length();
-	double get_length_to_exit();
+	double get_length_to_exit() const {return m_length_to_exit;};
 
-	void set_next_route(std::shared_ptr<Route> next_route);
+	void set_next_route(const std::shared_ptr<Route> &next_route);
 
-	glm::vec2 convert_pos(glm::vec2 v);
+	static glm::vec2 convert_pos(glm::vec2 v);
 	
 	std::shared_ptr<hitboxes::RectangularHitbox> get_hitbox() {return m_hitbox;}
 private:

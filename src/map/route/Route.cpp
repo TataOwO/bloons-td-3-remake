@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-#include <math.h>
+#include <cmath>
 
 namespace map::route {
 	Route::Route(glm::vec2 start_point, glm::vec2 end_point) {
@@ -41,9 +41,9 @@ namespace map::route {
 		// this->SetVisible(false);
 	};
 
-	RouteConnection Route::route_is_connected(Route route) {
-		auto route_start_point = route.get_start_point();
-		auto route_end_point = route.get_end_point();
+	RouteConnection Route::route_is_connected(const std::shared_ptr<Route> &route) {
+		auto route_start_point = route->get_start_point();
+		auto route_end_point = route->get_end_point();
 		
 		if (
 			m_start_point[0] == route_end_point[0] &&
@@ -81,12 +81,8 @@ namespace map::route {
 		
 		return m_length + m_length_to_exit;
 	};
-	
-	double Route::get_length_to_exit() {
-		return m_length_to_exit;
-	};
-	
-	void Route::set_next_route(std::shared_ptr<Route> next_route) {
+
+	void Route::set_next_route(const std::shared_ptr<Route> &next_route) {
 		m_next_route = next_route;
 	};
 	

@@ -1,20 +1,15 @@
 #ifndef APP_HPP
 #define APP_HPP
 
-#include <iostream>
-
 #include "pch.hpp" // IWYU pragma: export
 
 #include "Util/Text.hpp"
-#include "Util/Color.hpp"
 #include "Util/Renderer.hpp"
 
 #include "map/route/Route.hpp"
-#include "map/route/RoutePath.hpp"
 #include "map/MapBackground.hpp"
 #include "monkeys/DartMonkey.hpp"
 #include "bloons/Bloon.hpp"
-#include "bloons/BaseBloon.hpp"
 #include "projectiles/BaseProjectile.hpp"
 #include "hitboxes/CircularHitbox.hpp"
 

@@ -7,7 +7,6 @@
 #include <limits>
 
 namespace hitboxes {
-
 RectangularHitbox::RectangularHitbox(const glm::vec2& center, const glm::vec2& dimensions, float rotation)
     : center(center), dimensions(dimensions), rotation(rotation) {
 }
@@ -62,7 +61,7 @@ bool RectangularHitbox::check_collision_oval(const std::shared_ptr<OvalHitbox>& 
     
     // Check if any point on the perimeter of the oval intersects with an edge of the rectangle
     // We'll approximate the oval with a number of points
-    const int NUM_SAMPLES = 12; // Sample points around the oval
+    constexpr int NUM_SAMPLES = 12; // Sample points around the oval
     for (int i = 0; i < NUM_SAMPLES; i++) {
         float angle = 2.0f * static_cast<float>(M_PI) * static_cast<float>(i) / NUM_SAMPLES;
         glm::vec2 direction(std::cos(angle), std::sin(angle));

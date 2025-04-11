@@ -6,8 +6,6 @@
 
 #include "Util/Renderer.hpp"
 
-#include <cstdlib>
-
 namespace handlers {
 
 class PathManager {
@@ -25,13 +23,13 @@ public:
 	~PathManager() = default;
 
 public:
-	std::vector<std::shared_ptr<Route>> get_all_routes() {return m_all_routes;};
+	std::vector<std::shared_ptr<map::route::Route>> get_all_routes() {return m_all_routes;};
 
 	std::shared_ptr<map::route::RoutePath> get_random_route_path() const;
 private:
 	std::vector<std::shared_ptr<map::route::RoutePath>> m_paths = {};
 
-	std::vector<std::shared_ptr<Route>> m_all_routes = {};
+	std::vector<std::shared_ptr<map::route::Route>> m_all_routes = {};
 
 	std::shared_ptr<Util::Renderer> m_render_manager;
 };

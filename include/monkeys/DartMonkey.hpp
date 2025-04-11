@@ -5,7 +5,7 @@
 
 namespace monkeys {
 
-class DartMonkey : public monkeys::BaseMonkey, public monkeys::I_MonkeyAttacker {
+class DartMonkey final : public monkeys::BaseMonkey, public monkeys::I_MonkeyAttacker {
 public:
 	DartMonkey(glm::vec2 position);
 
@@ -17,7 +17,7 @@ public:
 
     DartMonkey& operator=(DartMonkey&&) = delete;
 
-	~DartMonkey() = default;
+	~DartMonkey() override = default;
 	
 	void scan_bloon(std::shared_ptr<bloons::BaseBloon> bloon) override;
 	

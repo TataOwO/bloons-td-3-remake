@@ -2,7 +2,6 @@
 #define DART_PROJECTILE_HPP
 
 #include "projectiles/BaseProjectile.hpp"
-#include "hitboxes/RectangularHitbox.hpp"
 
 namespace projectiles {
 
@@ -18,7 +17,7 @@ public:
 
 	DartProjectile& operator=(DartProjectile&&) = delete;
 
-	~DartProjectile() = default;
+	~DartProjectile() override = default;
 
 	void update() override;
 	

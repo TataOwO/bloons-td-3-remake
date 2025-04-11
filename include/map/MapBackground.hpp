@@ -5,13 +5,12 @@
 #include "Util/GameObject.hpp"
 
 #include <vector>
-#include <cstring>
 
 namespace map {
 
 class MapBackground {
 public:
-	MapBackground(float z_index=0);
+	explicit MapBackground(float z_index=0);
 	
 	MapBackground(const MapBackground&) = delete;
 
@@ -23,17 +22,17 @@ public:
 
 	virtual ~MapBackground() = default;
 
-	void set_layers(std::vector<std::string> layers);
+	void set_layers(const std::vector<std::string>& layers);
 	
 	void add_layer(std::string image_path);
 	
 	std::vector<std::shared_ptr<Util::GameObject>> get_layers() const {return m_layers;};
 protected:
-	void recalculate_zIndex();
+	void recalculate_zIndex() const;
 protected:
 	std::vector<std::shared_ptr<Util::GameObject>> m_layers = {};
 	
-	int m_z_index;
+	float m_z_index;
 };
 
 }

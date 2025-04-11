@@ -20,7 +20,7 @@ public:
 
 	RectangularHitbox& operator=(RectangularHitbox&&) = delete;
 
-	~RectangularHitbox() = default;
+	~RectangularHitbox() override = default;
 
 	// Collision detection methods
 	bool is_collided_with(std::shared_ptr<I_BaseHitbox> box) const override;

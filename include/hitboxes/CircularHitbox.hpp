@@ -2,12 +2,10 @@
 #define CIRCULAR_HITBOX_HPP
 
 #include "hitboxes/I_BaseHitbox.hpp"
-#include "hitboxes/OvalHitbox.hpp"
-#include "hitboxes/RectangularHitbox.hpp"
 
 namespace hitboxes {
 
-class CircularHitbox : public I_BaseHitbox {
+class CircularHitbox final : public I_BaseHitbox {
 public:
 	CircularHitbox(const glm::vec2& center, float radius);
 	
@@ -19,7 +17,7 @@ public:
 
 	CircularHitbox& operator=(CircularHitbox&&) = delete;
 
-	~CircularHitbox() = default;
+	~CircularHitbox() override = default;
 
 	// collision detection
 	bool is_collided_with(std::shared_ptr<I_BaseHitbox> box) const override;

@@ -3,8 +3,6 @@
 
 #include "bloons/BaseBloon.hpp"
 
-#include "hitboxes/CircularHitbox.hpp"
-
 #include <string>
 
 namespace bloons {

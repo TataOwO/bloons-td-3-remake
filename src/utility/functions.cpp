@@ -16,8 +16,8 @@ glm::vec2 rotate_vec2(glm::vec2 vec, float radian) {
 	return ret;
 };
 
-bool hitboxes_are_collided(std::shared_ptr<hitboxes::I_BaseHitbox> a, std::shared_ptr<hitboxes::I_BaseHitbox> b) {
-	int a_type, b_type;
+bool hitboxes_are_collided(const std::shared_ptr<hitboxes::I_BaseHitbox> &a, const std::shared_ptr<hitboxes::I_BaseHitbox> &b) {
+	int a_type = 0, b_type = 0;
 	switch (a->get_type()) {
 	case hitboxes::HitboxType::CIRCULAR:
 		a_type = 0;

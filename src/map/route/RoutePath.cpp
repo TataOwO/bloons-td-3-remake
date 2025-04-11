@@ -1,5 +1,3 @@
-#include <utility>
-
 #include "map/route/RoutePath.hpp"
 
 namespace map::route {

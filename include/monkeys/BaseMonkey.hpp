@@ -2,7 +2,6 @@
 #define BASE_MONKEY_HPP
 
 #include <string>
-#include <cmath>
 
 #include "Util/GameObject.hpp"
 
@@ -30,13 +29,13 @@ public:
 
 	BaseMonkey& operator=(BaseMonkey&&) = delete;
 
-	virtual ~BaseMonkey() = default;
+	virtual ~BaseMonkey() override = default;
 
-	bool is_collided_with_route(std::shared_ptr<map::route::Route> route) const;
+	bool is_collided_with_route(const std::shared_ptr<map::route::Route> &route) const;
 
-	bool is_collided_with_monkey(std::shared_ptr<BaseMonkey> monke) const;
+	bool is_collided_with_monkey(const std::shared_ptr<BaseMonkey> &monke) const;
 
-	int get_radius() const;
+	float get_radius() const;
 
 	glm::vec2 get_position() const;
 
@@ -78,7 +77,7 @@ protected:
 
 	virtual void spawn_projectile(glm::vec2 position) = 0;
 protected:
-	glm::vec2 m_projectile_spawn_position;
+	glm::vec2 m_projectile_spawn_position = {};
 
 	int m_attack_interval = 0;
 	int m_attack_cooldown = 0;

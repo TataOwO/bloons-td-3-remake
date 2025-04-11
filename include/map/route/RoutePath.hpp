@@ -17,7 +17,7 @@ public:
 
     RoutePath& operator=(RoutePath&&) = delete;
 
-	~RoutePath() = default;
+	~RoutePath() override = default;
 
 public:
 	std::vector<std::shared_ptr<Route>> get_all_routes();

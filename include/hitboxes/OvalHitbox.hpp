@@ -3,11 +3,10 @@
 
 #include "hitboxes/I_BaseHitbox.hpp"
 #include "hitboxes/CircularHitbox.hpp"
-#include "hitboxes/RectangularHitbox.hpp"
 
 namespace hitboxes {
 
-class OvalHitbox : public I_BaseHitbox {
+class OvalHitbox final : public I_BaseHitbox {
 public:
 	// Constructor
 	OvalHitbox(const glm::vec2& center, const glm::vec2& radii, float rotation = 0.0f);
@@ -20,7 +19,7 @@ public:
 
 	OvalHitbox& operator=(OvalHitbox&&) = delete;
 
-	~OvalHitbox() = default;
+	~OvalHitbox() override = default;
 
 	// Collision detection methods
 	bool is_collided_with(std::shared_ptr<I_BaseHitbox> box) const override;

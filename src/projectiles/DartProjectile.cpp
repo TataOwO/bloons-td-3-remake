@@ -39,10 +39,9 @@ void DartProjectile::deal_damage(std::shared_ptr<bloons::BaseBloon> bloon) {
 	}
 	
 	// Reduce pierce when the dart hits a bloon
-	if (m_pierce > 0) {
-		m_pierce--;
-	}
+	if (is_dead()) return;
 	
+	--m_pierce;
 	bloon->TAKE_DAMAGE(m_damage);
 	m_hit_bloon_vec.push_back(bloon);
 }

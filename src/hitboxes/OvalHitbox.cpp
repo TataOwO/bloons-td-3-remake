@@ -7,7 +7,6 @@
 
 #include <cmath>
 #include <algorithm>
-#include <exception>
 
 namespace hitboxes {
 
@@ -57,7 +56,7 @@ bool OvalHitbox::check_collision_circular(const std::shared_ptr<CircularHitbox>&
 
 bool OvalHitbox::check_collision_oval(const std::shared_ptr<OvalHitbox>& other) const {
     // Oval-oval collision is complex. We'll use a conservative approximation based on sampling points
-    const int NUM_SAMPLES = 8; // Sample points around each oval
+    constexpr int NUM_SAMPLES = 8; // Sample points around each oval
     
     // Sample points around this oval and check if any are inside the other oval
     for (int i = 0; i < NUM_SAMPLES; i++) {
@@ -92,7 +91,7 @@ bool OvalHitbox::check_collision_oval(const std::shared_ptr<OvalHitbox>& other) 
 
 bool OvalHitbox::check_collision_rectangular(const std::shared_ptr<RectangularHitbox>& other) const {
     throw std::invalid_argument("YOU MUST CALL COLLISION FROM RECTANGULAR HITBOX");
-	return 0;
+	return false;
 }
 
 bool OvalHitbox::contains_point(const glm::vec2& point) const {

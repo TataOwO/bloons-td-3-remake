@@ -20,15 +20,15 @@ public:
 	BaseProjectile& operator=(const BaseProjectile&) = delete;
 	BaseProjectile& operator=(BaseProjectile&&) = delete;
 
-	virtual ~BaseProjectile() = default;
+	virtual ~BaseProjectile() override = default;
 
 	// Check collision with another hitbox
-	bool is_collided_with(std::shared_ptr<bloons::BaseBloon> bloon);
+	bool is_collided_with(const std::shared_ptr<bloons::BaseBloon> &bloon) const;
 
 	// Update the projectile's state (e.g., movement)
 	virtual void update() = 0;
 
-	bool is_dead() {return m_pierce==0 || m_tick>=m_survive_period;}
+	bool is_dead() const {return m_pierce==0 || m_tick>=m_survive_period;}
 
 	std::shared_ptr<hitboxes::I_BaseHitbox> get_hitbox() { return m_hitbox; }
 	

@@ -8,7 +8,7 @@ MapBackground::MapBackground(float z_index) {
 	m_z_index = z_index;
 }
 
-void MapBackground::set_layers(std::vector<std::string> layers) {
+void MapBackground::set_layers(const std::vector<std::string>& layers) {
 	m_layers = {};
 	
 	for (std::string image_name: layers) {
@@ -30,7 +30,7 @@ void MapBackground::add_layer(std::string image_path){
 	recalculate_zIndex();
 }
 
-void MapBackground::recalculate_zIndex() {
+void MapBackground::recalculate_zIndex() const {
 	int total_layers = m_layers.size();
 	
 	for (int i=0; i<total_layers; ++i) {
