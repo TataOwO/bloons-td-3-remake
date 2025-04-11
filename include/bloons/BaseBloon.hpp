@@ -9,7 +9,7 @@
 
 namespace bloons {
 
-enum BLOON_TYPE {
+enum class BLOON_TYPE {
 	RED,
 	BLUE,
 	GREEN,
@@ -58,7 +58,7 @@ protected:
 	std::shared_ptr<map::route::Route> m_current_route;
 	glm::vec2 m_target_point;
 
-	BLOON_TYPE m_type = RED;
+	BLOON_TYPE m_type = BLOON_TYPE::RED;
 
 	double m_speed = 0;
 

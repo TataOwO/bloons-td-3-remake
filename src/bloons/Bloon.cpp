@@ -3,6 +3,8 @@
 #include <iostream>
 #include <cstdlib>
 
+#include "Constants.hpp"
+
 namespace bloons {
 	Bloon::Bloon(std::shared_ptr<map::route::Route> start_route, bloons::BLOON_TYPE type)
 	: BaseBloon(start_route) {
@@ -11,9 +13,9 @@ namespace bloons {
 		set_bloon_type(type);
 
 		m_Transform.translation = start_route->get_start_point();
-		m_Transform.scale = {1,1};
 
-		this->SetZIndex(3 + (std::rand()%10)*0.1);
+		// random between 3~4
+		this->SetZIndex(3 + (std::rand()%100)*0.01);
 		this->SetVisible(true);
 	};
 
@@ -40,7 +42,7 @@ namespace bloons {
 		case 6:
 			set_bloon_type(bloons::BLOON_TYPE::WHITE);
 		break;
-		case 8:
+		case 7:
 			set_bloon_type(bloons::BLOON_TYPE::RAINBOW);
 		break;
 		default:
@@ -49,77 +51,44 @@ namespace bloons {
 	};
 
 	void Bloon::set_bloon_type(bloons::BLOON_TYPE type) {
+		CONSTANTS::Bloon stat;
 		switch(type) {
-		case RED    :
-			m_hp = 1;
-			m_hitbox = std::make_shared<hitboxes::CircularHitbox>(m_Transform.translation, 23);
-			m_image_path = RESOURCE_DIR"/images/bloons/red_bloon.png";
-			m_speed = 3.2;
-			m_Drawable = std::make_shared<Util::Image>(m_image_path);
+		case bloons::BLOON_TYPE::RED    :
+			stat = CONSTANTS::BloonConstants::RED;
 		break;
-		case BLUE   :
-			m_hp = 2;
-			m_hitbox = std::make_shared<hitboxes::CircularHitbox>(m_Transform.translation, 25);
-			m_image_path = RESOURCE_DIR"/images/bloons/blue_bloon.png";
-			m_speed = 4;
-			m_Drawable = std::make_shared<Util::Image>(m_image_path);
+		case bloons::BLOON_TYPE::BLUE   :
+			stat = CONSTANTS::BloonConstants::BLUE;
 		break;
-		case GREEN  :
-			m_hp = 3;
-			m_hitbox = std::make_shared<hitboxes::CircularHitbox>(m_Transform.translation, 26);
-			m_image_path = RESOURCE_DIR"/images/bloons/green_bloon.png";
-			m_speed = 4.8;
-			m_Drawable = std::make_shared<Util::Image>(m_image_path);
+		case bloons::BLOON_TYPE::GREEN  :
+			stat = CONSTANTS::BloonConstants::GREEN;
 		break;
-		case YELLOW :
-			m_hp = 4;
-			m_hitbox = std::make_shared<hitboxes::CircularHitbox>(m_Transform.translation, 27);
-			m_image_path = RESOURCE_DIR"/images/bloons/yellow_bloon.png";
-			m_speed = 6.4;
-			m_Drawable = std::make_shared<Util::Image>(m_image_path);
+		case bloons::BLOON_TYPE::YELLOW :
+			stat = CONSTANTS::BloonConstants::YELLOW;
 		break;
-		case WHITE  :
-			m_hp = 6;
-			m_hitbox = std::make_shared<hitboxes::CircularHitbox>(m_Transform.translation, 17);
-			m_image_path = RESOURCE_DIR"/images/bloons/white_bloon.png";
-			m_speed = 8;
-			m_Drawable = std::make_shared<Util::Image>(m_image_path);
+		case bloons::BLOON_TYPE::WHITE  :
+			stat = CONSTANTS::BloonConstants::WHITE;
 		break;
-		case BLACK  :
-			m_hp = 6;
-			m_hitbox = std::make_shared<hitboxes::CircularHitbox>(m_Transform.translation, 17);
-			m_image_path = RESOURCE_DIR"/images/bloons/black_bloon.png";
-			m_speed = 8;
-			m_Drawable = std::make_shared<Util::Image>(m_image_path);
+		case bloons::BLOON_TYPE::BLACK  :
+			stat = CONSTANTS::BloonConstants::BLACK;
 		break;
-		case LEAD   :
-			m_hp = 6;
-			m_hitbox = std::make_shared<hitboxes::CircularHitbox>(m_Transform.translation, 25);
-			m_image_path = RESOURCE_DIR"/images/bloons/lead_bloon.png";
-			m_speed = 8;
-			m_Drawable = std::make_shared<Util::Image>(m_image_path);
+		case bloons::BLOON_TYPE::LEAD   :
+			stat = CONSTANTS::BloonConstants::LEAD;
 		break;
-		case RAINBOW:
-			m_hp = 7;
-			m_hitbox = std::make_shared<hitboxes::CircularHitbox>(m_Transform.translation, 27);
-			m_image_path = RESOURCE_DIR"/images/bloons/rainbow_bloon.png";
-			m_speed = 10;
-			m_Drawable = std::make_shared<Util::Image>(m_image_path);
+		case bloons::BLOON_TYPE::RAINBOW:
+			stat = CONSTANTS::BloonConstants::RAINBOW;
 		break;
-		case CERAMIC:
-			m_hp = 13;
-			m_hitbox = std::make_shared<hitboxes::CircularHitbox>(m_Transform.translation, 28);
-			m_image_path = RESOURCE_DIR"/images/bloons/ceramic_bloon.png";
-			m_speed = 9.2;
-			m_Drawable = std::make_shared<Util::Image>(m_image_path);
-		break;
-		case MOAB   :
-			m_hp = 200;
-			m_hitbox = std::make_shared<hitboxes::CircularHitbox>(m_Transform.translation, 200);
+		case bloons::BLOON_TYPE::CERAMIC:
+			stat = CONSTANTS::BloonConstants::CERAMIC;
 		break;
 		default:
 		break;
 		}
+		
+		m_hp = stat.hp;
+		m_hitbox = std::make_shared<hitboxes::CircularHitbox>(m_Transform.translation, stat.radius);
+		m_image_path = stat.image_path;
+		m_speed = stat.speed;
+		m_Drawable = std::make_shared<Util::Image>(m_image_path);
 	}
 
 	void Bloon::m_take_damage(int damage) {

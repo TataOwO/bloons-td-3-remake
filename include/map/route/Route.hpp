@@ -7,7 +7,7 @@
 #include "hitboxes/RectangularHitbox.hpp"
 
 namespace map::route {
-enum RouteConnection {
+enum class RouteConnection {
 	BEFORE,
 	AFTER,
 	NOT_CONNECTED
@@ -40,6 +40,8 @@ public:
 	void set_next_route(std::shared_ptr<Route> next_route);
 
 	glm::vec2 convert_pos(glm::vec2 v);
+	
+	std::shared_ptr<hitboxes::RectangularHitbox> get_hitbox() {return m_hitbox;}
 private:
 	std::string m_image_path = RESOURCE_DIR"/images/route_thin.png";
 

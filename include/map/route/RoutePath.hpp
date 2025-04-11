@@ -19,6 +19,9 @@ public:
 
 	~RoutePath() = default;
 
+public:
+	std::vector<std::shared_ptr<Route>> get_all_routes();
+
 	std::shared_ptr<Route> get_start_route() const;
 private:
     std::vector<std::shared_ptr<Route>> m_routes;

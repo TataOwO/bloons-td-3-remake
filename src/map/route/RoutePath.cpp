@@ -20,6 +20,10 @@ namespace map::route {
 		m_start_route->recursive_calculate_exit_length();
     };
 
+	std::vector<std::shared_ptr<Route>> RoutePath::get_all_routes() {
+		return m_routes;
+	};
+
 	std::shared_ptr<Route> RoutePath::get_start_route() const {
 		return m_start_route;
 	};

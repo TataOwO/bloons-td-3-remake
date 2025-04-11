@@ -32,14 +32,15 @@ public:
 
 	virtual ~BaseMonkey() = default;
 
-	bool is_collided_with_route(std::shared_ptr<map::route::Route>) const;
+	bool is_collided_with_route(std::shared_ptr<map::route::Route> route) const;
 
-	bool is_collided_with_monkey(std::shared_ptr<BaseMonkey>) const;
+	bool is_collided_with_monkey(std::shared_ptr<BaseMonkey> monke) const;
 
 	int get_radius() const;
 
 	glm::vec2 get_position() const;
 
+	std::shared_ptr<hitboxes::CircularHitbox> get_hitbox() {return m_base_hitbox;}
 protected:
 
 protected:
@@ -74,6 +75,8 @@ protected:
 	virtual void update_attack_interval() = 0;
 
 	virtual void face_towards(glm::vec2 position) = 0;
+
+	virtual void spawn_projectile(glm::vec2 position) = 0;
 protected:
 	glm::vec2 m_projectile_spawn_position;
 
@@ -81,8 +84,6 @@ protected:
 	int m_attack_cooldown = 0;
 
 	std::shared_ptr<projectiles::BaseProjectile> m_spawned_projectile;
-
-	virtual void spawn_projectile(glm::vec2 position) = 0;
 
 	std::shared_ptr<bloons::BaseBloon> m_target_bloon = nullptr;
 };

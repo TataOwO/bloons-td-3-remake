@@ -10,7 +10,7 @@
 #include "Util/Logger.hpp"
 
 void App::Start() {
-    LOG_TRACE("Start");
+	LOG_TRACE("Start");
 
 	// TODO: MOVE ALL THESE TO MAPS
 	// route
@@ -46,14 +46,6 @@ void App::Start() {
 	// add route paths to manager
 	m_path_manager = std::make_shared<map::route::PathManager>(route_paths, m_render_manager);
 
-	// TODO: monkey manager
-	// monkeys
-	m_monkey_vec = {
-		std::make_shared<monkeys::DartMonkey>(glm::vec2(180,-20)),
-		std::make_shared<monkeys::DartMonkey>(glm::vec2(-200,10)),
-		std::make_shared<monkeys::DartMonkey>(glm::vec2(-120,223)),
-	};
-
 	// monkeys
 	for (std::shared_ptr<Util::GameObject> monke : m_monkey_vec) {
 		m_render_manager->AddChild(monke);
@@ -72,7 +64,12 @@ void App::Start() {
 	m_render_manager->AddChild(status_display);
 	status_display->SetZIndex(10);
 	status_display->m_Transform.translation = {365, 300};
-    m_CurrentState = State::UPDATE;
+	m_CurrentState = State::UPDATE;
+
+	// monke placeholder
+	monkey_place_holder->SetDrawable(dart_img);
+	m_render_manager->AddChild(monkey_place_holder);
+	monkey_place_holder->SetZIndex(10);
 }
 
 void App::Update() {
@@ -92,6 +89,7 @@ void App::Update() {
 		m_render_manager->AddChild(new_bloon);
 	}
 
+	// CHICKEN ATTACK uhm sorry i mean monkey attack
 	for (auto monke: m_monkey_vec) {
 		for (int i=bloon_vec.size()-1; i>=0; --i) {
 			std::shared_ptr<bloons::Bloon> bloon = bloon_vec.at(i);
@@ -135,7 +133,7 @@ void App::Update() {
 		}
 	}
 
-	
+
 	// projectile collision check
 	for (unsigned j=0; j<projectile_vec.size(); ++j) {
 		auto p = projectile_vec.at(j);
@@ -166,20 +164,61 @@ void App::Update() {
 		money_changed = false;
 	}
 
-    // https://zh.wikipedia.org/zh-tw/%E8%B2%9D%E8%8C%B2%E6%9B%B2%E7%B7%9A
+	// monkey placeholder modify
+	if (Util::Input::IsMouseMoving()) {
+		monke_place_hold_has_collision = false;
+		glm::vec2 mouse_pos = Util::Input::GetCursorPosition();
+
+		monkey_place_holder->m_Transform.translation = mouse_pos;
+		monke_placeholder_hitbox->set_position(mouse_pos);
+
+		for (auto route: m_path_manager->get_all_routes()) {
+			auto other = route->get_hitbox();
+			if (!utility::hitboxes_are_collided(monke_placeholder_hitbox, other)) continue;
+
+			monke_place_hold_has_collision = true;
+
+			monkey_place_holder->SetDrawable(dart_red);
+		}
+		if (!monke_place_hold_has_collision) {
+			for (auto monke: m_monkey_vec) {
+				auto other = monke->get_hitbox();
+				if (!utility::hitboxes_are_collided(monke_placeholder_hitbox, other)) continue;
+
+				monke_place_hold_has_collision = true;
+
+				monkey_place_holder->SetDrawable(dart_red);
+			}
+		}
+		if (!monke_place_hold_has_collision) monkey_place_holder->SetDrawable(dart_img);
+	}
+	
+	// places monkey
+	if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB) && !monke_place_hold_has_collision && money >= 50) {
+		glm::vec2 monke_pos = monke_placeholder_hitbox->get_position();
+		
+		auto new_monke = std::make_shared<monkeys::DartMonkey>(monke_pos);
+		
+		m_monkey_vec.push_back(new_monke);
+		m_render_manager->AddChild(new_monke);
+		
+		money -= 50;
+	}
+
+	// https://zh.wikipedia.org/zh-tw/%E8%B2%9D%E8%8C%B2%E6%9B%B2%E7%B7%9A
 	// curve for boomerang
 	m_render_manager->Update();
 
-    /*
-     * Do not touch the code below as they serve the purpose for
-     * closing the window.
-     */
-    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
-        Util::Input::IfExit()) {
-        m_CurrentState = State::END;
-    }
+	/*
+	 * Do not touch the code below as they serve the purpose for
+	 * closing the window.
+	 */
+	if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
+		Util::Input::IfExit()) {
+		m_CurrentState = State::END;
+	}
 }
 
 void App::End() { // NOLINT(this method will mutate members in the future)
-    LOG_TRACE("End");
+	LOG_TRACE("End");
 }

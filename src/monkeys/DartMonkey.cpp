@@ -13,7 +13,7 @@ namespace monkeys {
 
 		m_Transform.translation = position;
 
-		m_base_hitbox	->set_radius(56);
+		m_base_hitbox	->set_radius(30);
 		m_radius_hitbox	->set_radius(100);
 
 		m_Drawable = std::make_shared<Util::Image>(m_image_path);
