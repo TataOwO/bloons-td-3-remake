@@ -8,7 +8,7 @@
 
 #include <cstdlib>
 
-namespace map::route {
+namespace handlers {
 
 class PathManager {
 public:

@@ -44,12 +44,7 @@ void App::Start() {
 	};
 
 	// add route paths to manager
-	m_path_manager = std::make_shared<map::route::PathManager>(route_paths, m_render_manager);
-
-	// monkeys
-	for (std::shared_ptr<Util::GameObject> monke : m_monkey_vec) {
-		m_render_manager->AddChild(monke);
-	}
+	m_path_manager = std::make_shared<handlers::PathManager>(route_paths, m_render_manager);
 
 	// background
 	background.set_layers(background_images);
@@ -132,7 +127,6 @@ void App::Update() {
 			--i;
 		}
 	}
-
 
 	// projectile collision check
 	for (unsigned j=0; j<projectile_vec.size(); ++j) {

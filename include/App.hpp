@@ -11,7 +11,6 @@
 
 #include "map/route/Route.hpp"
 #include "map/route/RoutePath.hpp"
-#include "map/route/PathManager.hpp"
 #include "map/MapBackground.hpp"
 #include "monkeys/DartMonkey.hpp"
 #include "bloons/Bloon.hpp"
@@ -20,6 +19,9 @@
 #include "hitboxes/CircularHitbox.hpp"
 
 #include "utility/functions.hpp"
+
+#include "handlers/PathManager.hpp"
+#include "handlers/MonkeyManager.hpp"
 
 class App {
 public:
@@ -47,7 +49,7 @@ private:
 	int money = 160;
 	bool money_changed = false;
 
-	std::shared_ptr<map::route::PathManager> m_path_manager;
+	std::shared_ptr<handlers::PathManager> m_path_manager;
 
 	// TODO: map object
 	map::MapBackground background = map::MapBackground(0);
