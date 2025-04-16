@@ -53,35 +53,35 @@ struct BloonConstants {
 	};
 
 	inline static constexpr Bloon WHITE {
-		6,
+		5,
 		17,
 		RESOURCE_DIR"/images/bloons/white_bloon.png",
 		8
 	};
 
 	inline static constexpr Bloon BLACK {
-		6,
+		5,
 		17,
 		RESOURCE_DIR"/images/bloons/black_bloon.png",
 		8
 	};
 
 	inline static constexpr Bloon LEAD {
-		6,
+		5,
 		25,
 		RESOURCE_DIR"/images/bloons/lead_bloon.png",
 		8
 	};
 
 	inline static constexpr Bloon RAINBOW {
-		7,
+		1,
 		27,
 		RESOURCE_DIR"/images/bloons/rainbow_bloon.png",
 		10
 	};
 
 	inline static constexpr Bloon CERAMIC {
-		10,
+		9,
 		28,
 		RESOURCE_DIR"/images/bloons/ceramic_bloon.png",
 		9.2

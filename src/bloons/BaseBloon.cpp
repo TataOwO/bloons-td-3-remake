@@ -5,12 +5,17 @@ namespace bloons {
 		m_current_route = start_route;
 
 		m_target_point = twist_pos(m_current_route->get_end_point());
+		
+		// add starting pos to history
+		if (start_route) {
+			m_path_history.push_front(start_route->get_start_point());
+		}
 	};
 
 	int BaseBloon::get_length_to_exit() {
 		glm::vec2 end_point_diff = {
 			m_target_point[0] - m_Transform.translation[0],
-			m_target_point[1] - m_Transform.translation[2],
+			m_target_point[1] - m_Transform.translation[1],
 		};
 
 		return glm::length(end_point_diff) + m_current_route->get_length_to_exit();
@@ -19,9 +24,15 @@ namespace bloons {
 	void BaseBloon::m_move() {
 		if (is_at_end()) throw std::runtime_error("bloon is at the end");
 
+		// add pos to history
+		m_path_history.push_front(m_Transform.translation);
+		if (m_path_history.size() > m_max_path_history_size) {
+			m_path_history.pop_back();
+		}
+
 		glm::vec2 diff = {
 			m_target_point[0] - m_Transform.translation[0],
-			m_target_point[1] - m_Transform.translation[1]
+			m_target_point[1] - m_Transform.translation[1] 
 		};
 
 		float diff_distance = glm::length(diff);

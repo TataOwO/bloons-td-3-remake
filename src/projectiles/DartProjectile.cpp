@@ -42,7 +42,7 @@ void DartProjectile::deal_damage(std::shared_ptr<bloons::BaseBloon> bloon) {
 	if (is_dead()) return;
 	
 	--m_pierce;
-	bloon->TAKE_DAMAGE(m_damage);
+	bloon->handle_take_damage(m_damage);
 	m_hit_bloon_vec.push_back(bloon);
 }
 

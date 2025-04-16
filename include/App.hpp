@@ -17,25 +17,26 @@
 
 #include "handlers/PathManager.hpp"
 #include "handlers/MonkeyManager.hpp"
+#include "handlers/BloonManager.hpp" // Add this include
 
 class App {
 public:
-    enum class State {
-        START,
-        UPDATE,
-        END,
-    };
+	enum class State {
+		START,
+		UPDATE,
+		END,
+	};
 
-    [[nodiscard]] State GetCurrentState() const { return m_CurrentState; }
+	[[nodiscard]] State GetCurrentState() const { return m_CurrentState; }
 
-    void Start();
+	void Start();
 
-    void Update();
+	void Update();
 
-    void End(); // NOLINT(readability-convert-member-functions-to-static)
+	void End(); // NOLINT(readability-convert-member-functions-to-static)
 
 private:
-    void ValidTask();
+	void ValidTask();
 
 	std::shared_ptr<Util::Renderer> m_render_manager = std::make_shared<Util::Renderer>();
 
@@ -57,8 +58,8 @@ private:
 	// monkey manager
 	std::shared_ptr<handlers::MonkeyManager> m_monkey_manager;
 
-	// TODO: bloons manager
-	std::vector<std::shared_ptr<bloons::Bloon>> bloon_vec = {};
+	// bloon manager
+	std::shared_ptr<handlers::BloonManager> m_bloon_manager;
 
 	// projectiles
 	std::vector<std::shared_ptr<projectiles::BaseProjectile>> projectile_vec = {};
@@ -68,15 +69,15 @@ private:
 	std::string status_text;
 	std::shared_ptr<Util::Text> status_text_obj = std::make_shared<Util::Text>(RESOURCE_DIR"/fonts/VeraMono.ttf", 30, "hp: 200\nmoney: 160");
 
-    // TODO: UI
+	// TODO: UI
 	bool monke_place_hold_has_collision = false;
-    std::shared_ptr<Util::GameObject> monkey_place_holder = std::make_shared<Util::GameObject>();
-    std::shared_ptr<Util::Image> dart_img = std::make_shared<Util::Image>(RESOURCE_DIR"/images/dart_monkey_1.5.png");
-    std::shared_ptr<Util::Image> dart_red = std::make_shared<Util::Image>(RESOURCE_DIR"/images/dart_monkey_RED.png");
-    std::shared_ptr<hitboxes::CircularHitbox> monke_placeholder_hitbox = std::make_shared<hitboxes::CircularHitbox>(glm::vec2{0,0}, 30);
+	std::shared_ptr<Util::GameObject> monkey_place_holder = std::make_shared<Util::GameObject>();
+	std::shared_ptr<Util::Image> dart_img = std::make_shared<Util::Image>(RESOURCE_DIR"/images/dart_monkey_1.5.png");
+	std::shared_ptr<Util::Image> dart_red = std::make_shared<Util::Image>(RESOURCE_DIR"/images/dart_monkey_RED.png");
+	std::shared_ptr<hitboxes::CircularHitbox> monke_placeholder_hitbox = std::make_shared<hitboxes::CircularHitbox>(glm::vec2{0,0}, 30);
 
 private:
-    State m_CurrentState = State::START;
+	State m_CurrentState = State::START;
 };
 
 #endif

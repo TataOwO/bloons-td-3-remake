@@ -7,7 +7,6 @@
 #include "monkeys/DartMonkey.hpp"
 
 #include "projectiles/BaseProjectile.hpp"
-#include "bloons/BaseBloon.hpp"
 #include "bloons/Bloon.hpp"
 
 #include "hitboxes/I_BaseHitbox.hpp"
@@ -20,14 +19,14 @@ namespace handlers {
 class MonkeyManager final {
 public:
     // Collision detection methods
-    bool hitbox_is_collided_with_monkeys(std::shared_ptr<hitboxes::I_BaseHitbox> hitbox);
+    bool hitbox_is_collided_with_monkeys(const std::shared_ptr<hitboxes::I_BaseHitbox> &hitbox);
     bool point_is_collided_with_monkeys(glm::vec2 point);
     
     // Monkey creation and management
     bool place_dart_monkey(glm::vec2 position, int& money);
     
     // Game loop methods
-    void scan_bloons(const std::vector<std::shared_ptr<bloons::Bloon>>& bloon_vec);
+    void scan_bloons(const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec);
     void process_attacks();
     
     // Projectile handling
@@ -48,7 +47,7 @@ private:
 
 // basic functions
 public:
-    MonkeyManager(std::shared_ptr<Util::Renderer> render_manager);
+    MonkeyManager(const std::shared_ptr<Util::Renderer> &render_manager);
 
     MonkeyManager(const MonkeyManager&) = delete;
     MonkeyManager(MonkeyManager&&) = delete;

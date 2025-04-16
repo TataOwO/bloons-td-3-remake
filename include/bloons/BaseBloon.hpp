@@ -2,6 +2,7 @@
 #define BASE_BLOON_HPP
 
 #include <random>
+#include <deque>
 
 #include "pch.hpp" // IWYU pragma: export
 
@@ -32,8 +33,9 @@ protected:
 public:
 	virtual void update() = 0;
 
-	virtual void TAKE_DAMAGE(int damage) = 0;
+	virtual void handle_take_damage(int damage) = 0;
 
+	std::shared_ptr<map::route::Route> get_current_route() {return m_current_route;};
 	bool is_at_end() const {return m_current_route == nullptr;};
 
 	int get_hp() const {return m_hp;};
@@ -46,6 +48,13 @@ public:
 
 	int get_accumulated_money() const {return m_accumulated_money;}
 	void reset_accumulated_money() {m_accumulated_money=0;}
+
+	// New methods for path history
+	const std::deque<glm::vec2>& get_path_history() const { return m_path_history; }
+	void set_max_path_history_size(size_t size) { m_max_path_history_size = size; }
+	size_t get_max_path_history_size() const { return m_max_path_history_size; }
+
+	bloons::BLOON_TYPE get_type() const {return m_type;}
 protected:
 	std::shared_ptr<map::route::Route> m_current_route;
 	glm::vec2 m_target_point = {};
@@ -59,6 +68,11 @@ protected:
 	int m_accumulated_money = 0;
 
 	std::shared_ptr<hitboxes::I_BaseHitbox> m_hitbox;
+
+	// path history
+	std::deque<glm::vec2> m_path_history;
+	size_t m_max_path_history_size = 20; // Store last 20 positions by default
+
 protected:
 	void m_move();
 
@@ -67,13 +81,13 @@ private:
 	static glm::vec2 twist_pos(glm::vec2 pos);
 // base
 public:
-    BaseBloon(const BaseBloon&) = delete;
+	BaseBloon(const BaseBloon&) = delete;
 
-    BaseBloon(BaseBloon&&) = delete;
+	BaseBloon(BaseBloon&&) = delete;
 
-    BaseBloon& operator=(const BaseBloon&) = delete;
+	BaseBloon& operator=(const BaseBloon&) = delete;
 
-    BaseBloon& operator=(BaseBloon&&) = delete;
+	BaseBloon& operator=(BaseBloon&&) = delete;
 
 	virtual ~BaseBloon() override = default;
 };

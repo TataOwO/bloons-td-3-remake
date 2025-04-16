@@ -9,6 +9,8 @@
 #include "Util/Keycode.hpp"
 #include "Util/Logger.hpp"
 
+#include "handlers/BloonManager.hpp" // Add this include
+
 void App::Start() {
 	LOG_TRACE("Start");
 
@@ -43,11 +45,14 @@ void App::Start() {
 		std::make_shared<map::route::RoutePath>(route_vec1),
 	};
 
+	// add route paths to manager
+	m_path_manager = std::make_shared<handlers::PathManager>(route_paths, m_render_manager);
+
 	// initialize monkey manager
 	m_monkey_manager = std::make_shared<handlers::MonkeyManager>(m_render_manager);
 
-	// add route paths to manager
-	m_path_manager = std::make_shared<handlers::PathManager>(route_paths, m_render_manager);
+	// initialize bloon manager (NEW)
+	m_bloon_manager = std::make_shared<handlers::BloonManager>(m_render_manager, m_path_manager);
 
 	// background
 	background.set_layers(background_images);
@@ -73,64 +78,31 @@ void App::Start() {
 void App::Update() {
 	++game_tick;
 
-	// TODO: this is for bloons manager
-	if (game_tick%20-10 == 0) {
-		std::vector<bloons::BLOON_TYPE> v = {bloons::BLOON_TYPE::RED,bloons::BLOON_TYPE::BLUE,bloons::BLOON_TYPE::GREEN,bloons::BLOON_TYPE::YELLOW,bloons::BLOON_TYPE::WHITE,bloons::BLOON_TYPE::BLACK,bloons::BLOON_TYPE::LEAD,bloons::BLOON_TYPE::RAINBOW,bloons::BLOON_TYPE::CERAMIC};
-
-		bloons::BLOON_TYPE t = v.at(std::rand() % v.size());
-
-		std::shared_ptr<map::route::Route> bloon_spawn_route = m_path_manager->get_random_route_path()->get_start_route();
-
-		std::shared_ptr<bloons::Bloon> new_bloon = std::make_shared<bloons::Bloon>(bloon_spawn_route, t);
-
-		bloon_vec.push_back(new_bloon);
-		m_render_manager->AddChild(new_bloon);
+	// Spawn random bloons periodically (replaced old bloon spawning code)
+	if (game_tick % 20 - 10 == 0) {
+		m_bloon_manager->spawn_random_bloon();
 	}
 
-	// CHICKEN ATTACK uhm sorry i mean monkey attack
-	m_monkey_manager->scan_bloons(bloon_vec);
+	// Update all bloons and handle lifecycle events
+	m_bloon_manager->update(game_tick, game_hp, money, money_changed);
+
+	// Update monkey targeting to use BloonManager
+	m_monkey_manager->scan_bloons(m_bloon_manager->get_all_bloons());
 	m_monkey_manager->process_attacks();
 
-	// add new projectiles
+	// Add new projectiles from monkey manager
 	auto new_projectiles = m_monkey_manager->get_new_projectiles();
 	projectile_vec.insert(projectile_vec.end(), new_projectiles.begin(), new_projectiles.end());
 
-	// removes projectile from monkey manager
+	// Remove projectiles from monkey manager
 	m_monkey_manager->clear_new_projectiles();
 
-	// TODO: this is for bloons manager
-	for (unsigned i=0; i<bloon_vec.size(); ++i) {
-		std::shared_ptr<bloons::Bloon> bloon = bloon_vec.at(i);
-
-		bloon->update();
-
-		if (bloon->is_at_end()) {
-			game_hp -= bloon->get_hp();
-
-			status_text = "hp: ";
-			status_text.append(std::to_string(game_hp));
-			status_text.append("\nmoney: ");
-			status_text.append(std::to_string(money));
-			status_text_obj->SetText(status_text);
-
-			m_render_manager->RemoveChild(bloon);
-			bloon_vec.erase(bloon_vec.begin()+i);
-			--i;
-		}
-
-		if (!bloon->has_hp_left()) {
-			m_render_manager->RemoveChild(bloon);
-			bloon_vec.erase(bloon_vec.begin()+i);
-			--i;
-		}
-	}
-
-	// projectile collision check
-	for (unsigned j=0; j<projectile_vec.size(); ++j) {
+	// Handle projectile collisions
+	for (unsigned j = 0; j < projectile_vec.size(); ++j) {
 		auto p = projectile_vec.at(j);
 		p->update();
 
-		for (auto bloon: bloon_vec) {
+		for (auto& bloon : m_bloon_manager->get_all_bloons()) {
 			if (p->is_collided_with(bloon)) {
 				p->deal_damage(bloon);
 				money += bloon->get_accumulated_money();
@@ -141,11 +113,12 @@ void App::Update() {
 
 		if (p->is_dead()) {
 			m_render_manager->RemoveChild(p);
-			projectile_vec.erase(projectile_vec.begin()+j);
+			projectile_vec.erase(projectile_vec.begin() + j);
 			--j;
 		}
 	}
 
+	// Update status display if HP or money changed
 	if (money_changed) {
 		status_text = "hp: ";
 		status_text.append(std::to_string(game_hp));
@@ -155,7 +128,7 @@ void App::Update() {
 		money_changed = false;
 	}
 
-	// monkey placeholder modify
+	// Monkey placement logic (unchanged)
 	if (Util::Input::IsMouseMoving()) {
 		monke_place_hold_has_collision = false;
 		glm::vec2 mouse_pos = Util::Input::GetCursorPosition();
@@ -163,12 +136,11 @@ void App::Update() {
 		monkey_place_holder->m_Transform.translation = mouse_pos;
 		monke_placeholder_hitbox->set_position(mouse_pos);
 
-		for (auto route: m_path_manager->get_all_routes()) {
+		for (auto route : m_path_manager->get_all_routes()) {
 			auto other = route->get_hitbox();
 			if (!utility::hitboxes_are_collided(monke_placeholder_hitbox, other)) continue;
 
 			monke_place_hold_has_collision = true;
-
 			monkey_place_holder->SetDrawable(dart_red);
 		}
 		if (!monke_place_hold_has_collision) {
@@ -180,7 +152,7 @@ void App::Update() {
 		if (!monke_place_hold_has_collision) monkey_place_holder->SetDrawable(dart_img);
 	}
 
-	// places monkey
+	// Places monkey
 	if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB) && !monke_place_hold_has_collision) {
 		glm::vec2 monke_pos = monke_placeholder_hitbox->get_position();
 		if (m_monkey_manager->place_dart_monkey(monke_pos, money)) {
@@ -188,8 +160,6 @@ void App::Update() {
 		}
 	}
 
-	// https://zh.wikipedia.org/zh-tw/%E8%B2%9D%E8%8C%B2%E6%9B%B2%E7%B7%9A
-	// curve for boomerang
 	m_render_manager->Update();
 
 	/*

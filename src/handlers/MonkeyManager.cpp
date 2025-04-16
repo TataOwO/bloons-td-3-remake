@@ -2,11 +2,11 @@
 
 namespace handlers {
 
-MonkeyManager::MonkeyManager(std::shared_ptr<Util::Renderer> render_manager)
+MonkeyManager::MonkeyManager(const std::shared_ptr<Util::Renderer> &render_manager)
     : m_render_manager(render_manager) {
 }
 
-bool MonkeyManager::hitbox_is_collided_with_monkeys(std::shared_ptr<hitboxes::I_BaseHitbox> hitbox) {
+bool MonkeyManager::hitbox_is_collided_with_monkeys(const std::shared_ptr<hitboxes::I_BaseHitbox> &hitbox) {
     for (const auto& monkey : m_all_monkeys) {
         if (utility::hitboxes_are_collided(hitbox, monkey->get_hitbox())) {
             return true;
@@ -25,7 +25,7 @@ bool MonkeyManager::point_is_collided_with_monkeys(glm::vec2 point) {
 }
 
 bool MonkeyManager::place_dart_monkey(glm::vec2 position, int& money) {
-    const int DART_MONKEY_COST = 50;
+    constexpr int DART_MONKEY_COST = 50;
     
     // Check if we have enough money
     if (money < DART_MONKEY_COST) {
@@ -49,7 +49,7 @@ bool MonkeyManager::place_dart_monkey(glm::vec2 position, int& money) {
     return true;
 }
 
-void MonkeyManager::scan_bloons(const std::vector<std::shared_ptr<bloons::Bloon>>& bloon_vec) {
+void MonkeyManager::scan_bloons(const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec) {
     // Let each monkey attacker scan for bloons
     for (auto& attacker : m_all_monkey_attackers) {
         for (const auto& bloon : bloon_vec) {
