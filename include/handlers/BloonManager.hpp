@@ -32,7 +32,7 @@ public:
 	BloonManager(std::shared_ptr<Util::Renderer> render_manager, std::shared_ptr<handlers::PathManager> path_manager);
 
 	// process bloon updates
-	void update(int current_tick, int& game_hp, int& money, bool& money_changed);
+	void update(int current_tick, int& game_hp, int& money, bool*money_changed);
 
 	void add_bloon(std::shared_ptr<bloons::Bloon> bloon);
 

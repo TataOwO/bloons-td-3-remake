@@ -33,10 +33,10 @@ namespace bloons {
 		case bloons::BLOON_TYPE::RAINBOW:
 		case bloons::BLOON_TYPE::CERAMIC:
 		case bloons::BLOON_TYPE::MOAB:
-			return; 
+			return;
 		default: break;
 		}
-		
+
 		switch (m_hp) {
 		case 1:
 			set_bloon_type(bloons::BLOON_TYPE::RED);
@@ -89,7 +89,7 @@ namespace bloons {
 			throw std::invalid_argument("void Bloon::set_bloon_type(bloons::BLOON_TYPE type): UNKNOWN BLOON TYPE");
 		break;
 		}
-		
+
 		m_type = type;
 		m_hp = stat.hp;
 		m_hitbox = std::make_shared<hitboxes::CircularHitbox>(m_Transform.translation, stat.radius);

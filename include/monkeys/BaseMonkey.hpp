@@ -16,6 +16,13 @@
 
 namespace monkeys {
 
+enum class TARGETING {
+	FIRST,
+	LAST,
+	STRONG,
+	CLOSE
+};
+
 class BaseMonkey : public Util::GameObject {
 public:
 	bool is_collided_with_route(const std::shared_ptr<map::route::Route> &route) const;
@@ -28,6 +35,7 @@ public:
 
 	std::shared_ptr<hitboxes::CircularHitbox> get_hitbox() {return m_base_hitbox;}
 
+	TARGETING get_targeting() {return m_targeting;}
 protected:
 	std::string m_image_path;
 
@@ -39,6 +47,8 @@ protected:
 
 	// for bloons
 	glm::vec2 m_face_position;
+	
+	TARGETING m_targeting = TARGETING::FIRST;
 
 protected:
 	BaseMonkey(glm::vec2 position);

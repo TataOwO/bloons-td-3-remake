@@ -5,7 +5,7 @@ namespace bloons {
 		m_current_route = start_route;
 
 		m_target_point = twist_pos(m_current_route->get_end_point());
-		
+
 		// add starting pos to history
 		if (start_route) {
 			m_path_history.push_front(start_route->get_start_point());
@@ -32,7 +32,7 @@ namespace bloons {
 
 		glm::vec2 diff = {
 			m_target_point[0] - m_Transform.translation[0],
-			m_target_point[1] - m_Transform.translation[1] 
+			m_target_point[1] - m_Transform.translation[1]
 		};
 
 		float diff_distance = glm::length(diff);
@@ -51,6 +51,11 @@ namespace bloons {
 
 		m_hitbox->set_position(m_Transform.translation);
 	};
+
+	// random number generator for bloon pos
+	inline std::random_device base_bloon_rd;
+	inline std::mt19937 base_bloon_gen(base_bloon_rd());
+	inline std::uniform_real_distribution<double> base_bloon_dist(-10.0,10.0);
 
 	glm::vec2 BaseBloon::twist_pos(glm::vec2 pos) {
 		return pos + glm::vec2{base_bloon_dist(base_bloon_gen), base_bloon_dist(base_bloon_gen)};

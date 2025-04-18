@@ -38,7 +38,7 @@ namespace map::route {
 		m_Drawable = std::make_shared<Util::Image>(m_image_path);
 
 		this->SetZIndex(2);
-		// this->SetVisible(false);
+		this->SetVisible(false);
 	};
 
 	RouteConnection Route::route_is_connected(const std::shared_ptr<Route> &route) {

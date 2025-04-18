@@ -3,6 +3,8 @@
 #include "Util/Image.hpp"
 #include "utility/functions.hpp"
 
+#include <iostream>
+
 namespace projectiles {
 
 DartProjectile::DartProjectile(const glm::vec2& position, float rotation) : BaseProjectile() {
@@ -35,14 +37,37 @@ void DartProjectile::update() {
 void DartProjectile::deal_damage(std::shared_ptr<bloons::BaseBloon> bloon) {
 	// checks if bloon is already hit by this projectile
 	for (auto b: m_hit_bloon_vec) {
+		if (b == nullptr) continue;
 		if (b == bloon) return;
 	}
 	
 	// Reduce pierce when the dart hits a bloon
 	if (is_dead()) return;
 	
+	if (bloon == nullptr) return;
+	
+	auto bloon_type = bloon->get_type();
+	
+	int to_be_dealt_damage = m_damage;
+	if (bloon_type == bloons::BLOON_TYPE::CERAMIC) to_be_dealt_damage += m_extra_ceramic_damage;
+	
+	// checks if projectile has the ability to pop this bloon
+	if (!m_lead_popping_power && bloon_type == bloons::BLOON_TYPE::LEAD) {
+		// play lead sound effect
+	}
+	else if (!m_white_popping_power && bloon_type == bloons::BLOON_TYPE::WHITE) {
+		// handles not popping white
+	}
+	else if (!m_black_popping_power && bloon_type == bloons::BLOON_TYPE::BLACK) {
+		// handles not popping black
+	}
+	else {
+		// if projectile has the abliity to pop this bloon
+		bloon->handle_take_damage(m_damage);
+	}
+	
+	// always subtract 1 from pierce, and add bloons to hit vec
 	--m_pierce;
-	bloon->handle_take_damage(m_damage);
 	m_hit_bloon_vec.push_back(bloon);
 }
 

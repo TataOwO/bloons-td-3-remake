@@ -78,26 +78,27 @@ void App::Start() {
 void App::Update() {
 	++game_tick;
 
-	// Spawn random bloons periodically (replaced old bloon spawning code)
+	// spawn random bloons
+	// TODO: WAVES
 	if (game_tick % 20 - 10 == 0) {
 		m_bloon_manager->spawn_random_bloon();
 	}
 
-	// Update all bloons and handle lifecycle events
-	m_bloon_manager->update(game_tick, game_hp, money, money_changed);
+	// bloons update
+	m_bloon_manager->update(game_tick, game_hp, money, &money_changed);
 
-	// Update monkey targeting to use BloonManager
-	m_monkey_manager->scan_bloons(m_bloon_manager->get_all_bloons());
+	// monkey targetting
+	m_monkey_manager->scan_bloons(m_bloon_manager->get_bloons_by_front());
 	m_monkey_manager->process_attacks();
 
-	// Add new projectiles from monkey manager
+	// add new projectiles from monkey manager
 	auto new_projectiles = m_monkey_manager->get_new_projectiles();
 	projectile_vec.insert(projectile_vec.end(), new_projectiles.begin(), new_projectiles.end());
 
-	// Remove projectiles from monkey manager
+	// remove projectiles from monkey manager
 	m_monkey_manager->clear_new_projectiles();
 
-	// Handle projectile collisions
+	// projectile collisions
 	for (unsigned j = 0; j < projectile_vec.size(); ++j) {
 		auto p = projectile_vec.at(j);
 		p->update();
@@ -118,7 +119,8 @@ void App::Update() {
 		}
 	}
 
-	// Update status display if HP or money changed
+	// hp display
+	// TODO: UI
 	if (money_changed) {
 		status_text = "hp: ";
 		status_text.append(std::to_string(game_hp));
@@ -128,7 +130,7 @@ void App::Update() {
 		money_changed = false;
 	}
 
-	// Monkey placement logic (unchanged)
+	// place monkey
 	if (Util::Input::IsMouseMoving()) {
 		monke_place_hold_has_collision = false;
 		glm::vec2 mouse_pos = Util::Input::GetCursorPosition();

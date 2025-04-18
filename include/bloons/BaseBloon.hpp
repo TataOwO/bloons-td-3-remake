@@ -91,11 +91,6 @@ public:
 
 	virtual ~BaseBloon() override = default;
 };
-
-// random number generator for bloon pos
-inline std::random_device base_bloon_rd;
-inline std::mt19937 base_bloon_gen(base_bloon_rd());
-inline std::uniform_real_distribution<double> base_bloon_dist(-10.0,10.0);
 }
 
 #endif

@@ -10,7 +10,7 @@ BloonManager::BloonManager(std::shared_ptr<Util::Renderer> render_manager,
 	  m_path_manager(std::move(path_manager)) {
 }
 
-void BloonManager::update(int current_tick, int& game_hp, int& money, bool& money_changed) {
+void BloonManager::update(int current_tick, int& game_hp, int& money, bool*money_changed) {
 	// Process any scheduled spawns for this tick
 	process_spawn_queue(current_tick);
 
@@ -22,7 +22,7 @@ void BloonManager::update(int current_tick, int& game_hp, int& money, bool& mone
 		auto typed_bloon = std::dynamic_pointer_cast<bloons::Bloon>(bloon);
 		if (typed_bloon && typed_bloon->is_at_end()) {
 			game_hp -= typed_bloon->get_hp();
-			money_changed = true;
+			*money_changed = true;
 			m_removal_queue.push_back(bloon);
 		}
 
@@ -215,10 +215,34 @@ void BloonManager::update_sorted_lists() {
 			return a->get_length_to_exit() > b->get_length_to_exit();
 		});
 
-	// Sort by HP (highest HP first)
-	std::sort(m_bloons_by_hp.begin(), m_bloons_by_hp.end(),
+	// Sort by bloon type instead of HP (sorted in the specified order)
+	std::sort(m_bloons_by_hp.begin(), m_bloons_by_hp.end(), 
 		[](const std::shared_ptr<bloons::BaseBloon>& a, const std::shared_ptr<bloons::BaseBloon>& b) {
-			return a->get_hp() > b->get_hp();
+			// Define ordering of bloon types
+			const std::map<bloons::BLOON_TYPE, int> type_priority = {
+				{bloons::BLOON_TYPE::MOAB,    10},
+				{bloons::BLOON_TYPE::CERAMIC, 9},
+				{bloons::BLOON_TYPE::RAINBOW, 8},
+				{bloons::BLOON_TYPE::LEAD,    7},
+				{bloons::BLOON_TYPE::BLACK,   6},
+				{bloons::BLOON_TYPE::WHITE,   5},
+				{bloons::BLOON_TYPE::YELLOW,  4},
+				{bloons::BLOON_TYPE::GREEN,   3},
+				{bloons::BLOON_TYPE::BLUE,    2},
+				{bloons::BLOON_TYPE::RED,     1},
+			};
+			
+			// Get priorities for the bloon types
+			int priority_a = type_priority.at(a->get_type());
+			int priority_b = type_priority.at(a->get_type());
+			
+			// If same type, sort by progress (closer to exit first)
+			if (priority_a == priority_b) {
+				return a->get_length_to_exit() < b->get_length_to_exit();
+			}
+			
+			// Otherwise sort by type priority
+			return priority_a > priority_b;
 		});
 }
 
