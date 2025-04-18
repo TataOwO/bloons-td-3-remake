@@ -44,16 +44,18 @@ public:
 
 	void damage_bloon(std::shared_ptr<bloons::BaseBloon> bloon, int damage);
 
+	// get the money that all bloons have
+	int get_accumulated_money();
+
+	// clear all bloons and spawn schedule
+	void clear();
+
 	// for 3 different monkey targetting
 	const std::vector<std::shared_ptr<bloons::BaseBloon>>& get_bloons_by_front() const;
 	const std::vector<std::shared_ptr<bloons::BaseBloon>>& get_bloons_by_back() const;
 	const std::vector<std::shared_ptr<bloons::BaseBloon>>& get_bloons_by_strong() const;
 
-	// clear all bloons and spawn schedule
-	void clear();
-
-	const std::vector<std::shared_ptr<bloons::BaseBloon>>& get_all_bloons() const;
-
+	const std::vector<std::shared_ptr<bloons::BaseBloon>>& get_all_bloons() const {return m_active_bloons;};
 private:
 	// removes bloons in the removal queue
 	void process_removal_queue();

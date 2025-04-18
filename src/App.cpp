@@ -51,16 +51,21 @@ void App::Start() {
 	// initialize monkey manager
 	m_monkey_manager = std::make_shared<handlers::MonkeyManager>(m_render_manager);
 
-	// initialize bloon manager (NEW)
+	// initialize bloon manager
 	m_bloon_manager = std::make_shared<handlers::BloonManager>(m_render_manager, m_path_manager);
 
+	// initialize projectile manager
+	m_projectile_manager = std::make_shared<handlers::ProjectileManager>(m_render_manager);
+
 	// background
+	// TODO: MAP OBJECT
 	background.set_layers(background_images);
 	for (auto layer: background.get_layers()) {
 		m_render_manager->AddChild(layer);
 	}
 
 	// hp display
+	// TODO: UI
 	status_text_obj->SetColor(Util::Color(255,255,255));
 
 	status_display->SetDrawable(status_text_obj);
@@ -96,34 +101,24 @@ void App::Update() {
 	m_monkey_manager->process_attacks(); // add new projectiles if the monkey attacks
 
 	// add new projectiles from monkey manager
-	auto new_projectiles = m_monkey_manager->get_new_projectiles();
-	projectile_vec.insert(projectile_vec.end(), new_projectiles.begin(), new_projectiles.end());
+	m_projectile_manager->add_new_projectiles(
+		m_monkey_manager->get_new_projectiles()
+	);
 
 	// remove projectiles from monkey manager
 	m_monkey_manager->clear_new_projectiles();
 
-	// projectile collisions
-	for (unsigned j = 0; j < projectile_vec.size(); ++j) {
-		auto p = projectile_vec.at(j);
-		p->update();
-
-		for (auto& bloon : m_bloon_manager->get_all_bloons()) {
-			if (!bloon->has_hp_left()) continue; // skips if the bloon should no longer exist
-			
-			if (p->is_collided_with(bloon)) {
-				p->deal_damage(bloon);
-				money += bloon->get_accumulated_money();
-				bloon->reset_accumulated_money();
-				money_changed = true;
-			}
-		}
-
-		if (p->is_dead()) {
-			m_render_manager->RemoveChild(p);
-			projectile_vec.erase(projectile_vec.begin() + j);
-			--j;
-		}
-	}
+	// projectile update (mostly just collision check)
+	m_projectile_manager->update(
+		m_bloon_manager->get_all_bloons()
+	);
+	
+	// update money
+	// TODO: UI
+	int ret_money = m_bloon_manager->get_accumulated_money();
+	money += ret_money;
+	
+	money_changed |= ret_money != 0;
 
 	// hp display
 	// TODO: UI

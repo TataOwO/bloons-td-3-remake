@@ -99,6 +99,11 @@ namespace bloons {
 	}
 
 	void Bloon::m_take_damage(int damage) {
+		// if ceramic, only give money when hp reaches 0
+		if (m_type == bloons::BLOON_TYPE::CERAMIC) {
+			m_accumulated_money += (m_hp==0)? 10: 0;
+		}
+		
 		m_hp -= damage;
 		m_accumulated_money += damage;
 	};

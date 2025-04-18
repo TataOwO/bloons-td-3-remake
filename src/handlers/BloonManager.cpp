@@ -114,8 +114,13 @@ const std::vector<std::shared_ptr<bloons::BaseBloon>>& BloonManager::get_bloons_
 	return m_bloons_by_hp;
 }
 
-const std::vector<std::shared_ptr<bloons::BaseBloon>>& BloonManager::get_all_bloons() const {
-	return m_active_bloons;
+int BloonManager::get_accumulated_money() {
+	int ret_money = 0;
+	for (auto& bloon: m_active_bloons) {
+		ret_money += bloon->get_accumulated_money();
+		bloon->reset_accumulated_money();
+	}
+	return ret_money;
 }
 
 void BloonManager::clear() {
@@ -150,7 +155,7 @@ void BloonManager::process_removal_queue() {
 		}
 	}
 
-	// Clear the removal queue
+	// clear the removal queue
 	m_removal_queue.clear();
 }
 

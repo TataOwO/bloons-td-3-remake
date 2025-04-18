@@ -17,7 +17,8 @@
 
 #include "handlers/PathManager.hpp"
 #include "handlers/MonkeyManager.hpp"
-#include "handlers/BloonManager.hpp" // Add this include
+#include "handlers/BloonManager.hpp"
+#include "handlers/ProjectileManager.hpp"
 
 class App {
 public:
@@ -27,7 +28,7 @@ public:
 		END,
 	};
 
-	[[nodiscard]] State GetCurrentState() const { return m_CurrentState; }
+	State GetCurrentState() const { return m_CurrentState; }
 
 	void Start();
 
@@ -62,7 +63,7 @@ private:
 	std::shared_ptr<handlers::BloonManager> m_bloon_manager;
 
 	// projectiles
-	std::vector<std::shared_ptr<projectiles::BaseProjectile>> projectile_vec = {};
+	std::shared_ptr<handlers::ProjectileManager> m_projectile_manager;
 
 	// TODO: UI
 	std::shared_ptr<Util::GameObject> status_display = std::make_shared<Util::GameObject>();
