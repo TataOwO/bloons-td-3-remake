@@ -32,9 +32,9 @@ public:
 	BloonManager(std::shared_ptr<Util::Renderer> render_manager, std::shared_ptr<handlers::PathManager> path_manager);
 
 	// process bloon updates
-	void update(int current_tick, int& game_hp, int& money, bool*money_changed);
+	void update(int current_tick, int& game_hp, bool* money_changed);
 
-	void add_bloon(std::shared_ptr<bloons::Bloon> bloon);
+	void add_bloon(std::shared_ptr<bloons::BaseBloon> bloon);
 
 	// add bloon spawn to queue
 	void schedule_bloon_spawn(bloons::BLOON_TYPE type, int ticks_until_spawn);
@@ -47,7 +47,7 @@ public:
 	// for 3 different monkey targetting
 	const std::vector<std::shared_ptr<bloons::BaseBloon>>& get_bloons_by_front() const;
 	const std::vector<std::shared_ptr<bloons::BaseBloon>>& get_bloons_by_back() const;
-	const std::vector<std::shared_ptr<bloons::BaseBloon>>& get_bloons_by_hp() const;
+	const std::vector<std::shared_ptr<bloons::BaseBloon>>& get_bloons_by_strong() const;
 
 	// clear all bloons and spawn schedule
 	void clear();
@@ -55,18 +55,24 @@ public:
 	const std::vector<std::shared_ptr<bloons::BaseBloon>>& get_all_bloons() const;
 
 private:
-	// removes bloon
+	// removes bloons in the removal queue
 	void process_removal_queue();
 
-	// add the given bloon from removal queue
+	// handles destruction effects for the given bloon
 	void handle_bloon_destruction(std::shared_ptr<bloons::BaseBloon> bloon);
+	
+	// Helper methods for spawning child bloons
+	void spawn_child_bloons(std::shared_ptr<bloons::BaseBloon> parent, bloons::BLOON_TYPE child_type, int count);
+	void spawn_child_bloon(std::shared_ptr<bloons::BaseBloon> parent, bloons::BLOON_TYPE child_type);
 
+	// process the spawn queue for the current tick
 	void process_spawn_queue(int current_tick);
 
-	// Update sorting orders for targeting
-	void update_sorted_lists();
+	// Maintain sorted lists
+	void insert_into_sorted_lists(std::shared_ptr<bloons::BaseBloon> bloon);
+	void remove_from_sorted_lists(std::shared_ptr<bloons::BaseBloon> bloon);
 
-	// active bloons (that aren't fucking dead)
+	// active bloons (that aren't destroyed)
 	std::vector<std::shared_ptr<bloons::BaseBloon>> m_active_bloons = {};
 
 	// bloons marked for removal

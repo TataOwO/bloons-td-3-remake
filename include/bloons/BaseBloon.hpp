@@ -39,6 +39,7 @@ public:
 	bool is_at_end() const {return m_current_route == nullptr;};
 
 	int get_hp() const {return m_hp;};
+	virtual bool has_hp_left() const {return m_hp > 0;}
 
 	glm::vec2 get_pos() const {return m_Transform.translation;};
 
@@ -55,6 +56,9 @@ public:
 	size_t get_max_path_history_size() const { return m_max_path_history_size; }
 
 	bloons::BLOON_TYPE get_type() const {return m_type;}
+	
+	bool is_frozen() {return m_frozen_tick!=0;}
+	void set_frozen(int t) {m_frozen_tick = (m_frozen_tick<t)? t: m_frozen_tick;}
 protected:
 	std::shared_ptr<map::route::Route> m_current_route;
 	glm::vec2 m_target_point = {};
@@ -72,6 +76,8 @@ protected:
 	// path history
 	std::deque<glm::vec2> m_path_history;
 	size_t m_max_path_history_size = 20; // Store last 20 positions by default
+	
+	int m_frozen_tick = 0;
 
 protected:
 	void m_move();

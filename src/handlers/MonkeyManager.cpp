@@ -49,12 +49,34 @@ bool MonkeyManager::place_dart_monkey(glm::vec2 position, int& money) {
     return true;
 }
 
-void MonkeyManager::scan_bloons(const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec) {
+void MonkeyManager::scan_bloons(const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec_first, const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec_last, const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec_strong) {
     // Let each monkey attacker scan for bloons
     for (auto& attacker : m_all_monkey_attackers) {
-        for (const auto& bloon : bloon_vec) {
-            attacker->scan_bloon(bloon);
-        }
+		auto monke_targetting = attacker->get_targeting();
+		switch (monke_targetting) {
+			case monkeys::TARGETING::FIRST:
+				for (const auto& bloon : bloon_vec_first) {
+					attacker->scan_bloon(bloon);
+					if (attacker->has_target()) break;
+				}
+			break;
+			case monkeys::TARGETING::LAST:
+				for (const auto& bloon : bloon_vec_last) {
+					attacker->scan_bloon(bloon);
+					if (attacker->has_target()) break;
+				}
+			break;
+			case monkeys::TARGETING::STRONG:
+				for (const auto& bloon : bloon_vec_strong) {
+					attacker->scan_bloon(bloon);
+					if (attacker->has_target()) break;
+				}
+			break;
+			case monkeys::TARGETING::CLOSE:
+				return;
+			break;
+			default: break;
+		}
     }
 }
 

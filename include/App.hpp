@@ -42,7 +42,7 @@ private:
 
 	int game_tick = 0;
 	int game_hp = 200;
-	int money = 160;
+	int money = 100000;
 	bool money_changed = false;
 
 	std::shared_ptr<handlers::PathManager> m_path_manager;

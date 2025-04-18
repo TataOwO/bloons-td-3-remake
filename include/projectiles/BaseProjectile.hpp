@@ -50,9 +50,10 @@ protected:
     glm::vec2 m_velocity = {0,0};
 
 	// popping power for different bloons type
-	bool m_lead_popping_power = false;
-	bool m_white_popping_power = true;
-	bool m_black_popping_power = true;
+	bool m_lead_popping_power   = false;
+	bool m_frozen_popping_power = false;
+	bool m_white_popping_power  = true;
+	bool m_black_popping_power  = true;
 	int m_extra_ceramic_damage = 0;
 
 	std::vector<std::shared_ptr<bloons::BaseBloon>> m_hit_bloon_vec;

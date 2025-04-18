@@ -11,6 +11,7 @@ public:
 
 	// collision detection
 	bool is_collided_with(std::shared_ptr<I_BaseHitbox> box) const override;
+	
 	bool check_collision_circular(const std::shared_ptr<CircularHitbox>& other) const;
 	bool check_collision_oval(const std::shared_ptr<class OvalHitbox>& other) const;
 	bool check_collision_rectangular(const std::shared_ptr<class RectangularHitbox>& other) const;

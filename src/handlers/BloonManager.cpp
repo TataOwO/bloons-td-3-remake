@@ -1,52 +1,66 @@
+// BloonManager.cpp modifications
 #include "handlers/BloonManager.hpp"
 #include <algorithm>
 #include <cstdlib>
 
 namespace handlers {
 
-BloonManager::BloonManager(std::shared_ptr<Util::Renderer> render_manager,
-						   std::shared_ptr<handlers::PathManager> path_manager)
+BloonManager::BloonManager(std::shared_ptr<Util::Renderer> render_manager, std::shared_ptr<handlers::PathManager> path_manager)
 	: m_render_manager(std::move(render_manager)),
 	  m_path_manager(std::move(path_manager)) {
 }
 
-void BloonManager::update(int current_tick, int& game_hp, int& money, bool*money_changed) {
+void BloonManager::update(int current_tick, int& game_hp, bool* money_changed) {
 	// Process any scheduled spawns for this tick
 	process_spawn_queue(current_tick);
 
+	std::vector<std::shared_ptr<bloons::BaseBloon>> should_spawn_children = {};
+
 	// Update all active bloons
-	for (auto& bloon : m_active_bloons) {
+	for (auto&bloon: m_active_bloons) {
 		bloon->update();
 
+		bool should_remove = false;
+
 		// Check if bloon reached the end
-		auto typed_bloon = std::dynamic_pointer_cast<bloons::Bloon>(bloon);
-		if (typed_bloon && typed_bloon->is_at_end()) {
-			game_hp -= typed_bloon->get_hp();
+		if (bloon->is_at_end()) {
+			game_hp -= bloon->get_hp();
 			*money_changed = true;
-			m_removal_queue.push_back(bloon);
+			should_remove = true;
 		}
 
 		// Check if bloon has no HP left
-		if (typed_bloon && !typed_bloon->has_hp_left()) {
-			handle_bloon_destruction(typed_bloon);
-			m_removal_queue.push_back(bloon);
+		if (!should_remove && !bloon->has_hp_left()) {
+			should_spawn_children.push_back(bloon);
+			should_remove = true;
 		}
+
+		// Remove the bloon if needed
+		if (should_remove) m_removal_queue.push_back(bloon);
 	}
 
-	// Process removals (after iteration is complete)
-	process_removal_queue();
+	for (auto& bloon: should_spawn_children) {
+		handle_bloon_destruction(bloon);
+	}
 
-	// Update sorted lists for targeting
-	update_sorted_lists();
+	//remove bloons
+	process_removal_queue();
 }
 
-void BloonManager::add_bloon(std::shared_ptr<bloons::Bloon> bloon) {
+void BloonManager::add_bloon(std::shared_ptr<bloons::BaseBloon> bloon) {
+	// Add to active bloons
 	m_active_bloons.push_back(bloon);
+
+	// Add to renderer
 	m_render_manager->AddChild(bloon);
+
+	// Insert into sorted lists
+	insert_into_sorted_lists(bloon);
 }
 
 void BloonManager::schedule_bloon_spawn(bloons::BLOON_TYPE type, int ticks_until_spawn) {
-	m_spawn_queue.push(BloonSpawnInfo(type, ticks_until_spawn));
+	int spawn_tick = ticks_until_spawn;
+	m_spawn_queue.push(BloonSpawnInfo(type, spawn_tick));
 }
 
 void BloonManager::spawn_random_bloon() {
@@ -79,13 +93,12 @@ void BloonManager::damage_bloon(std::shared_ptr<bloons::BaseBloon> bloon, int da
 	bloon->handle_take_damage(damage);
 
 	// Check if the bloon is now destroyed
-	auto typed_bloon = std::dynamic_pointer_cast<bloons::Bloon>(bloon);
-	if (typed_bloon && !typed_bloon->has_hp_left()) {
+	if (!bloon->has_hp_left()) {
 		// Queue for removal (don't remove during iteration)
 		m_removal_queue.push_back(bloon);
 
 		// Handle special destruction effects (like spawning child bloons)
-		handle_bloon_destruction(typed_bloon);
+		handle_bloon_destruction(bloon);
 	}
 }
 
@@ -97,7 +110,7 @@ const std::vector<std::shared_ptr<bloons::BaseBloon>>& BloonManager::get_bloons_
 	return m_bloons_by_back;
 }
 
-const std::vector<std::shared_ptr<bloons::BaseBloon>>& BloonManager::get_bloons_by_hp() const {
+const std::vector<std::shared_ptr<bloons::BaseBloon>>& BloonManager::get_bloons_by_strong() const {
 	return m_bloons_by_hp;
 }
 
@@ -127,6 +140,9 @@ void BloonManager::process_removal_queue() {
 		// Remove from renderer
 		m_render_manager->RemoveChild(bloon);
 
+		// Remove from each sorted list
+		remove_from_sorted_lists(bloon);
+
 		// Remove from active bloons
 		auto it = std::find(m_active_bloons.begin(), m_active_bloons.end(), bloon);
 		if (it != m_active_bloons.end()) {
@@ -143,21 +159,7 @@ void BloonManager::handle_bloon_destruction(std::shared_ptr<bloons::BaseBloon> b
 	switch (bloon->get_type()) {
 	case bloons::BLOON_TYPE::CERAMIC: {
 		// ceramic bloons spawn 4 rainbow bloons when destroyed
-		for (int i = 0; i < 4; ++i) {
-			// Get the bloon's current position and path
-			auto current_route = bloon->get_current_route();
-			if (!current_route) {
-				// If the bloon has reached the end, don't spawn children
-				continue;
-			}
-
-			// Create rainbow bloon at the same position
-			auto rainbow_bloon = std::make_shared<bloons::Bloon>(current_route, bloons::BLOON_TYPE::RAINBOW);
-			rainbow_bloon->m_Transform.translation = bloon->get_pos();
-
-			// Add the new bloon
-			add_bloon(rainbow_bloon);
-		}
+		spawn_child_bloons(bloon, bloons::BLOON_TYPE::RAINBOW, 4);
 	}
 	break;
 	case bloons::BLOON_TYPE::RAINBOW: {
@@ -170,16 +172,37 @@ void BloonManager::handle_bloon_destruction(std::shared_ptr<bloons::BaseBloon> b
 			bloons::BLOON_TYPE child_type = (std::rand() % 2 == 0) ?
 				bloons::BLOON_TYPE::WHITE : bloons::BLOON_TYPE::BLACK;
 
-			auto child_bloon = std::make_shared<bloons::Bloon>(current_route, child_type);
-			child_bloon->m_Transform.translation = bloon->get_pos();
-
-			add_bloon(child_bloon);
+			spawn_child_bloon(bloon, child_type);
 		}
 	}
 	break;
 	default:
 	break;
 	}
+}
+
+void BloonManager::spawn_child_bloons(std::shared_ptr<bloons::BaseBloon> parent, bloons::BLOON_TYPE child_type, int count) {
+	auto current_route = parent->get_current_route();
+	if (!current_route) {
+		// If the bloon has reached the end, don't spawn children
+		return;
+	}
+
+	for (int i = 0; i < count; ++i) {
+		spawn_child_bloon(parent, child_type);
+	}
+}
+
+void BloonManager::spawn_child_bloon(std::shared_ptr<bloons::BaseBloon> parent, bloons::BLOON_TYPE child_type) {
+	auto current_route = parent->get_current_route();
+	if (!current_route) return;
+
+	// Create child bloon at the same position
+	auto child_bloon = std::make_shared<bloons::Bloon>(current_route, child_type);
+	child_bloon->m_Transform.translation = parent->get_pos();
+
+	// Add the new bloon
+	add_bloon(child_bloon);
 }
 
 void BloonManager::process_spawn_queue(int current_tick) {
@@ -197,53 +220,66 @@ void BloonManager::process_spawn_queue(int current_tick) {
 	}
 }
 
-void BloonManager::update_sorted_lists() {
-	// Copy active bloons to sorted lists
-	m_bloons_by_front = m_active_bloons;
-	m_bloons_by_back = m_active_bloons;
-	m_bloons_by_hp = m_active_bloons;
-
-	// Sort by distance to front (closest to exit first)
-	std::sort(m_bloons_by_front.begin(), m_bloons_by_front.end(),
+void BloonManager::insert_into_sorted_lists(std::shared_ptr<bloons::BaseBloon> bloon) {
+	// Insert into front list (sorted by distance to exit, closest first)
+	auto front_pos = std::lower_bound(m_bloons_by_front.begin(), m_bloons_by_front.end(), bloon,
 		[](const std::shared_ptr<bloons::BaseBloon>& a, const std::shared_ptr<bloons::BaseBloon>& b) {
 			return a->get_length_to_exit() < b->get_length_to_exit();
 		});
+	m_bloons_by_front.insert(front_pos, bloon);
 
-	// Sort by distance to back (furthest from exit first)
-	std::sort(m_bloons_by_back.begin(), m_bloons_by_back.end(),
+	// Insert into back list (sorted by distance to exit, furthest first)
+	auto back_pos = std::lower_bound(m_bloons_by_back.begin(), m_bloons_by_back.end(), bloon,
 		[](const std::shared_ptr<bloons::BaseBloon>& a, const std::shared_ptr<bloons::BaseBloon>& b) {
 			return a->get_length_to_exit() > b->get_length_to_exit();
 		});
+	m_bloons_by_back.insert(back_pos, bloon);
 
-	// Sort by bloon type instead of HP (sorted in the specified order)
-	std::sort(m_bloons_by_hp.begin(), m_bloons_by_hp.end(), 
+	// Insert into hp list (sorted by type priority)
+	auto hp_pos = std::lower_bound(m_bloons_by_hp.begin(), m_bloons_by_hp.end(), bloon,
 		[](const std::shared_ptr<bloons::BaseBloon>& a, const std::shared_ptr<bloons::BaseBloon>& b) {
 			// Define ordering of bloon types
 			const std::map<bloons::BLOON_TYPE, int> type_priority = {
-				{bloons::BLOON_TYPE::MOAB,    10},
+				{bloons::BLOON_TYPE::MOAB,	10},
 				{bloons::BLOON_TYPE::CERAMIC, 9},
 				{bloons::BLOON_TYPE::RAINBOW, 8},
-				{bloons::BLOON_TYPE::LEAD,    7},
+				{bloons::BLOON_TYPE::LEAD,	7},
 				{bloons::BLOON_TYPE::BLACK,   6},
 				{bloons::BLOON_TYPE::WHITE,   5},
 				{bloons::BLOON_TYPE::YELLOW,  4},
 				{bloons::BLOON_TYPE::GREEN,   3},
-				{bloons::BLOON_TYPE::BLUE,    2},
-				{bloons::BLOON_TYPE::RED,     1},
+				{bloons::BLOON_TYPE::BLUE,	2},
+				{bloons::BLOON_TYPE::RED,	 1},
 			};
-			
+
 			// Get priorities for the bloon types
 			int priority_a = type_priority.at(a->get_type());
-			int priority_b = type_priority.at(a->get_type());
-			
+			int priority_b = type_priority.at(b->get_type());
+
 			// If same type, sort by progress (closer to exit first)
 			if (priority_a == priority_b) {
 				return a->get_length_to_exit() < b->get_length_to_exit();
 			}
-			
-			// Otherwise sort by type priority
+
+			// Otherwise sort by type priority (higher first)
 			return priority_a > priority_b;
 		});
+	m_bloons_by_hp.insert(hp_pos, bloon);
+}
+
+void BloonManager::remove_from_sorted_lists(std::shared_ptr<bloons::BaseBloon> bloon) {
+	// Helper lambda to remove from a specific sorted list
+	auto remove_from_list = [&](std::vector<std::shared_ptr<bloons::BaseBloon>>& list) {
+		auto it = std::find(list.begin(), list.end(), bloon);
+		if (it != list.end()) {
+			list.erase(it);
+		}
+	};
+
+	// Remove from each sorted list
+	remove_from_list(m_bloons_by_front);
+	remove_from_list(m_bloons_by_back);
+	remove_from_list(m_bloons_by_hp);
 }
 
 }

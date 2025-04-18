@@ -34,8 +34,6 @@ public:
 	glm::vec2 get_position() const;
 
 	std::shared_ptr<hitboxes::CircularHitbox> get_hitbox() {return m_base_hitbox;}
-
-	TARGETING get_targeting() {return m_targeting;}
 protected:
 	std::string m_image_path;
 
@@ -47,8 +45,6 @@ protected:
 
 	// for bloons
 	glm::vec2 m_face_position;
-	
-	TARGETING m_targeting = TARGETING::FIRST;
 
 protected:
 	BaseMonkey(glm::vec2 position);
@@ -80,6 +76,12 @@ public:
 	virtual bool has_projectile() = 0;
 
 	virtual std::shared_ptr<projectiles::BaseProjectile> get_spawned_projectile() = 0;
+
+	// not virtual as it only checks if target exists
+	bool has_target() {return m_target_bloon!=nullptr;}
+
+	// not virtual since every objects access this the same way
+	TARGETING get_targeting() const {return m_targeting;}
 protected:
 	virtual void update_attack_interval() = 0;
 
@@ -95,6 +97,8 @@ protected:
 	std::shared_ptr<projectiles::BaseProjectile> m_spawned_projectile;
 
 	std::shared_ptr<bloons::BaseBloon> m_target_bloon = nullptr;
+
+	TARGETING m_targeting = TARGETING::FIRST;
 };
 
 }

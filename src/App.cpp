@@ -85,11 +85,15 @@ void App::Update() {
 	}
 
 	// bloons update
-	m_bloon_manager->update(game_tick, game_hp, money, &money_changed);
+	m_bloon_manager->update(game_tick, game_hp, &money_changed);
 
 	// monkey targetting
-	m_monkey_manager->scan_bloons(m_bloon_manager->get_bloons_by_front());
-	m_monkey_manager->process_attacks();
+	m_monkey_manager->scan_bloons(
+		m_bloon_manager->get_bloons_by_front(), 
+		m_bloon_manager->get_bloons_by_back(), 
+		m_bloon_manager->get_bloons_by_strong()
+	);
+	m_monkey_manager->process_attacks(); // add new projectiles if the monkey attacks
 
 	// add new projectiles from monkey manager
 	auto new_projectiles = m_monkey_manager->get_new_projectiles();
@@ -104,6 +108,8 @@ void App::Update() {
 		p->update();
 
 		for (auto& bloon : m_bloon_manager->get_all_bloons()) {
+			if (!bloon->has_hp_left()) continue; // skips if the bloon should no longer exist
+			
 			if (p->is_collided_with(bloon)) {
 				p->deal_damage(bloon);
 				money += bloon->get_accumulated_money();
@@ -133,7 +139,9 @@ void App::Update() {
 	// place monkey
 	if (Util::Input::IsMouseMoving()) {
 		monke_place_hold_has_collision = false;
-		glm::vec2 mouse_pos = Util::Input::GetCursorPosition();
+		auto mouse_ptsd_pos = Util::Input::GetCursorPosition();
+		glm::vec2 mouse_pos = {mouse_ptsd_pos.x, mouse_ptsd_pos.y};
+		mouse_pos.y = -mouse_pos.y;
 
 		monkey_place_holder->m_Transform.translation = mouse_pos;
 		monke_placeholder_hitbox->set_position(mouse_pos);

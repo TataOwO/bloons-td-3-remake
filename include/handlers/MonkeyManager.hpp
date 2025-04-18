@@ -26,7 +26,7 @@ public:
     bool place_dart_monkey(glm::vec2 position, int& money);
     
     // Game loop methods
-    void scan_bloons(const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec);
+    void scan_bloons(const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec_first, const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec_last, const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec_strong);
     void process_attacks();
     
     // Projectile handling
