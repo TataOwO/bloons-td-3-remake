@@ -6,7 +6,7 @@
 #include <functional>
 #include <memory>
 
-namespace input {
+namespace inputs {
 
 class Clickable final {
 public:
@@ -18,8 +18,8 @@ public:
 			&& removal_func();
 	}
 
-	// calls on_click() if clicked
-	[[nodiscard]] bool process_click(const glm::vec2 click_pos) const {
+	// calls on_click() if clicked, returns true if success
+	bool process_click(const glm::vec2 click_pos) const {
 		return on_click
 			&& m_hitbox->contains_point(click_pos)
 			&& on_click();
@@ -29,15 +29,20 @@ public:
 	void set_removal(const std::function<bool()> &func) {removal_func = func;}
 	void set_on_click(const std::function<void()> &func) {on_click = func;}
 	void set_hitbox(const std::shared_ptr<hitboxes::I_BaseHitbox> &hb) {m_hitbox=hb;}
+	
+	// z index, higher ones will be selected first
+	void set_z_index(const float& zi) {z_index = zi;}
+	float get_z_index() const {return z_index;}
 private:
 	// takes function from object
-	std::function<void()> on_click;
+	std::function<bool()> on_click;
 
 	// takes function from object too
 	std::function<bool()> removal_func;
 
 	std::shared_ptr<hitboxes::I_BaseHitbox> m_hitbox;
 
+	float z_index = 0;
 // base
 public:
 	Clickable(const Clickable&) = delete;
