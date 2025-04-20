@@ -2,7 +2,6 @@
 #define BLOON_MANAGER_HPP
 
 #include <vector>
-#include <map>
 #include <queue>
 #include <memory>
 
@@ -10,7 +9,6 @@
 #include "Util/Renderer.hpp"
 
 #include "bloons/BaseBloon.hpp"
-#include "bloons/Bloon.hpp"
 
 namespace handlers {
 
@@ -34,7 +32,7 @@ public:
 	// process bloon updates
 	void update(int current_tick, int& game_hp, bool* money_changed);
 
-	void add_bloon(std::shared_ptr<bloons::BaseBloon> bloon);
+	void add_bloon(const std::shared_ptr<bloons::BaseBloon> &bloon);
 
 	// add bloon spawn to queue
 	void schedule_bloon_spawn(bloons::BLOON_TYPE type, int ticks_until_spawn);
@@ -42,7 +40,7 @@ public:
 	// spawn bloon at random
 	void spawn_random_bloon();
 
-	void damage_bloon(std::shared_ptr<bloons::BaseBloon> bloon, int damage);
+	void damage_bloon(const std::shared_ptr<bloons::BaseBloon> &bloon, int damage);
 
 	// get the money that all bloons have
 	int get_accumulated_money();
@@ -61,18 +59,18 @@ private:
 	void process_removal_queue();
 
 	// handles destruction effects for the given bloon
-	void handle_bloon_destruction(std::shared_ptr<bloons::BaseBloon> bloon);
+	void handle_bloon_destruction(const std::shared_ptr<bloons::BaseBloon> &bloon);
 	
 	// Helper methods for spawning child bloons
-	void spawn_child_bloons(std::shared_ptr<bloons::BaseBloon> parent, bloons::BLOON_TYPE child_type, int count);
-	void spawn_child_bloon(std::shared_ptr<bloons::BaseBloon> parent, bloons::BLOON_TYPE child_type);
+	void spawn_child_bloons(const std::shared_ptr<bloons::BaseBloon> &parent, bloons::BLOON_TYPE child_type, int count);
+	void spawn_child_bloon(const std::shared_ptr<bloons::BaseBloon> &parent, bloons::BLOON_TYPE child_type);
 
 	// process the spawn queue for the current tick
 	void process_spawn_queue(int current_tick);
 
 	// Maintain sorted lists
-	void insert_into_sorted_lists(std::shared_ptr<bloons::BaseBloon> bloon);
-	void remove_from_sorted_lists(std::shared_ptr<bloons::BaseBloon> bloon);
+	void insert_into_sorted_lists(const std::shared_ptr<bloons::BaseBloon> &bloon);
+	void remove_from_sorted_lists(const std::shared_ptr<bloons::BaseBloon> &bloon);
 
 	// active bloons (that aren't destroyed)
 	std::vector<std::shared_ptr<bloons::BaseBloon>> m_active_bloons = {};

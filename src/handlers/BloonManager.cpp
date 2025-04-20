@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <cstdlib>
 
+#include "bloons/Bloon.hpp"
+
 namespace handlers {
 
 BloonManager::BloonManager(std::shared_ptr<Util::Renderer> render_manager, std::shared_ptr<handlers::PathManager> path_manager)
@@ -47,7 +49,7 @@ void BloonManager::update(int current_tick, int& game_hp, bool* money_changed) {
 	process_removal_queue();
 }
 
-void BloonManager::add_bloon(std::shared_ptr<bloons::BaseBloon> bloon) {
+void BloonManager::add_bloon(const std::shared_ptr<bloons::BaseBloon> &bloon) {
 	// Add to active bloons
 	m_active_bloons.push_back(bloon);
 
@@ -88,7 +90,7 @@ void BloonManager::spawn_random_bloon() {
 	add_bloon(new_bloon);
 }
 
-void BloonManager::damage_bloon(std::shared_ptr<bloons::BaseBloon> bloon, int damage) {
+void BloonManager::damage_bloon(const std::shared_ptr<bloons::BaseBloon> &bloon, int damage) {
 	// Apply damage to the bloon
 	bloon->handle_take_damage(damage);
 
@@ -159,7 +161,7 @@ void BloonManager::process_removal_queue() {
 	m_removal_queue.clear();
 }
 
-void BloonManager::handle_bloon_destruction(std::shared_ptr<bloons::BaseBloon> bloon) {
+void BloonManager::handle_bloon_destruction(const std::shared_ptr<bloons::BaseBloon> &bloon) {
 	// Handle special effects based on bloon type
 	switch (bloon->get_type()) {
 	case bloons::BLOON_TYPE::CERAMIC: {
@@ -186,7 +188,7 @@ void BloonManager::handle_bloon_destruction(std::shared_ptr<bloons::BaseBloon> b
 	}
 }
 
-void BloonManager::spawn_child_bloons(std::shared_ptr<bloons::BaseBloon> parent, bloons::BLOON_TYPE child_type, int count) {
+void BloonManager::spawn_child_bloons(const std::shared_ptr<bloons::BaseBloon> &parent, bloons::BLOON_TYPE child_type, int count) {
 	auto current_route = parent->get_current_route();
 	if (!current_route) {
 		// If the bloon has reached the end, don't spawn children
@@ -198,7 +200,7 @@ void BloonManager::spawn_child_bloons(std::shared_ptr<bloons::BaseBloon> parent,
 	}
 }
 
-void BloonManager::spawn_child_bloon(std::shared_ptr<bloons::BaseBloon> parent, bloons::BLOON_TYPE child_type) {
+void BloonManager::spawn_child_bloon(const std::shared_ptr<bloons::BaseBloon> &parent, bloons::BLOON_TYPE child_type) {
 	auto current_route = parent->get_current_route();
 	if (!current_route) return;
 
@@ -225,7 +227,7 @@ void BloonManager::process_spawn_queue(int current_tick) {
 	}
 }
 
-void BloonManager::insert_into_sorted_lists(std::shared_ptr<bloons::BaseBloon> bloon) {
+void BloonManager::insert_into_sorted_lists(const std::shared_ptr<bloons::BaseBloon> &bloon) {
 	// Insert into front list (sorted by distance to exit, closest first)
 	auto front_pos = std::lower_bound(m_bloons_by_front.begin(), m_bloons_by_front.end(), bloon,
 		[](const std::shared_ptr<bloons::BaseBloon>& a, const std::shared_ptr<bloons::BaseBloon>& b) {
@@ -272,7 +274,7 @@ void BloonManager::insert_into_sorted_lists(std::shared_ptr<bloons::BaseBloon> b
 	m_bloons_by_hp.insert(hp_pos, bloon);
 }
 
-void BloonManager::remove_from_sorted_lists(std::shared_ptr<bloons::BaseBloon> bloon) {
+void BloonManager::remove_from_sorted_lists(const std::shared_ptr<bloons::BaseBloon> &bloon) {
 	// Helper lambda to remove from a specific sorted list
 	auto remove_from_list = [&](std::vector<std::shared_ptr<bloons::BaseBloon>>& list) {
 		auto it = std::find(list.begin(), list.end(), bloon);

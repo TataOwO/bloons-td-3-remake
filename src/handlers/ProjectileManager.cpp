@@ -2,7 +2,7 @@
 
 namespace handlers {
 
-ProjectileManager::ProjectileManager(std::shared_ptr<Util::Renderer> render_manager) : m_render_manager(render_manager) {
+ProjectileManager::ProjectileManager(const std::shared_ptr<Util::Renderer> &render_manager) : m_render_manager(render_manager) {
 }
 
 void ProjectileManager::add_new_projectiles(const std::vector<std::shared_ptr<projectiles::BaseProjectile>>& projectile_vec) {

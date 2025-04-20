@@ -35,7 +35,7 @@ namespace map::route {
 			m_Transform.rotation
 		);
 
-		m_Drawable = std::make_shared<Util::Image>(m_image_path);
+		m_Drawable = std::make_shared<Util::Image>(m_image_path, false);
 
 		this->SetZIndex(2);
 		this->SetVisible(false);

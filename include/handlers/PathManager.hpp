@@ -10,7 +10,7 @@ namespace handlers {
 
 class PathManager final {
 public:
-	PathManager(std::vector<std::shared_ptr<map::route::RoutePath>> paths, std::shared_ptr<Util::Renderer> render_manager);
+	PathManager(std::vector<std::shared_ptr<map::route::RoutePath>> paths, const std::shared_ptr<Util::Renderer> &render_manager);
 public:
 	std::vector<std::shared_ptr<map::route::Route>> get_all_routes() {return m_all_routes;};
 

@@ -4,7 +4,7 @@
 
 namespace handlers {
 
-PathManager::PathManager(std::vector<std::shared_ptr<map::route::RoutePath>> paths, std::shared_ptr<Util::Renderer> render_manager) : m_paths(paths), m_render_manager(render_manager) {
+PathManager::PathManager(std::vector<std::shared_ptr<map::route::RoutePath>> paths, const std::shared_ptr<Util::Renderer> &render_manager) : m_paths(paths), m_render_manager(render_manager) {
 	for (std::shared_ptr<map::route::RoutePath> rp: paths) {
 		// renderer
 		render_manager->AddChild(rp);

@@ -52,8 +52,7 @@ bool MonkeyManager::place_dart_monkey(glm::vec2 position, int& money) {
 void MonkeyManager::scan_bloons(const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec_first, const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec_last, const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec_strong) {
     // Let each monkey attacker scan for bloons
     for (auto& attacker : m_all_monkey_attackers) {
-		auto monke_targetting = attacker->get_targeting();
-		switch (monke_targetting) {
+        switch (attacker->get_targeting()) {
 			case monkeys::TARGETING::FIRST:
 				for (const auto& bloon : bloon_vec_first) {
 					attacker->scan_bloon(bloon);
@@ -74,7 +73,6 @@ void MonkeyManager::scan_bloons(const std::vector<std::shared_ptr<bloons::BaseBl
 			break;
 			case monkeys::TARGETING::CLOSE:
 				return;
-			break;
 			default: break;
 		}
     }

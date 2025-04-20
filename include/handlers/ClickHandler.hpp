@@ -8,6 +8,17 @@ public:
 	
 private:
 	
+// base
+public:
+	ClickHandler(const ClickHandler&) = delete;
+
+	ClickHandler(ClickHandler&&) = delete;
+
+	ClickHandler& operator=(const ClickHandler&) = delete;
+
+	ClickHandler& operator=(ClickHandler&&) = delete;
+
+	virtual ~ClickHandler() = default;
 };
 
 }

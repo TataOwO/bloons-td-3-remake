@@ -94,8 +94,8 @@ void App::Update() {
 
 	// monkey targetting
 	m_monkey_manager->scan_bloons(
-		m_bloon_manager->get_bloons_by_front(), 
-		m_bloon_manager->get_bloons_by_back(), 
+		m_bloon_manager->get_bloons_by_front(),
+		m_bloon_manager->get_bloons_by_back(),
 		m_bloon_manager->get_bloons_by_strong()
 	);
 	m_monkey_manager->process_attacks(); // add new projectiles if the monkey attacks
@@ -112,12 +112,12 @@ void App::Update() {
 	m_projectile_manager->update(
 		m_bloon_manager->get_all_bloons()
 	);
-	
+
 	// update money
 	// TODO: UI
 	int ret_money = m_bloon_manager->get_accumulated_money();
 	money += ret_money;
-	
+
 	money_changed |= ret_money != 0;
 
 	// hp display

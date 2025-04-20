@@ -9,7 +9,7 @@ namespace handlers {
 
 class ProjectileManager final {
 public:
-	ProjectileManager(std::shared_ptr<Util::Renderer> render_manager);
+	ProjectileManager(const std::shared_ptr<Util::Renderer> &render_manager);
 public:
 	std::vector<std::shared_ptr<projectiles::BaseProjectile>> get_all_projectiles() {return m_all_projectiles;};
 
