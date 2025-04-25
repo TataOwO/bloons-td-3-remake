@@ -1,10 +1,12 @@
 #ifndef PATH_MANAGER_HPP
 #define PATH_MANAGER_HPP
 
+#include "Util/Renderer.hpp"
+
 #include "map/route/Route.hpp"
 #include "map/route/RoutePath.hpp"
 
-#include "Util/Renderer.hpp"
+#include "hitboxes/I_BaseHitbox.hpp"
 
 namespace handlers {
 
@@ -13,6 +15,8 @@ public:
 	PathManager(std::vector<std::shared_ptr<map::route::RoutePath>> paths, const std::shared_ptr<Util::Renderer> &render_manager);
 public:
 	std::vector<std::shared_ptr<map::route::Route>> get_all_routes() {return m_all_routes;};
+
+	std::shared_ptr<map::route::Route> get_collided_route(const hitboxes::I_BaseHitbox& hitbox) const;
 
 	std::shared_ptr<map::route::RoutePath> get_random_route_path() const;
 private:

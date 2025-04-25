@@ -1,6 +1,7 @@
 #include "handlers/PathManager.hpp"
 
 #include <iostream>
+#include "utility/functions.hpp"
 
 namespace handlers {
 
@@ -9,13 +10,19 @@ PathManager::PathManager(std::vector<std::shared_ptr<map::route::RoutePath>> pat
 		// renderer
 		render_manager->AddChild(rp);
 		
-		// routes vector
-		for (auto route: rp->get_all_routes()) {
-			m_all_routes.push_back(route);
-		}
+		// insert
+		auto routes = rp->get_all_routes();
+		m_all_routes.insert(m_all_routes.end(), routes.begin(), routes.end());
 	}
 	
 	m_paths = paths;
+}
+
+std::shared_ptr<map::route::Route> get_collided_route(const hitboxes::I_BaseHitbox& hitbox) {
+	for (auto& route: m_all_routes) {
+		if (utility::hitboxes_are_collided(route->get_hitbox(), hitbox)) return route;
+	}
+	return nullptr;
 }
 
 std::shared_ptr<map::route::RoutePath> PathManager::get_random_route_path() const {
