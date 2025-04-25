@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+#include "Constants.hpp"
+
 namespace utility {
 
 glm::vec2 rotate_vec2(glm::vec2 vec, float radian) {
@@ -20,24 +22,24 @@ bool hitboxes_are_collided(const std::shared_ptr<hitboxes::I_BaseHitbox> &a, con
 	int a_type = 0, b_type = 0;
 	switch (a->get_type()) {
 	case hitboxes::HitboxType::CIRCULAR:
-		a_type = 0;
+		a_type = CONSTANTS::HITBOX_CONSTANTS::COLLISION_CHECK_PRIORITY::CIRCULAR;
 	break;
 	case hitboxes::HitboxType::OVAL:
-		a_type = 1;
+		a_type = CONSTANTS::HITBOX_CONSTANTS::COLLISION_CHECK_PRIORITY::OVAL;
 	break;
 	case hitboxes::HitboxType::RECTANGULAR:
-		a_type = 2;
+		a_type = CONSTANTS::HITBOX_CONSTANTS::COLLISION_CHECK_PRIORITY::RECTANGULAR;
 	break;
 	}
 	switch (b->get_type()) {
 	case hitboxes::HitboxType::CIRCULAR:
-		b_type = 0;
+		b_type = CONSTANTS::HITBOX_CONSTANTS::COLLISION_CHECK_PRIORITY::CIRCULAR;
 	break;
 	case hitboxes::HitboxType::OVAL:
-		b_type = 1;
+		b_type = CONSTANTS::HITBOX_CONSTANTS::COLLISION_CHECK_PRIORITY::OVAL;
 	break;
 	case hitboxes::HitboxType::RECTANGULAR:
-		b_type = 2;
+		b_type = CONSTANTS::HITBOX_CONSTANTS::COLLISION_CHECK_PRIORITY::RECTANGULAR;
 	break;
 	}
 	
