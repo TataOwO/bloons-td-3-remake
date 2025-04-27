@@ -1,10 +1,27 @@
 #ifndef BUTTON_HPP
 #define BUTTON_HPP
 
-namespace layouts {
+#include "pch.hpp"
+#include "Util/GameObject.hpp"
+#include "inputs/Clickable.hpp"
 
-class Button {
-	
+namespace layout {
+
+class Button final : public Util::GameObject, public inputs::Clickable {
+public:
+	Button();
+private:
+// base
+public:
+	Button(const Button&) = delete;
+
+	Button(Button&&) = delete;
+
+	Button& operator=(const Button&) = delete;
+
+	Button& operator=(Button&&) = delete;
+
+	virtual ~Button() override = default;
 };
 
 }
