@@ -5,26 +5,31 @@
 
 #include "Util/Renderer.hpp"
 
+#include "layout/Button.hpp"
+
 namespace layout {
 
 class InGameMenu {
 public:
-	InGameMenu(std::shared_ptr<Util::Renderer> render_manager) : m_render_manager(render_manager) {};
-private:
+	InGameMenu(std::shared_ptr<Util::Renderer> render_manager);
 	
+	std::vector<std::shared_ptr<layout::Button>> get_buttons() const {return m_buttons;}
+private:
 	std::shared_ptr<Util::Renderer> m_render_manager;
+	
+	std::vector<std::shared_ptr<layout::Button>> m_buttons = {};
 // base
 public:
-	BaseBloon(const BaseBloon&) = delete;
+	InGameMenu(const InGameMenu&) = delete;
 
-	BaseBloon(BaseBloon&&) = delete;
+	InGameMenu(InGameMenu&&) = delete;
 
-	BaseBloon& operator=(const BaseBloon&) = delete;
+	InGameMenu& operator=(const InGameMenu&) = delete;
 
-	BaseBloon& operator=(BaseBloon&&) = delete;
+	InGameMenu& operator=(InGameMenu&&) = delete;
 
-	virtual ~BaseBloon() override = default;
-}
+	virtual ~InGameMenu() = default;
+};
 
 }
 

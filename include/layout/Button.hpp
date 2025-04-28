@@ -9,7 +9,7 @@ namespace layout {
 
 class Button final : public Util::GameObject, public inputs::Clickable {
 public:
-	Button();
+	Button() = default;
 private:
 // base
 public:

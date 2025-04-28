@@ -5,12 +5,13 @@
 
 #include <functional>
 #include <memory>
+#include <iostream>
 
 namespace inputs {
 
-class Clickable final {
+class Clickable {
 public:
-	Clickable();
+	Clickable() = default;
 public:
 	// returns true when the given object gives a delete signal
 	[[nodiscard]] bool shall_be_removed() const {
@@ -20,14 +21,17 @@ public:
 
 	// calls on_click() if clicked, returns true if success
 	bool process_click(const glm::vec2 click_pos) const {
-		return on_click
+		return // evaluate
+			(on_click
 			&& m_hitbox->contains_point(click_pos)
-			&& on_click();
+			&& on_click())
+			// debug
+			|| ((std::cout << "click processed!" << std::endl) && false);
 	}
 
 	// function setter
 	void set_removal(const std::function<bool()> &func) {removal_func = func;}
-	void set_on_click(const std::function<void()> &func) {on_click = func;}
+	void set_on_click(const std::function<bool()> &func) {on_click = func;}
 	void set_hitbox(const std::shared_ptr<hitboxes::I_BaseHitbox> &hb) {m_hitbox=hb;}
 	
 	// z index, higher ones will be selected first
