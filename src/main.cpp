@@ -10,6 +10,7 @@ int main(int, char**) {
         switch (app.GetCurrentState()) {
             case App::State::START:
                 app.Start();
+				app.set_state(App::State::UPDATE);
                 break;
 
             case App::State::UPDATE:
