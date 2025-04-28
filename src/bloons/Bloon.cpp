@@ -16,8 +16,6 @@ namespace bloons {
 
 		m_Transform.translation = start_route->get_start_point();
 
-		// random between 3~4
-		this->SetZIndex(3 + (std::rand()%100)*0.01);
 		this->SetVisible(true);
 	};
 
@@ -56,34 +54,34 @@ namespace bloons {
 	};
 
 	void Bloon::set_bloon_type(bloons::BLOON_TYPE type) {
-		CONSTANTS::Bloon stat;
+		CONSTANTS::BLOON_CONSTANTS::Bloon stat;
 		switch(type) {
 		case bloons::BLOON_TYPE::RED    :
-			stat = CONSTANTS::BloonConstants::RED;
+			stat = CONSTANTS::BLOON_CONSTANTS::RED;
 		break;
 		case bloons::BLOON_TYPE::BLUE   :
-			stat = CONSTANTS::BloonConstants::BLUE;
+			stat = CONSTANTS::BLOON_CONSTANTS::BLUE;
 		break;
 		case bloons::BLOON_TYPE::GREEN  :
-			stat = CONSTANTS::BloonConstants::GREEN;
+			stat = CONSTANTS::BLOON_CONSTANTS::GREEN;
 		break;
 		case bloons::BLOON_TYPE::YELLOW :
-			stat = CONSTANTS::BloonConstants::YELLOW;
+			stat = CONSTANTS::BLOON_CONSTANTS::YELLOW;
 		break;
 		case bloons::BLOON_TYPE::WHITE  :
-			stat = CONSTANTS::BloonConstants::WHITE;
+			stat = CONSTANTS::BLOON_CONSTANTS::WHITE;
 		break;
 		case bloons::BLOON_TYPE::BLACK  :
-			stat = CONSTANTS::BloonConstants::BLACK;
+			stat = CONSTANTS::BLOON_CONSTANTS::BLACK;
 		break;
 		case bloons::BLOON_TYPE::LEAD   :
-			stat = CONSTANTS::BloonConstants::LEAD;
+			stat = CONSTANTS::BLOON_CONSTANTS::LEAD;
 		break;
 		case bloons::BLOON_TYPE::RAINBOW:
-			stat = CONSTANTS::BloonConstants::RAINBOW;
+			stat = CONSTANTS::BLOON_CONSTANTS::RAINBOW;
 		break;
 		case bloons::BLOON_TYPE::CERAMIC:
-			stat = CONSTANTS::BloonConstants::CERAMIC;
+			stat = CONSTANTS::BLOON_CONSTANTS::CERAMIC;
 		break;
 		default:
 			throw std::invalid_argument("void Bloon::set_bloon_type(bloons::BLOON_TYPE type): UNKNOWN BLOON TYPE");
@@ -91,15 +89,15 @@ namespace bloons {
 		}
 
 		m_type = type;
-		m_hp = stat.hp;
-		m_hitbox = std::make_shared<hitboxes::CircularHitbox>(m_Transform.translation, stat.radius);
-		m_image_path = stat.image_path;
-		m_speed = stat.speed;
+		m_hp = stat.HP;
+		m_hitbox = std::make_shared<hitboxes::CircularHitbox>(m_Transform.translation, stat.RADIUS);
+		m_image_path = stat.IMAGE_PATH;
+		m_speed = stat.SPEED;
 		m_Drawable = std::make_shared<Util::Image>(m_image_path);
 	}
 
 	void Bloon::m_take_damage(int damage) {
-		// if ceramic, only give money when hp reaches 0
+		// if ceramic, only give 10$ when hp reaches 0
 		if (m_type == bloons::BLOON_TYPE::CERAMIC) {
 			m_accumulated_money += (m_hp==0)? 10: 0;
 		}

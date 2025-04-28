@@ -59,6 +59,13 @@ public:
 	
 	bool is_frozen() {return m_frozen_tick!=0;}
 	void set_frozen(int t) {m_frozen_tick = (m_frozen_tick<t)? t: m_frozen_tick;}
+	
+protected:
+	void m_move();
+
+	virtual void m_take_damage(int damage) = 0;
+	
+	double get_random_z_index();
 protected:
 	std::shared_ptr<map::route::Route> m_current_route;
 	glm::vec2 m_target_point = {};
@@ -79,10 +86,6 @@ protected:
 	
 	int m_frozen_tick = 0;
 
-protected:
-	void m_move();
-
-	virtual void m_take_damage(int damage) = 0;
 private:
 	static glm::vec2 twist_pos(glm::vec2 pos);
 // base

@@ -1,5 +1,7 @@
 #include "bloons/BaseBloon.hpp"
 
+#include "Constants.hpp"
+
 namespace bloons {
 	BaseBloon::BaseBloon(const std::shared_ptr<map::route::Route> &start_route) {
 		m_current_route = start_route;
@@ -10,6 +12,9 @@ namespace bloons {
 		if (start_route) {
 			m_path_history.push_front(start_route->get_start_point());
 		}
+		
+		// random between 3~4
+		SetZIndex(get_random_z_index());
 	};
 
 	int BaseBloon::get_length_to_exit() {
@@ -17,6 +22,9 @@ namespace bloons {
 			m_target_point[0] - m_Transform.translation[0],
 			m_target_point[1] - m_Transform.translation[1],
 		};
+
+		// if bloon is at the end (aka route doesn't exist anymore)
+		if (!m_current_route) glm::length(end_point_diff);
 
 		return glm::length(end_point_diff) + m_current_route->get_length_to_exit();
 	};
@@ -55,9 +63,14 @@ namespace bloons {
 	// random number generator for bloon pos
 	inline std::random_device base_bloon_rd;
 	inline std::mt19937 base_bloon_gen(base_bloon_rd());
-	inline std::uniform_real_distribution<double> base_bloon_dist(-10.0,10.0);
+	inline std::uniform_real_distribution<double> base_bloon_dist(-CONSTANTS::BLOON_CONSTANTS::BLOON_DRIFT_OFFSET, CONSTANTS::BLOON_CONSTANTS::BLOON_DRIFT_OFFSET);
+	inline std::uniform_real_distribution<float> base_bloon_z_index_dist(CONSTANTS::Z_INDEX_CONSTANTS::BLOON, CONSTANTS::Z_INDEX_CONSTANTS::BLOON+1);
 
 	glm::vec2 BaseBloon::twist_pos(glm::vec2 pos) {
 		return pos + glm::vec2{base_bloon_dist(base_bloon_gen), base_bloon_dist(base_bloon_gen)};
+	}
+	
+	double BaseBloon::get_random_z_index() {
+		return base_bloon_z_index_dist(base_bloon_gen);
 	}
 }
