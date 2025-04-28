@@ -1,5 +1,6 @@
 #include "monkeys/BaseMonkey.hpp"
 
+#include "Constants.hpp"
 #include "utility/functions.hpp"
 
 namespace monkeys {
@@ -7,7 +8,7 @@ namespace monkeys {
 		m_base_hitbox	= std::make_shared<hitboxes::CircularHitbox>(position, 0);
 		m_radius_hitbox	= std::make_shared<hitboxes::CircularHitbox>(position, 0);
 		
-		this->SetZIndex(1.5);
+		this->SetZIndex(CONSTANTS::Z_INDEX_CONSTANTS::MONKE);
 		this->SetVisible(true);
     }
 

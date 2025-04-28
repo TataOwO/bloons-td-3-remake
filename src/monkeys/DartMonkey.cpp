@@ -1,5 +1,6 @@
 #include "monkeys/DartMonkey.hpp"
 
+#include "Constants.hpp"
 #include "bloons/BaseBloon.hpp"
 
 #include "projectiles/DartProjectile.hpp"
@@ -13,18 +14,20 @@ namespace monkeys {
 
 		m_Transform.translation = position;
 
-		m_base_hitbox	->set_radius(30);
-		m_radius_hitbox	->set_radius(100);
+		auto stat = CONSTANTS::MONKEY_CONSTANTS::DART;
+
+		m_base_hitbox	->set_radius(stat.BASE_RADIUS);
+		m_radius_hitbox	->set_radius(stat.RANGE_RADIUS);
 
 		m_Drawable = std::make_shared<Util::Image>(m_image_path);
 
-		m_projectile_spawn_position = {24,11};
+		m_projectile_spawn_position = {stat.PROJECTILE_SPAWN_X, stat.PROJECTILE_SPAWN_Y};
 
-		m_attack_interval = 30;
+		m_attack_interval = stat.ATTACK_INTERVAL;
 	};
 
 	void DartMonkey::scan_bloon(std::shared_ptr<bloons::BaseBloon> bloon) {
-		bool bloon_in_radius = bloon->get_hitbox()->is_collided_with(m_radius_hitbox);
+		bool bloon_in_radius = utility::hitboxes_are_collided(bloon->get_hitbox(),m_radius_hitbox);
 
 		if (!bloon_in_radius) return;
 

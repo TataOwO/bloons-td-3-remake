@@ -9,16 +9,6 @@ class DartMonkey final : public monkeys::BaseMonkey, public monkeys::I_MonkeyAtt
 public:
 	DartMonkey(glm::vec2 position);
 
-    DartMonkey(const DartMonkey&) = delete;
-
-    DartMonkey(DartMonkey&&) = delete;
-
-    DartMonkey& operator=(const DartMonkey&) = delete;
-
-    DartMonkey& operator=(DartMonkey&&) = delete;
-
-	~DartMonkey() override = default;
-	
 	void scan_bloon(std::shared_ptr<bloons::BaseBloon> bloon) override;
 	
 	void reset_target() override;
@@ -39,7 +29,18 @@ private: // I monkey attacker
 	void spawn_projectile(glm::vec2 position) override;
 	
 	void face_towards(glm::vec2 position) override; // TODO: change this to protected
-private:
+
+// base
+public:
+    DartMonkey(const DartMonkey&) = delete;
+
+    DartMonkey(DartMonkey&&) = delete;
+
+    DartMonkey& operator=(const DartMonkey&) = delete;
+
+    DartMonkey& operator=(DartMonkey&&) = delete;
+
+	~DartMonkey() override = default;
 };
 
 }
