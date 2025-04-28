@@ -8,6 +8,8 @@
 #include <cmath>
 #include <algorithm>
 
+#include "Constants.hpp"
+
 namespace hitboxes {
 
 OvalHitbox::OvalHitbox(const glm::vec2& center, const glm::vec2& radii, float rotation)
@@ -56,7 +58,7 @@ bool OvalHitbox::check_collision_circular(const std::shared_ptr<CircularHitbox>&
 
 bool OvalHitbox::check_collision_oval(const std::shared_ptr<OvalHitbox>& other) const {
     // Oval-oval collision is complex. We'll use a conservative approximation based on sampling points
-    constexpr int NUM_SAMPLES = 8; // Sample points around each oval
+    constexpr int NUM_SAMPLES = CONSTANTS::HITBOX_CONSTANTS::OVAL_SAMPLE_COUNT; // Sample points around each oval
     
     // Sample points around this oval and check if any are inside the other oval
     for (int i = 0; i < NUM_SAMPLES; i++) {
