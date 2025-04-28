@@ -1,9 +1,6 @@
 #include "App.hpp"
 
-#include <iostream>
-#include <cstring>
-#include <cstdlib>
-
+#include "Constants.hpp"
 #include "Util/Image.hpp"
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -57,6 +54,9 @@ void App::Start() {
 	// initialize projectile manager
 	m_projectile_manager = std::make_shared<handlers::ProjectileManager>(m_render_manager);
 
+	// initialize click manager
+	m_click_handler = std::make_shared<handlers::ClickHandler>(m_render_manager, m_path_manager, m_monkey_manager);
+
 	// background
 	// TODO: MAP OBJECT
 	background.set_layers(background_images);
@@ -66,18 +66,12 @@ void App::Start() {
 
 	// hp display
 	// TODO: UI
-	status_text_obj->SetColor(Util::Color(255,255,255));
-
-	status_display->SetDrawable(status_text_obj);
-	m_render_manager->AddChild(status_display);
-	status_display->SetZIndex(10);
-	status_display->m_Transform.translation = {365, 300};
-	m_CurrentState = State::UPDATE;
-
-	// monke placeholder
-	monkey_place_holder->SetDrawable(dart_img);
-	m_render_manager->AddChild(monkey_place_holder);
-	monkey_place_holder->SetZIndex(10);
+	m_hp_text->set_value(CONSTANTS::OPERATION_CONSTANTS::GAME_HP);
+	m_money_text->set_value(CONSTANTS::OPERATION_CONSTANTS::MONEY);
+	m_render_manager->AddChild(m_hp_text);
+	m_render_manager->AddChild(m_money_text);
+	m_hp_text->m_Transform.translation = {360,330};
+	m_money_text->m_Transform.translation = {360,280};
 }
 
 void App::Update() {
@@ -90,7 +84,7 @@ void App::Update() {
 	}
 
 	// bloons update
-	m_bloon_manager->update(game_tick, game_hp, &money_changed);
+	m_bloon_manager->update(game_tick, m_hp_text);
 
 	// monkey targetting
 	m_monkey_manager->scan_bloons(
@@ -115,56 +109,33 @@ void App::Update() {
 
 	// update money
 	// TODO: UI
-	int ret_money = m_bloon_manager->get_accumulated_money();
-	money += ret_money;
-
-	money_changed |= ret_money != 0;
+	m_money_text->add_value(m_bloon_manager->get_accumulated_money());
 
 	// hp display
 	// TODO: UI
-	if (money_changed) {
-		status_text = "hp: ";
-		status_text.append(std::to_string(game_hp));
-		status_text.append("\nmoney: ");
-		status_text.append(std::to_string(money));
-		status_text_obj->SetText(status_text);
-		money_changed = false;
-	}
+	m_hp_text->update();
+	m_money_text->update();
 
-	// place monkey
-	if (Util::Input::IsMouseMoving()) {
-		monke_place_hold_has_collision = false;
-		auto mouse_ptsd_pos = Util::Input::GetCursorPosition();
-		glm::vec2 mouse_pos = {mouse_ptsd_pos.x, mouse_ptsd_pos.y};
-		mouse_pos.y = -mouse_pos.y;
-
-		monkey_place_holder->m_Transform.translation = mouse_pos;
-		monke_placeholder_hitbox->set_position(mouse_pos);
-
-		for (auto route : m_path_manager->get_all_routes()) {
-			auto other = route->get_hitbox();
-			if (!utility::hitboxes_are_collided(monke_placeholder_hitbox, other)) continue;
-
-			monke_place_hold_has_collision = true;
-			monkey_place_holder->SetDrawable(dart_red);
-		}
-		if (!monke_place_hold_has_collision) {
-			if (m_monkey_manager->hitbox_is_collided_with_monkeys(monke_placeholder_hitbox)) {
-				monke_place_hold_has_collision = true;
-				monkey_place_holder->SetDrawable(dart_red);
-			}
-		}
-		if (!monke_place_hold_has_collision) monkey_place_holder->SetDrawable(dart_img);
-	}
-
-	// Places monkey
-	if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB) && !monke_place_hold_has_collision) {
-		glm::vec2 monke_pos = monke_placeholder_hitbox->get_position();
-		if (m_monkey_manager->place_dart_monkey(monke_pos, money)) {
-			money_changed = true;
-		}
-	}
-
+	// get mouse pos
+	auto mouse_ptsd_pos = Util::Input::GetCursorPosition();
+	glm::vec2 mouse_pos = {
+		 mouse_ptsd_pos.x,
+		-mouse_ptsd_pos.y
+	};
+	
+	// monkey place controller first
+	m_click_handler->update_monkey_placement_controller(
+		mouse_pos,
+		Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB),
+		Util::Input::IsKeyUp(Util::Keycode::MOUSE_RB),
+		m_money_text
+	);
+	// then handles clickable objects
+	m_click_handler->update(
+		mouse_pos,
+		Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)
+	);
+	
 	m_render_manager->Update();
 
 	/*
