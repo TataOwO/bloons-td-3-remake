@@ -38,7 +38,8 @@ def extract_red_channel(input_path, output_path):
 # Example usage
 if __name__ == "__main__":
     # Replace these with your actual file paths
-    input_image_path = r"./dart_monkey_1.5.png"
-    output_image_path = r"./dart_monkey_RED.png"
+    monke_name = "super"
+    input_image_path = rf"./monke/{monke_name}.png"
+    output_image_path = rf"./monke/{monke_name}_red.png"
     
     extract_red_channel(input_image_path, output_image_path)
