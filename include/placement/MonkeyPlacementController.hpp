@@ -1,6 +1,8 @@
 #ifndef MONKEY_PLACEMENT_CONTROLLER_HPP
 #define MONKEY_PLACEMENT_CONTROLLER_HPP
 
+#include <unordered_set>
+
 #include "pch.hpp"
 #include "Util/GameObject.hpp"
 #include "Core/Drawable.hpp"
@@ -8,7 +10,7 @@
 #include "handlers/PathManager.hpp"
 #include "handlers/MonkeyManager.hpp"
 #include "monkeys/BaseMonkey.hpp"
-#include "hitboxes/BaseHitbox.hpp"
+#include "hitboxes/I_BaseHitbox.hpp"
 #include "hitboxes/CircularHitbox.hpp"
 
 namespace placement {
@@ -38,7 +40,7 @@ public:
 
 	// monket placement
 	bool is_valid_placement() const;
-	bool place_monkey(int& available_money);
+	bool place_monkey(std::shared_ptr<layout::GameText> available_money);
 
 	// activeness
 	void set_active(bool active);

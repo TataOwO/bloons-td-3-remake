@@ -2,6 +2,9 @@
 
 #include "Util/Image.hpp"
 #include <cstring>
+#include <iostream>
+
+#include "Constants.hpp"
 
 namespace placement {
 
@@ -10,8 +13,10 @@ MonkeyPlacementController::MonkeyPlacementController(
 	std::shared_ptr<handlers::MonkeyManager> monkey_manager)
 	: m_path_manager(path_manager), m_monkey_manager(monkey_manager) {
 
-	SetVisible(false);
 	m_hitbox = std::make_shared<hitboxes::CircularHitbox>(glm::vec2(0, 0), m_default_hitbox_radius);
+	
+	SetVisible(false);
+	SetZIndex(CONSTANTS::Z_INDEX_CONSTANTS::MONKE + 0.1f);
 }
 
 void MonkeyPlacementController::update() {
@@ -34,12 +39,14 @@ void MonkeyPlacementController::set_monkey(const PLACABLE_TYPE& type) {
 	switch (type) {
 	case PLACABLE_TYPE::DART:
 		monke_name = "dart";
+		m_Transform.scale = {1.5,1.5};
 		break;
 	case PLACABLE_TYPE::BOOMERANG:
 		monke_name = "boomerang";
 		break;
 	case PLACABLE_TYPE::SUPER:
 		monke_name = "super";
+		m_Transform.scale = {2,2};
 		break;
 	case PLACABLE_TYPE::ICE:
 		monke_name = "ice";
@@ -71,12 +78,12 @@ void MonkeyPlacementController::set_monkey(const PLACABLE_TYPE& type) {
 		return;
 	}
 
-	std::string prefix = RESOURCE_DIR"/images/";
+	std::string prefix = RESOURCE_DIR"/images/monke/";
 	std::string placable_path = prefix + monke_name + ".png";
-	std::string unplacable_path = prefix + monke_name + "_RED.png";
+	std::string unplacable_path = prefix + monke_name + "_red.png";
 
-	m_placable = std::make_shared<Util::Image>(placable_path, false);
-	m_unplacable = std::make_shared<Util::Image>(unplacable_path, false);
+	m_placable = std::make_shared<Util::Image>(placable_path);
+	m_unplacable = std::make_shared<Util::Image>(unplacable_path);
 
 	m_Drawable = m_placable;
 
@@ -116,8 +123,11 @@ bool MonkeyPlacementController::check_valid_position() const {
 }
 
 void MonkeyPlacementController::update_visual_state() {
-	m_current_position_valid = check_valid_position();
+	bool valid_pos = check_valid_position();
 
+	if (valid_pos == m_current_position_valid) return;
+	
+	m_current_position_valid = valid_pos;
 	if (m_current_position_valid) m_Drawable = m_placable;
 	else m_Drawable = m_unplacable;
 }
@@ -126,7 +136,7 @@ bool MonkeyPlacementController::is_valid_placement() const {
 	return m_current_position_valid;
 }
 
-bool MonkeyPlacementController::place_monkey(int& available_money) {
+bool MonkeyPlacementController::place_monkey(std::shared_ptr<layout::GameText> available_money) {
 	if (!m_is_active || !is_valid_placement() || m_current_monkey_type == PLACABLE_TYPE::_NULL) {
 		return false;
 	}
@@ -152,6 +162,8 @@ void MonkeyPlacementController::clear_all() {
 	m_is_active = false;
 	m_spawned_monkey = nullptr;
 	m_current_monkey_type = PLACABLE_TYPE::_NULL;
+	
+	std::cout << "cleared all monkeys" << std::endl;
 }
 
 void MonkeyPlacementController::set_mouse_pos(const glm::vec2& mouse_pos) {
