@@ -3,6 +3,8 @@
 #include "Util/Image.hpp"
 #include "utility/functions.hpp"
 
+#include "Constants.hpp"
+
 #include <iostream>
 
 namespace projectiles {
@@ -10,20 +12,19 @@ namespace projectiles {
 DartProjectile::DartProjectile(const glm::vec2& position, float rotation) : BaseProjectile() {
 	m_hitbox = std::make_shared<hitboxes::RectangularHitbox>(position, glm::vec2(10,20), rotation);
 	
-	m_damage = 1;
-	m_pierce = 2;
-	m_survive_period = 60;
+	auto stat = CONSTANTS::PROJECTILE_CONSTANTS::DART;
 	
-	// m_black_popping_power = false;
-	// m_white_popping_power = false;
+	m_damage = stat.DAMAGE;
+	m_pierce = stat.PIERCE;
+	m_survive_period = stat.SURVIVE_PERIOD;
 	
-	m_Drawable = std::make_shared<Util::Image>(RESOURCE_DIR"/images/dart.png");
+	m_Drawable = std::make_shared<Util::Image>(RESOURCE_DIR"/images/dart.png", false);
 	
 	m_Transform.scale = {2, 2};
 	
 	// Setting initial velocity based on rotation
 	// Since rotation=0 faces upwards, we need to calculate velocity accordingly
-	float speed = 30; // Adjust dart speed as needed
+	float speed = stat.SPEED; // Adjust dart speed as needed
 	m_velocity = utility::rotate_vec2(glm::vec2(0, -speed), rotation+3.14);
 	
 	SetVisible(true);
