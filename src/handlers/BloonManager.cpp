@@ -4,6 +4,7 @@
 #include <cstdlib>
 
 #include "bloons/Bloon.hpp"
+#include "layout/GameText.hpp"
 
 namespace handlers {
 
@@ -12,7 +13,7 @@ BloonManager::BloonManager(std::shared_ptr<Util::Renderer> render_manager, std::
 	  m_path_manager(std::move(path_manager)) {
 }
 
-void BloonManager::update(int current_tick, int& game_hp, bool* money_changed) {
+void BloonManager::update(int current_tick, const std::shared_ptr<layout::GameText> &game_hp) {
 	// Process any scheduled spawns for this tick
 	process_spawn_queue(current_tick);
 
@@ -26,8 +27,7 @@ void BloonManager::update(int current_tick, int& game_hp, bool* money_changed) {
 
 		// Check if bloon reached the end
 		if (bloon->is_at_end()) {
-			game_hp -= bloon->get_hp();
-			*money_changed = true;
+			game_hp->sub_value(bloon->get_hp());
 			should_remove = true;
 		}
 
@@ -162,6 +162,9 @@ void BloonManager::process_removal_queue() {
 }
 
 void BloonManager::handle_bloon_destruction(const std::shared_ptr<bloons::BaseBloon> &bloon) {
+	auto current_route = bloon->get_current_route();
+	if (!current_route) return;
+	
 	// Handle special effects based on bloon type
 	switch (bloon->get_type()) {
 	case bloons::BLOON_TYPE::CERAMIC: {
@@ -172,9 +175,6 @@ void BloonManager::handle_bloon_destruction(const std::shared_ptr<bloons::BaseBl
 	case bloons::BLOON_TYPE::RAINBOW: {
 		// Rainbow bloons spawn 2 white or black bloons
 		for (int i = 0; i < 2; ++i) {
-			auto current_route = bloon->get_current_route();
-			if (!current_route) continue;
-
 			// Randomly choose white or black
 			bloons::BLOON_TYPE child_type = (std::rand() % 2 == 0) ?
 				bloons::BLOON_TYPE::WHITE : bloons::BLOON_TYPE::BLACK;
@@ -247,16 +247,16 @@ void BloonManager::insert_into_sorted_lists(const std::shared_ptr<bloons::BaseBl
 		[](const std::shared_ptr<bloons::BaseBloon>& a, const std::shared_ptr<bloons::BaseBloon>& b) {
 			// Define ordering of bloon types
 			const std::map<bloons::BLOON_TYPE, int> type_priority = {
-				{bloons::BLOON_TYPE::MOAB,	10},
+				{bloons::BLOON_TYPE::MOAB,    10},
 				{bloons::BLOON_TYPE::CERAMIC, 9},
 				{bloons::BLOON_TYPE::RAINBOW, 8},
-				{bloons::BLOON_TYPE::LEAD,	7},
+				{bloons::BLOON_TYPE::LEAD,    7},
 				{bloons::BLOON_TYPE::BLACK,   6},
 				{bloons::BLOON_TYPE::WHITE,   5},
 				{bloons::BLOON_TYPE::YELLOW,  4},
 				{bloons::BLOON_TYPE::GREEN,   3},
-				{bloons::BLOON_TYPE::BLUE,	2},
-				{bloons::BLOON_TYPE::RED,	 1},
+				{bloons::BLOON_TYPE::BLUE,    2},
+				{bloons::BLOON_TYPE::RED,     1},
 			};
 
 			// Get priorities for the bloon types

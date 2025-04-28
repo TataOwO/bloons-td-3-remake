@@ -1,5 +1,8 @@
 #include "handlers/MonkeyManager.hpp"
 
+#include "Constants.hpp"
+#include "layout/GameText.hpp"
+
 namespace handlers {
 
 MonkeyManager::MonkeyManager(const std::shared_ptr<Util::Renderer> &render_manager)
@@ -24,11 +27,11 @@ bool MonkeyManager::point_is_collided_with_monkeys(glm::vec2 point) {
     return false;
 }
 
-bool MonkeyManager::place_dart_monkey(glm::vec2 position, int& money) {
-    constexpr int DART_MONKEY_COST = 50;
-    
+bool MonkeyManager::place_dart_monkey(glm::vec2 position, const std::shared_ptr<layout::GameText> &money) {
+	int money_cost = CONSTANTS::MONKEY_CONSTANTS::DART.COST;
+
     // Check if we have enough money
-    if (money < DART_MONKEY_COST) {
+    if (money_cost > money->get_value()) {
         return false;
     }
     
@@ -44,7 +47,7 @@ bool MonkeyManager::place_dart_monkey(glm::vec2 position, int& money) {
     m_render_manager->AddChild(new_monkey);
     
     // Deduct cost
-    money -= DART_MONKEY_COST;
+    money->sub_value(money_cost);
     
     return true;
 }
@@ -86,6 +89,7 @@ void MonkeyManager::process_attacks() {
         // Check if a new projectile was created
         if (attacker->has_projectile()) {
             auto projectile = attacker->get_spawned_projectile();
+			
             m_new_projectiles.push_back(projectile);
             m_render_manager->AddChild(projectile);
         }

@@ -10,6 +10,7 @@
 #include "bloons/Bloon.hpp"
 
 #include "hitboxes/I_BaseHitbox.hpp"
+#include "layout/GameText.hpp"
 #include "map/route/Route.hpp"
 
 #include "utility/functions.hpp"
@@ -23,7 +24,7 @@ public:
     bool point_is_collided_with_monkeys(glm::vec2 point);
     
     // Monkey creation and management
-    bool place_dart_monkey(glm::vec2 position, int& money);
+    bool place_dart_monkey(glm::vec2 position, const std::shared_ptr<layout::GameText> &money);
     
     // Game loop methods
     void scan_bloons(const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec_first, const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec_last, const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec_strong);

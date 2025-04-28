@@ -18,7 +18,7 @@ PathManager::PathManager(std::vector<std::shared_ptr<map::route::RoutePath>> pat
 	m_paths = paths;
 }
 
-std::shared_ptr<map::route::Route> get_collided_route(const hitboxes::I_BaseHitbox& hitbox) {
+std::shared_ptr<map::route::Route> PathManager::get_collided_route(const std::shared_ptr<hitboxes::I_BaseHitbox> &hitbox) {
 	for (auto& route: m_all_routes) {
 		if (utility::hitboxes_are_collided(route->get_hitbox(), hitbox)) return route;
 	}

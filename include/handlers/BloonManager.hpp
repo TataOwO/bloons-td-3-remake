@@ -9,6 +9,7 @@
 #include "Util/Renderer.hpp"
 
 #include "bloons/BaseBloon.hpp"
+#include "layout/GameText.hpp"
 
 namespace handlers {
 
@@ -30,7 +31,7 @@ public:
 	BloonManager(std::shared_ptr<Util::Renderer> render_manager, std::shared_ptr<handlers::PathManager> path_manager);
 
 	// process bloon updates
-	void update(int current_tick, int& game_hp, bool* money_changed);
+	void update(int current_tick, const std::shared_ptr<layout::GameText> &game_hp);
 
 	void add_bloon(const std::shared_ptr<bloons::BaseBloon> &bloon);
 
