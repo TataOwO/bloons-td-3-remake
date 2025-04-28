@@ -8,6 +8,8 @@
 
 #include <cmath>
 
+#include "Constants.hpp"
+
 namespace map::route {
 	Route::Route(glm::vec2 start_point, glm::vec2 end_point) {
 		m_start_point = convert_pos(start_point);
@@ -19,15 +21,15 @@ namespace map::route {
 		};
 		
 		m_diff = {
-			(m_start_point[0] - m_end_point[0]),
-			(m_start_point[1] - m_end_point[1])
+			(m_end_point[0] - m_start_point[0]),
+			(m_end_point[1] - m_start_point[1])
 		};
 		
 		m_length = glm::length(m_diff);
 		
 		m_Transform.scale = {m_length * 0.5, 1};
 		m_Transform.translation = m_center_point;
-		m_Transform.rotation = atan(m_diff[1] / m_diff[0]);
+		m_Transform.rotation = atan2(m_diff[1], m_diff[0]);
 
 		m_hitbox = std::make_shared<hitboxes::RectangularHitbox>(
 			m_Transform.translation,
@@ -37,8 +39,8 @@ namespace map::route {
 
 		m_Drawable = std::make_shared<Util::Image>(m_image_path, false);
 
-		this->SetZIndex(2);
-		this->SetVisible(false);
+		this->SetZIndex(CONSTANTS::Z_INDEX_CONSTANTS::ROUTE);
+		// this->SetVisible(false);
 	};
 
 	RouteConnection Route::route_is_connected(const std::shared_ptr<Route> &route) {
