@@ -7,7 +7,7 @@ class Mortal {
 public:
 	Mortal() = default;
 	
-	bool is_mortal_alive() const {return m_mortal_is_alive;}
+	[[nodiscard]] bool is_mortal_alive() const {return m_mortal_is_alive;}
 	void set_mortal_enable() {m_mortal_is_alive = true;}
 	void set_mortal_disable() {m_mortal_is_alive = false;}
 private:
@@ -23,7 +23,7 @@ public:
 	Mortal& operator=(Mortal&&) = delete;
 
 	virtual ~Mortal() = default;
-}
+};
 
 }
 
