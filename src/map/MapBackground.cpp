@@ -1,11 +1,12 @@
 #include "map/MapBackground.hpp"
 
+#include "Constants.hpp"
 #include "Util/Image.hpp"
 
 namespace map {
 
-MapBackground::MapBackground(float z_index) {
-	m_z_index = z_index;
+MapBackground::MapBackground() {
+	m_z_index = CONSTANTS::Z_INDEX_CONSTANTS::MAP_BACKGROUND;
 }
 
 void MapBackground::set_layers(const std::vector<std::string>& layers) {

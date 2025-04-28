@@ -10,7 +10,7 @@ namespace map {
 
 class MapBackground {
 public:
-	explicit MapBackground(float z_index=0);
+	explicit MapBackground();
 
 	void set_layers(const std::vector<std::string>& layers);
 	
