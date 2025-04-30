@@ -3,9 +3,6 @@
 
 #include "hitboxes/I_BaseHitbox.hpp"
 
-class hitboxes::CircularHitbox;
-class hitboxes::OvalHitbox;
-
 namespace hitboxes {
 
 class RectangularHitbox : public I_BaseHitbox {
