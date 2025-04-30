@@ -5,7 +5,6 @@
 #include <functional>
 #include <iostream>
 
-
 namespace inputs {
 
 class Clickable::Impl {
@@ -24,7 +23,7 @@ bool Clickable::shall_be_removed() const {
 	return pImpl->removal_func && pImpl->removal_func();
 }
 
-bool Clickable::process_click(const glm::vec2 click_pos) const {
+bool Clickable::process_click(glm::vec2 click_pos) const {
 	return
 		// evaluate
 		(
@@ -37,21 +36,24 @@ bool Clickable::process_click(const glm::vec2 click_pos) const {
 		((std::cout << "click processed!" << std::endl) && false);
 }
 
-// implementing function setters using templates
-template <typename Func>
-void Clickable::set_removal(const Func& func) {
-	pImpl->removal_func = func;
+// reassure function type
+void Clickable::set_removal(const void* func_ptr) {
+    if (func_ptr) {
+        // convert to std::function
+        auto& callable = *static_cast<const auto*>(func_ptr);
+        pImpl->removal_func = callable;
+    }
 }
 
-template <typename Func>
-void Clickable::set_on_click(const Func& func) {
-	pImpl->on_click = func;
+void Clickable::set_on_click(const void* func_ptr) {
+    if (func_ptr) {
+        // convert to std::function
+        auto& callable = *static_cast<const auto*>(func_ptr);
+        pImpl->on_click = callable;
+    }
 }
 
-template void Clickable::set_removal<std::function<bool()>>(const std::function<bool()>&);
-template void Clickable::set_on_click<std::function<bool()>>(const std::function<bool()>&);
-
-void Clickable::set_hitbox(const std::shared_ptr<hitboxes::I_BaseHitbox>& hb) {
+void Clickable::set_hitbox(const std::shared_ptr<hitboxes::I_BaseHitbox> &hb) const {
 	pImpl->hitbox = hb;
 }
 

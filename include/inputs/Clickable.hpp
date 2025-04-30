@@ -17,12 +17,22 @@ public:
 	// calls on_click() if clicked, returns true if success
 	bool process_click(const glm::vec2 click_pos) const;
 
-	// function setter
-	void set_removal(const auto& func);
-	void set_on_click(const auto& func);
-	
+	// function setters
+	void set_removal(const void* func);
+	void set_on_click(const void* func);
+
+	// using templates to make sure types are always correct
+	template<typename F>
+	void set_removal(F&& func) {
+		set_removal(static_cast<const void*>(&func));
+	}
+	template<typename F>
+	void set_on_click(F&& func) {
+		set_on_click(static_cast<const void*>(&func));
+	}
+
 	// hitbox setter
-	void set_hitbox(const std::shared_ptr<hitboxes::I_BaseHitbox> &hb);
+	void set_hitbox(const std::shared_ptr<hitboxes::I_BaseHitbox> &hb) const;
 	
 	// z index, higher ones will be selected first
 	void set_z_index(const float& zi) {z_index = zi;}
