@@ -7,8 +7,10 @@ namespace handlers  {class MonkeyManager;}
 namespace handlers  {class PathManager;}
 namespace inputs    {class Clickable;}
 namespace placement {class MonkeyPlacementController;}
+namespace placement {enum class PLACABLE_TYPE;}
 namespace Util      {class Renderer;}
 namespace layout    {class GameText;}
+namespace layout    {class Button;}
 
 namespace handlers {
 
@@ -25,6 +27,8 @@ public:
 	void add_clickables(const std::vector<std::shared_ptr<inputs::Clickable>>& c_vec);
 	void add_clickable(const std::shared_ptr<inputs::Clickable>& c_vec);
 	void remove_clickable(const std::vector<std::shared_ptr<inputs::Clickable>>& c_vec);
+private:
+	std::shared_ptr<layout::Button> m_add_new_button(const placement::PLACABLE_TYPE&);
 private:
 	std::vector<std::shared_ptr<inputs::Clickable>> m_clickable_vec = {};
 
