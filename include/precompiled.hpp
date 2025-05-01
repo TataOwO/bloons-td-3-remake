@@ -10,6 +10,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "Constants.hpp"
+
 #include "../PTSD/lib/glm/glm/glm.hpp"
 
 #include <nlohmann/json.hpp>
