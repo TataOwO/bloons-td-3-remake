@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include "Constants.hpp"
+#include "hitboxes/I_BaseHitbox.hpp"
 
 namespace utility {
 

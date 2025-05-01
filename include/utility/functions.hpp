@@ -1,9 +1,7 @@
 #ifndef M_FUNCTIONS_HPP
 #define M_FUNCTIONS_HPP
 
-#include "pch.hpp"
-
-#include "hitboxes/I_BaseHitbox.hpp"
+namespace hitboxes {class I_BaseHitbox;}
 
 namespace utility {
 	glm::vec2 rotate_vec2(glm::vec2 vec, float radian);

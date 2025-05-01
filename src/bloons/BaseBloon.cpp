@@ -1,6 +1,11 @@
 #include "bloons/BaseBloon.hpp"
 
+#include <random>
+
 #include "Constants.hpp"
+
+#include "map/route/Route.hpp"
+#include "hitboxes/I_BaseHitbox.hpp"
 
 namespace bloons {
 	BaseBloon::BaseBloon(const std::shared_ptr<map::route::Route> &start_route) {

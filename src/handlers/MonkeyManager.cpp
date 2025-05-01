@@ -1,7 +1,21 @@
 #include "handlers/MonkeyManager.hpp"
 
-#include "Constants.hpp"
+#include "Util/Renderer.hpp"
+
+#include "monkeys/BaseMonkey.hpp"
+#include "monkeys/DartMonkey.hpp"
+
+#include "projectiles/BaseProjectile.hpp"
+
+#include "bloons/BaseBloon.hpp"
+#include "bloons/Bloon.hpp"
+
+#include "hitboxes/CircularHitbox.hpp"
 #include "layout/GameText.hpp"
+
+#include "Constants.hpp"
+
+#include "utility/functions.hpp"
 
 namespace handlers {
 

@@ -1,14 +1,11 @@
 #ifndef BASE_BLOON_HPP
 #define BASE_BLOON_HPP
 
-#include <random>
 #include <deque>
+#include "Util/GameObject.hpp"
 
-#include "pch.hpp" // IWYU pragma: export
-
-#include "map/route/Route.hpp"
-
-#include "hitboxes/I_BaseHitbox.hpp"
+namespace map::route {class Route;}
+namespace hitboxes {class I_BaseHitbox;}
 
 namespace bloons {
 
@@ -57,15 +54,15 @@ public:
 
 	bloons::BLOON_TYPE get_type() const {return m_type;}
 	
-	bool is_frozen() {return m_frozen_tick!=0;}
+	bool is_frozen() const {return m_frozen_tick!=0;}
 	void set_frozen(int t) {m_frozen_tick = (m_frozen_tick<t)? t: m_frozen_tick;}
 	
 protected:
 	void m_move();
 
 	virtual void m_take_damage(int damage) = 0;
-	
-	double get_random_z_index();
+
+	static double get_random_z_index();
 protected:
 	std::shared_ptr<map::route::Route> m_current_route;
 	glm::vec2 m_target_point = {};

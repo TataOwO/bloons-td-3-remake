@@ -1,5 +1,13 @@
 #include "handlers/PathManager.hpp"
 
+#include "Util/Renderer.hpp"
+
+#include "map/route/Route.hpp"
+#include "map/route/RoutePath.hpp"
+
+#include "hitboxes/I_BaseHitbox.hpp"
+#include "hitboxes/RectangularHitbox.hpp"
+
 #include <iostream>
 #include "utility/functions.hpp"
 

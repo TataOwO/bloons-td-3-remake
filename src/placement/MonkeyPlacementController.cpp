@@ -1,16 +1,18 @@
 #include "placement/MonkeyPlacementController.hpp"
 
 #include "Util/Image.hpp"
-#include <cstring>
 #include <iostream>
 
 #include "Constants.hpp"
+#include "handlers/MonkeyManager.hpp"
+#include "handlers/PathManager.hpp"
+#include "hitboxes/CircularHitbox.hpp"
 
 namespace placement {
 
 MonkeyPlacementController::MonkeyPlacementController(
-	std::shared_ptr<handlers::PathManager> path_manager,
-	std::shared_ptr<handlers::MonkeyManager> monkey_manager)
+	const std::shared_ptr<handlers::PathManager> &path_manager,
+	const std::shared_ptr<handlers::MonkeyManager> &monkey_manager)
 	: m_path_manager(path_manager), m_monkey_manager(monkey_manager) {
 
 	m_hitbox = std::make_shared<hitboxes::CircularHitbox>(glm::vec2(0, 0), m_default_hitbox_radius);
@@ -136,7 +138,7 @@ bool MonkeyPlacementController::is_valid_placement() const {
 	return m_current_position_valid;
 }
 
-bool MonkeyPlacementController::place_monkey(std::shared_ptr<layout::GameText> available_money) {
+bool MonkeyPlacementController::place_monkey(const std::shared_ptr<layout::GameText> &available_money) const {
 	if (!m_is_active || !is_valid_placement() || m_current_monkey_type == PLACABLE_TYPE::_NULL) {
 		return false;
 	}

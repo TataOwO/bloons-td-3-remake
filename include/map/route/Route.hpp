@@ -1,10 +1,10 @@
 #ifndef MAP_ROUTE_HPP
 #define MAP_ROUTE_HPP
 
-#include <pch.hpp>
 #include "Util/GameObject.hpp"
-#include "Util/Image.hpp"
-#include "hitboxes/RectangularHitbox.hpp"
+
+namespace Util {class Image;}
+namespace hitboxes {class RectangularHitbox;}
 
 namespace map::route {
 enum class RouteConnection {

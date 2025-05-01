@@ -1,10 +1,7 @@
 #ifndef MAP_BACKGROUND_HPP
 #define MAP_BACKGROUND_HPP
 
-#include "pch.hpp"
 #include "Util/GameObject.hpp"
-
-#include <vector>
 
 namespace map {
 

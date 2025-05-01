@@ -2,8 +2,10 @@
 
 #include "Constants.hpp"
 #include "bloons/BaseBloon.hpp"
+#include "hitboxes/CircularHitbox.hpp"
 
 #include "projectiles/DartProjectile.hpp"
+#include "Util/Image.hpp"
 
 #include "utility/functions.hpp"
 

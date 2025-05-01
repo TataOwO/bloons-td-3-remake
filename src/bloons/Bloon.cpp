@@ -1,14 +1,15 @@
 #include "bloons/Bloon.hpp"
 
-#include <iostream>
-#include <cstdlib>
-
-#include <exception>
-
 #include "Constants.hpp"
 
+#include "bloons/BaseBloon.hpp"
+#include "hitboxes/CircularHitbox.hpp"
+#include "map/route/Route.hpp"
+#include "Util/Image.hpp"
+#include <string>
+
 namespace bloons {
-	Bloon::Bloon(std::shared_ptr<map::route::Route> start_route, bloons::BLOON_TYPE type)
+	Bloon::Bloon(const std::shared_ptr<map::route::Route> &start_route, bloons::BLOON_TYPE type)
 	: BaseBloon(start_route) {
 		m_type = type;
 

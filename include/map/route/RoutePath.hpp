@@ -1,8 +1,9 @@
 #ifndef ROUTE_PATH_HPP
 #define ROUTE_PATH_HPP
 
-#include "map/route/Route.hpp"
-#include <vector>
+#include "Util/GameObject.hpp"
+
+namespace map::route {class Route;}
 
 namespace map::route {
 class RoutePath : public Util::GameObject {

@@ -1,21 +1,20 @@
 #ifndef CLICK_HANDLER_HPP
 #define CLICK_HANDLER_HPP
 
-#include "MonkeyManager.hpp"
-#include "PathManager.hpp"
-#include "inputs/Clickable.hpp"
 #include "utility/Mortal.hpp"
 
-#include "Constants.hpp"
-
-#include "pch.hpp"
-#include "placement/MonkeyPlacementController.hpp"
+namespace handlers  {class MonkeyManager;}
+namespace handlers  {class PathManager;}
+namespace inputs    {class Clickable;}
+namespace placement {class MonkeyPlacementController;}
+namespace Util      {class Renderer;}
+namespace layout    {class GameText;}
 
 namespace handlers {
 
 class ClickHandler final : public utility::Mortal {
 public:
-	ClickHandler(std::shared_ptr<Util::Renderer> render_manager, std::shared_ptr<handlers::PathManager> path_manager, std::shared_ptr<handlers::MonkeyManager> monkey_manager);
+	ClickHandler(const std::shared_ptr<Util::Renderer> &render_manager, const std::shared_ptr<handlers::PathManager>& path_manager, const std::shared_ptr<handlers::MonkeyManager>& monkey_manager);
 
 	void update(const glm::vec2& mouse_pos, bool left_button);
 	void update_monkey_placement_controller(const glm::vec2& mouse_pos, bool left_button, bool right_button, const std::shared_ptr<layout::GameText> &current_money) const;
@@ -43,7 +42,7 @@ public:
 
 	ClickHandler& operator=(ClickHandler&&) = delete;
 
-	~ClickHandler() = default;
+	~ClickHandler() override = default;
 };
 
 }

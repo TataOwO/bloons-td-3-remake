@@ -1,17 +1,17 @@
 #ifndef IN_GAME_MENU_HPP
 #define IN_GAME_MENU_HPP
 
-#include "pch.hpp"
-
 #include "Util/Renderer.hpp"
-
 #include "layout/Button.hpp"
+
+namespace Util {class Renderer;}
+namespace layout {class button;}
 
 namespace layout {
 
 class InGameMenu {
 public:
-	InGameMenu(std::shared_ptr<Util::Renderer> render_manager);
+	InGameMenu(const std::shared_ptr<Util::Renderer> &render_manager);
 	
 	std::vector<std::shared_ptr<layout::Button>> get_buttons() const {return m_buttons;}
 private:

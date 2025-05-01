@@ -3,15 +3,15 @@
 
 #include <unordered_set>
 
-#include "pch.hpp"
 #include "Util/GameObject.hpp"
-#include "Core/Drawable.hpp"
 
-#include "handlers/PathManager.hpp"
-#include "handlers/MonkeyManager.hpp"
-#include "monkeys/BaseMonkey.hpp"
-#include "hitboxes/I_BaseHitbox.hpp"
-#include "hitboxes/CircularHitbox.hpp"
+namespace Core {class Drawable;}
+
+namespace handlers {class PathManager;}
+namespace handlers {class MonkeyManager;}
+namespace monkeys  {class BaseMonkey;}
+namespace hitboxes {class CircularHitbox;}
+namespace layout   {class GameText;}
 
 namespace placement {
 
@@ -32,7 +32,7 @@ enum class PLACABLE_TYPE {
 
 class MonkeyPlacementController : public Util::GameObject {
 public:
-	MonkeyPlacementController(std::shared_ptr<handlers::PathManager> path_manager, std::shared_ptr<handlers::MonkeyManager> monkey_manager);
+	MonkeyPlacementController(const std::shared_ptr<handlers::PathManager> &path_manager, const std::shared_ptr<handlers::MonkeyManager> &monkey_manager);
 
 	void set_monkey(const PLACABLE_TYPE& type);
 
@@ -40,7 +40,7 @@ public:
 
 	// monket placement
 	bool is_valid_placement() const;
-	bool place_monkey(std::shared_ptr<layout::GameText> available_money);
+	bool place_monkey(const std::shared_ptr<layout::GameText> &available_money) const;
 
 	// activeness
 	void set_active(bool active);

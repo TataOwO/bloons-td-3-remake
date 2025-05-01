@@ -1,5 +1,6 @@
 #include "projectiles/BaseProjectile.hpp"
 
+#include "bloons/BaseBloon.hpp"
 #include "utility/functions.hpp"
 
 namespace projectiles {

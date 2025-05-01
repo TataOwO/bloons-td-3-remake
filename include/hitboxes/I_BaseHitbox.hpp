@@ -1,8 +1,6 @@
 #ifndef INTERFACE_BASE_HITBOX_HPP
 #define INTERFACE_BASE_HITBOX_HPP
 
-#include "pch.hpp"
-
 namespace hitboxes {
 class I_BaseHitbox;
 

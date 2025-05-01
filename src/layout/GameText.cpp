@@ -5,7 +5,7 @@
 
 namespace layout {
 
-GameText::GameText(std::string prefix, const int& size) : m_prefix(prefix) {
+GameText::GameText(const std::string &prefix, const int& size) : m_prefix(prefix) {
 	std::string font = std::string(CONSTANTS::OPERATION_CONSTANTS::BITSTREAM);
 	m_text_obj = std::make_shared<Util::Text>(font, size, "0");
 	m_text_obj->SetColor(Util::Color(255,255,255));

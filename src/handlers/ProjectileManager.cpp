@@ -1,5 +1,10 @@
 #include "handlers/ProjectileManager.hpp"
 
+#include "bloons/BaseBloon.hpp"
+#include "projectiles/BaseProjectile.hpp"
+
+#include "Util/Renderer.hpp"
+
 namespace handlers {
 
 ProjectileManager::ProjectileManager(const std::shared_ptr<Util::Renderer> &render_manager) : m_render_manager(render_manager) {

@@ -5,7 +5,8 @@
 
 #include "Constants.hpp"
 
-#include <iostream>
+#include "bloons/BaseBloon.hpp"
+#include "hitboxes/RectangularHitbox.hpp"
 
 namespace projectiles {
 

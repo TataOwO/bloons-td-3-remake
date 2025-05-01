@@ -1,12 +1,10 @@
 #ifndef PATH_MANAGER_HPP
 #define PATH_MANAGER_HPP
 
-#include "Util/Renderer.hpp"
-
-#include "map/route/Route.hpp"
-#include "map/route/RoutePath.hpp"
-
-#include "hitboxes/I_BaseHitbox.hpp"
+namespace Util {class Renderer;}
+namespace map::route {class Route;}
+namespace map::route {class RoutePath;}
+namespace hitboxes {class I_BaseHitbox;}
 
 namespace handlers {
 

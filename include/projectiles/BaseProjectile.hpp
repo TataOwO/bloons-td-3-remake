@@ -1,11 +1,10 @@
 #ifndef BASE_PROJECTILE_HPP
 #define BASE_PROJECTILE_HPP
 
-#include "pch.hpp"
-
 #include "Util/GameObject.hpp"
-#include "hitboxes/I_BaseHitbox.hpp"
-#include "bloons/BaseBloon.hpp"
+
+namespace hitboxes {class I_BaseHitbox;}
+namespace bloons {class BaseBloon;}
 
 namespace projectiles {
 

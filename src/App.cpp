@@ -6,14 +6,18 @@
 #include "Util/Keycode.hpp"
 #include "Util/Logger.hpp"
 
-#include "handlers/BloonManager.hpp" // Add this include
+#include "handlers/BloonManager.hpp"
+#include "map/route/Route.hpp"
+#include "map/route/RoutePath.hpp"
+
+#include "handlers/MonkeyManager.hpp"
 
 void App::Start() {
 	LOG_TRACE("Start");
 
 	// TODO: MOVE ALL THESE TO MAPS
 	// route
-	std::vector<std::shared_ptr<map::route::Route>> route_vec1 = {
+	std::vector route_vec1 = {
 		std::make_shared<map::route::Route>(glm::vec2(215,0), glm::vec2(157, 158)),
 		std::make_shared<map::route::Route>(glm::vec2(157, 158), glm::vec2(406, 57)),
 		std::make_shared<map::route::Route>(glm::vec2(406, 57), glm::vec2(443,183)),
@@ -60,12 +64,14 @@ void App::Start() {
 	// background
 	// TODO: MAP OBJECT
 	background.set_layers(background_images);
-	for (auto layer: background.get_layers()) {
+	for (const auto& layer: background.get_layers()) {
 		m_render_manager->AddChild(layer);
 	}
 
 	// hp display
 	// TODO: UI
+	m_hp_text = std::make_shared<layout::GameText>("HP", 30);
+	m_money_text = std::make_shared<layout::GameText>("money", 30);
 	m_hp_text->set_value(CONSTANTS::OPERATION_CONSTANTS::GAME_HP);
 	m_money_text->set_value(CONSTANTS::OPERATION_CONSTANTS::MONEY);
 	m_render_manager->AddChild(m_hp_text);

@@ -1,18 +1,12 @@
 #ifndef BASE_MONKEY_HPP
 #define BASE_MONKEY_HPP
 
-#include <string>
-
 #include "Util/GameObject.hpp"
 
-#include "hitboxes/I_BaseHitbox.hpp"
-#include "hitboxes/CircularHitbox.hpp"
-
-#include "map/route/Route.hpp"
-
-#include "bloons/BaseBloon.hpp"
-
-#include "projectiles/BaseProjectile.hpp"
+namespace hitboxes {class CircularHitbox;}
+namespace map::route {class Route;}
+namespace bloons {class BaseBloon;}
+namespace projectiles {class BaseProjectile;}
 
 namespace monkeys {
 

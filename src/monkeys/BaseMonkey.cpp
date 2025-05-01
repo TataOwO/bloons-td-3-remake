@@ -1,6 +1,9 @@
 #include "monkeys/BaseMonkey.hpp"
 
 #include "Constants.hpp"
+#include "hitboxes/CircularHitbox.hpp"
+#include "hitboxes/RectangularHitbox.hpp"
+#include "map/route/Route.hpp"
 #include "utility/functions.hpp"
 
 namespace monkeys {
@@ -13,7 +16,7 @@ namespace monkeys {
     }
 
 	bool BaseMonkey::is_collided_with_route(const std::shared_ptr<map::route::Route> &route) const {
-		auto other = route->get_hitbox();
+		const std::shared_ptr<hitboxes::I_BaseHitbox> other = route->get_hitbox();
 		return utility::hitboxes_are_collided(other, m_base_hitbox);
 	};
 

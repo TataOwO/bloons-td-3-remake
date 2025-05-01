@@ -1,14 +1,9 @@
 #include "map/route/Route.hpp"
 
-#include <memory>
-
 #include "Util/Image.hpp"
 
-#include <iostream>
-
-#include <cmath>
-
 #include "Constants.hpp"
+#include "hitboxes/RectangularHitbox.hpp"
 
 namespace map::route {
 	Route::Route(glm::vec2 start_point, glm::vec2 end_point) {

@@ -1,9 +1,10 @@
 #ifndef PROJECTILE_MANAGER_HPP
 #define PROJECTILE_MANAGER_HPP
 
-#include "projectiles/BaseProjectile.hpp"
+namespace bloons {class BaseBloon;}
 
-#include "Util/Renderer.hpp"
+namespace Util {class Renderer;}
+namespace projectiles {class BaseProjectile;}
 
 namespace handlers {
 

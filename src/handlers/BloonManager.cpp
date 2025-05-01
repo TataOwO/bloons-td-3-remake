@@ -3,8 +3,14 @@
 #include <algorithm>
 #include <cstdlib>
 
+#include "handlers/PathManager.hpp"
+#include "Util/Renderer.hpp"
+
+#include "bloons/BaseBloon.hpp"
+
 #include "bloons/Bloon.hpp"
 #include "layout/GameText.hpp"
+#include "map/route/RoutePath.hpp"
 
 namespace handlers {
 

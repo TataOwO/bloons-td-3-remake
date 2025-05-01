@@ -1,16 +1,10 @@
 #ifndef APP_HPP
 #define APP_HPP
 
-#include "pch.hpp" // IWYU pragma: export
-
-#include "Util/Text.hpp"
 #include "Util/Renderer.hpp"
 
-#include "map/route/Route.hpp"
 #include "map/MapBackground.hpp"
-#include "hitboxes/CircularHitbox.hpp"
 
-#include "utility/functions.hpp"
 #include "layout/GameText.hpp"
 
 #include "handlers/PathManager.hpp"
@@ -52,6 +46,7 @@ private:
 		RESOURCE_DIR"/images/maps/ice_map_sleeping_frog.png"
 	};
 
+	// paths manager
 	std::shared_ptr<handlers::PathManager> m_path_manager;
 
 	// monkey manager
@@ -67,8 +62,8 @@ private:
 	std::shared_ptr<handlers::ClickHandler> m_click_handler;
 
 	// TODO: UI
-	std::shared_ptr<layout::GameText> m_hp_text = std::make_shared<layout::GameText>("HP", 30);
-	std::shared_ptr<layout::GameText> m_money_text = std::make_shared<layout::GameText>("money", 30);
+	std::shared_ptr<layout::GameText> m_hp_text;
+	std::shared_ptr<layout::GameText> m_money_text;
 
 private:
 	State m_CurrentState = State::START;

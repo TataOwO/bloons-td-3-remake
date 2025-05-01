@@ -1,5 +1,7 @@
 #include "map/route/RoutePath.hpp"
 
+#include "map/route/Route.hpp"
+
 namespace map::route {
     RoutePath::RoutePath(std::vector<std::shared_ptr<Route>> routes) {
         m_routes = routes;

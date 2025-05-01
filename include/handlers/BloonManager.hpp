@@ -1,15 +1,13 @@
 #ifndef BLOON_MANAGER_HPP
 #define BLOON_MANAGER_HPP
 
-#include <vector>
 #include <queue>
-#include <memory>
 
-#include "PathManager.hpp"
-#include "Util/Renderer.hpp"
-
-#include "bloons/BaseBloon.hpp"
-#include "layout/GameText.hpp"
+namespace handlers {class PathManager;}
+namespace Util     {class Renderer;}
+namespace bloons   {class BaseBloon;}
+namespace bloons   {enum class BLOON_TYPE;}
+namespace layout   {class GameText;}
 
 namespace handlers {
 
@@ -49,7 +47,7 @@ public:
 	// clear all bloons and spawn schedule
 	void clear();
 
-	// for 3 different monkey targetting
+	// for 3 different monkey targeting
 	const std::vector<std::shared_ptr<bloons::BaseBloon>>& get_bloons_by_front() const;
 	const std::vector<std::shared_ptr<bloons::BaseBloon>>& get_bloons_by_back() const;
 	const std::vector<std::shared_ptr<bloons::BaseBloon>>& get_bloons_by_strong() const;

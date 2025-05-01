@@ -2,13 +2,14 @@
 #define GAME_TEXT_HPP
 
 #include "Util/GameObject.hpp"
-#include "Util/Text.hpp"
+
+namespace Util {class Text;}
 
 namespace layout {
 
 class GameText final : public Util::GameObject {
 public:
-	GameText(std::string prefix, const int& size);
+	GameText(const std::string &prefix, const int& size);
 	
 	void update();
 

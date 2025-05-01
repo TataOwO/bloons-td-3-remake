@@ -1,20 +1,31 @@
 #include "handlers/ClickHandler.hpp"
 
+#include "Constants.hpp"
+
+#include "handlers/MonkeyManager.hpp"
+#include "handlers/PathManager.hpp"
+#include "inputs/Clickable.hpp"
+#include "utility/Mortal.hpp"
+#include "Util/Renderer.hpp"
+
+#include "placement/MonkeyPlacementController.hpp"
+
 #include <algorithm>
 #include <iostream>
 
 #include "hitboxes/CircularHitbox.hpp"
 #include "layout/Button.hpp"
+#include "Util/Image.hpp"
 
 namespace handlers {
 
-ClickHandler::ClickHandler(std::shared_ptr<Util::Renderer> render_manager, std::shared_ptr<handlers::PathManager> path_manager, std::shared_ptr<handlers::MonkeyManager> monkey_manager) : m_render_manager(render_manager) {
+ClickHandler::ClickHandler(const std::shared_ptr<Util::Renderer> &render_manager, const std::shared_ptr<handlers::PathManager>& path_manager, const std::shared_ptr<handlers::MonkeyManager>& monkey_manager) : m_render_manager(render_manager) {
 	m_monkey_placement_manager = std::make_shared<placement::MonkeyPlacementController>(path_manager, monkey_manager);
 	m_render_manager->AddChild(m_monkey_placement_manager);
 	
 	std::shared_ptr<layout::Button> dart_monkey_button = std::make_shared<layout::Button>();
-	dart_monkey_button->set_on_click([&]() {
-		m_monkey_placement_manager->set_monkey(placement::PLACABLE_TYPE::DART);
+	dart_monkey_button->set_on_click([mpm = m_monkey_placement_manager]() {
+		mpm->set_monkey(placement::PLACABLE_TYPE::DART);
 		std::cout << "set monkey to dart" << std::endl;
 		return true;
 	});

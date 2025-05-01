@@ -1,19 +1,16 @@
 #ifndef MONKEY_MANAGER_HPP
 #define MONKEY_MANAGER_HPP
 
-#include "Util/Renderer.hpp"
+namespace Util {class Renderer;}
 
-#include "monkeys/BaseMonkey.hpp"
-#include "monkeys/DartMonkey.hpp"
+namespace monkeys {class BaseMonkey;}
+namespace monkeys {class I_MonkeyAttacker;}
+namespace monkeys {class DartMonkey;}
 
-#include "projectiles/BaseProjectile.hpp"
-#include "bloons/Bloon.hpp"
-
-#include "hitboxes/I_BaseHitbox.hpp"
-#include "layout/GameText.hpp"
-#include "map/route/Route.hpp"
-
-#include "utility/functions.hpp"
+namespace projectiles {class BaseProjectile;}
+namespace bloons {class BaseBloon;}
+namespace hitboxes {class I_BaseHitbox;}
+namespace layout {class GameText;}
 
 namespace handlers {
 
