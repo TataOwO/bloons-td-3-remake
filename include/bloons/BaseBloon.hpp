@@ -4,22 +4,23 @@
 #include <deque>
 #include "Util/GameObject.hpp"
 
+namespace Core {class Drawable;}
 namespace map::route {class Route;}
 namespace hitboxes {class I_BaseHitbox;}
 
 namespace bloons {
 
-enum class BLOON_TYPE {
-	RED,
-	BLUE,
-	GREEN,
-	YELLOW,
-	WHITE,
-	BLACK,
-	LEAD,
-	RAINBOW,
-	CERAMIC,
-	MOAB
+enum class BLOON_TYPE : int {
+	RED    =0,
+	BLUE   =1,
+	GREEN  =2,
+	YELLOW =3,
+	WHITE  =4,
+	BLACK  =5,
+	LEAD   =6,
+	RAINBOW=7,
+	CERAMIC=8,
+	MOAB   =9
 };
 
 // https://bloons.fandom.com/wiki/Massive_Ornary_Air_Blimp_(MOAB)
@@ -63,6 +64,8 @@ protected:
 	virtual void m_take_damage(int damage) = 0;
 
 	static double get_random_z_index();
+	
+	static const std::shared_ptr<Core::Drawable> get_bloon_drawable(BLOON_TYPE);
 protected:
 	std::shared_ptr<map::route::Route> m_current_route;
 	glm::vec2 m_target_point = {};
@@ -76,12 +79,14 @@ protected:
 	int m_accumulated_money = 0;
 
 	std::shared_ptr<hitboxes::I_BaseHitbox> m_hitbox;
-
+	
 	// path history
 	std::deque<glm::vec2> m_path_history;
 	size_t m_max_path_history_size = 20; // Store last 20 positions by default
 	
 	int m_frozen_tick = 0;
+	
+	static std::array<std::shared_ptr<Core::Drawable>, 10> bloon_drawable_arr;
 
 private:
 	static glm::vec2 twist_pos(glm::vec2 pos);
@@ -97,6 +102,7 @@ public:
 
 	virtual ~BaseBloon() override = default;
 };
+
 }
 
 #endif

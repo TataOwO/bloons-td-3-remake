@@ -4,6 +4,8 @@
 
 #include "Constants.hpp"
 
+#include "Util/Image.hpp"
+#include "Core/Drawable.hpp"
 #include "map/route/Route.hpp"
 #include "hitboxes/I_BaseHitbox.hpp"
 
@@ -77,5 +79,31 @@ namespace bloons {
 	
 	double BaseBloon::get_random_z_index() {
 		return base_bloon_z_index_dist(base_bloon_gen);
+	}
+
+	std::array<std::shared_ptr<Core::Drawable>, 10> BaseBloon::bloon_drawable_arr = {};
+
+	const std::shared_ptr<Core::Drawable> BaseBloon::get_bloon_drawable(BLOON_TYPE t) {
+		static bool initialized = false;
+		if (!initialized) {
+			bloon_drawable_arr = {
+				std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::RED.IMAGE_PATH    )),
+				std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::BLUE.IMAGE_PATH   )),
+				std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::GREEN.IMAGE_PATH  )),
+				std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::YELLOW.IMAGE_PATH )),
+				std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::WHITE.IMAGE_PATH  )),
+				std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::BLACK.IMAGE_PATH  )),
+				std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::LEAD.IMAGE_PATH   )),
+				std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::RAINBOW.IMAGE_PATH)),
+				std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::CERAMIC.IMAGE_PATH)),
+				std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::MOAB::IMAGE_PATH  ))
+			};
+			
+			initialized = true;
+		}
+		
+		int drawable_index = static_cast<int>(t);
+		
+		return bloon_drawable_arr.at(drawable_index);
 	}
 }

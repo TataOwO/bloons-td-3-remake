@@ -92,9 +92,8 @@ namespace bloons {
 		m_type = type;
 		m_hp = stat.HP;
 		m_hitbox = std::make_shared<hitboxes::CircularHitbox>(m_Transform.translation, stat.RADIUS);
-		m_image_path = stat.IMAGE_PATH;
 		m_speed = stat.SPEED;
-		m_Drawable = std::make_shared<Util::Image>(m_image_path);
+		m_Drawable = BaseBloon::get_bloon_drawable(type);
 	}
 
 	void Bloon::m_take_damage(int damage) {
