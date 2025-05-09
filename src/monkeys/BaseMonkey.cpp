@@ -4,13 +4,14 @@
 #include "hitboxes/CircularHitbox.hpp"
 #include "hitboxes/RectangularHitbox.hpp"
 #include "map/route/Route.hpp"
+#include "Util/Image.hpp"
 #include "utility/functions.hpp"
 
 namespace monkeys {
     BaseMonkey::BaseMonkey(glm::vec2 position) {
 		m_base_hitbox	= std::make_shared<hitboxes::CircularHitbox>(position, 0);
 		m_radius_hitbox	= std::make_shared<hitboxes::CircularHitbox>(position, 0);
-		
+
 		this->SetZIndex(CONSTANTS::Z_INDEX_CONSTANTS::MONKE);
 		this->SetVisible(true);
     }
@@ -33,4 +34,12 @@ namespace monkeys {
 		return m_base_hitbox->get_position();
 	};
 
+	void BaseMonkey::initialize_with_stat(const CONSTANTS::MONKEY_CONSTANTS::MONKE &stat) {
+		m_image_path = std::string(stat.IMAGE_PATH);
+
+		m_base_hitbox	->set_radius(stat.BASE_RADIUS);
+		m_radius_hitbox	->set_radius(stat.RANGE_RADIUS);
+
+		m_Transform.scale = {stat.IMAGE_SCALE, stat.IMAGE_SCALE};
+	}
 }

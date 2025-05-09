@@ -10,13 +10,6 @@ namespace projectiles {class BaseProjectile;}
 
 namespace monkeys {
 
-enum class TARGETING {
-	FIRST,
-	LAST,
-	STRONG,
-	CLOSE
-};
-
 class BaseMonkey : public Util::GameObject {
 public:
 	bool is_collided_with_route(const std::shared_ptr<map::route::Route> &route) const;
@@ -39,6 +32,8 @@ protected:
 
 	// for bloons
 	glm::vec2 m_face_position;
+	
+	void initialize_with_stat(const CONSTANTS::MONKEY_CONSTANTS::MONKE &);
 
 protected:
 	BaseMonkey(glm::vec2 position);
@@ -53,46 +48,6 @@ public:
 	BaseMonkey& operator=(BaseMonkey&&) = delete;
 
 	virtual ~BaseMonkey() override = default;
-};
-
-class I_MonkeyAttacker {
-public:
-	virtual void attack() = 0;
-
-	virtual bool can_attack() = 0;
-
-	virtual void scan_bloon(std::shared_ptr<bloons::BaseBloon> bloon) = 0;
-
-	virtual void reset_target() = 0;
-
-	virtual std::shared_ptr<bloons::BaseBloon> get_target() = 0;
-
-	virtual bool has_projectile() = 0;
-
-	virtual std::shared_ptr<projectiles::BaseProjectile> get_spawned_projectile() = 0;
-
-	// not virtual as it only checks if target exists
-	bool has_target() {return m_target_bloon!=nullptr;}
-
-	// not virtual since every objects access this the same way
-	TARGETING get_targeting() const {return m_targeting;}
-protected:
-	virtual void update_attack_interval() = 0;
-
-	virtual void face_towards(glm::vec2 position) = 0;
-
-	virtual void spawn_projectile(glm::vec2 position) = 0;
-protected:
-	glm::vec2 m_projectile_spawn_position = {};
-
-	int m_attack_interval = 0;
-	int m_attack_cooldown = 0;
-
-	std::shared_ptr<projectiles::BaseProjectile> m_spawned_projectile;
-
-	std::shared_ptr<bloons::BaseBloon> m_target_bloon = nullptr;
-
-	TARGETING m_targeting = TARGETING::FIRST;
 };
 
 }

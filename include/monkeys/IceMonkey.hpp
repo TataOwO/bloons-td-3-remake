@@ -1,14 +1,14 @@
-#ifndef DART_MONKEY_HPP
-#define DART_MONKEY_HPP
+#ifndef ICE_MONKEY_HPP
+#define ICE_MONKEY_HPP
 
 #include "monkeys/BaseMonkey.hpp"
 #include "monkeys/I_MonkeyAttacker.hpp"
 
 namespace monkeys {
 
-class DartMonkey final : public monkeys::BaseMonkey, public monkeys::I_MonkeyAttacker {
+class IceMonkey final : public monkeys::BaseMonkey, public monkeys::I_MonkeyAttacker {
 public:
-	DartMonkey(glm::vec2 position);
+	IceMonkey(glm::vec2 position);
 
 	void scan_bloon(std::shared_ptr<bloons::BaseBloon> bloon) override;
 	
@@ -33,15 +33,15 @@ private: // I monkey attacker
 
 // base
 public:
-    DartMonkey(const DartMonkey&) = delete;
+    IceMonkey(const IceMonkey&) = delete;
 
-    DartMonkey(DartMonkey&&) = delete;
+    IceMonkey(IceMonkey&&) = delete;
 
-    DartMonkey& operator=(const DartMonkey&) = delete;
+    IceMonkey& operator=(const IceMonkey&) = delete;
 
-    DartMonkey& operator=(DartMonkey&&) = delete;
+    IceMonkey& operator=(IceMonkey&&) = delete;
 
-	~DartMonkey() override = default;
+	~IceMonkey() override = default;
 };
 
 }

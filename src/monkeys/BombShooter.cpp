@@ -1,28 +1,28 @@
-#include "monkeys/DartMonkey.hpp"
-
-#include <cmath>
+#include "monkeys/BombShooter.hpp"
 
 #include "Constants.hpp"
 #include "bloons/BaseBloon.hpp"
 #include "hitboxes/CircularHitbox.hpp"
 
 #include "projectiles/DartProjectile.hpp"
-#include "Util/Image.hpp"
+#include "Util/Animation.hpp"
 
 #include "utility/functions.hpp"
 
 namespace monkeys {
-	DartMonkey::DartMonkey(glm::vec2 position)
+	BombShooter::BombShooter(glm::vec2 position)
 	: BaseMonkey(position) {
 		m_Transform.translation = position;
 
-		auto stat = CONSTANTS::MONKEY_CONSTANTS::DART;
+		auto stat = CONSTANTS::MONKEY_CONSTANTS::BOMB;
 
 		// base monkey initialization
 		initialize_with_stat(stat);
 
 		// drawable initialization
-		m_Drawable = std::make_shared<Util::Image>(m_image_path, false);
+		std::vector<std::string> paths = {m_image_path};
+		m_Drawable = std::make_shared<Util::Animation>(paths, false, 0.03f, false);
+		m_Transform.scale = {1.5, 1.5};
 
 		// monkey attacker initialization
 		m_projectile_spawn_position = {stat.PROJECTILE_SPAWN_X, stat.PROJECTILE_SPAWN_Y};
@@ -30,7 +30,7 @@ namespace monkeys {
 		m_attack_interval = stat.ATTACK_INTERVAL;
 	};
 
-	void DartMonkey::scan_bloon(std::shared_ptr<bloons::BaseBloon> bloon) {
+	void BombShooter::scan_bloon(std::shared_ptr<bloons::BaseBloon> bloon) {
 		bool bloon_in_radius = utility::hitboxes_are_collided(bloon->get_hitbox(),m_radius_hitbox);
 
 		if (!bloon_in_radius) return;
@@ -40,25 +40,25 @@ namespace monkeys {
 		 m_target_bloon = bloon;
 	};
 
-	void DartMonkey::reset_target() {
+	void BombShooter::reset_target() {
 		m_target_bloon = nullptr;
 	};
 
-	std::shared_ptr<bloons::BaseBloon> DartMonkey::get_target() {
+	std::shared_ptr<bloons::BaseBloon> BombShooter::get_target() {
 		return m_target_bloon;
 	}
 
-	std::vector<std::shared_ptr<projectiles::BaseProjectile>> DartMonkey::get_spawned_projectile() {
+	std::vector<std::shared_ptr<projectiles::BaseProjectile>> BombShooter::get_spawned_projectile() {
 		auto ret = m_spawned_projectile;
 		m_spawned_projectile.clear();
 		return ret;
 	}
 	
-	void DartMonkey::update_attack_interval() {
+	void BombShooter::update_attack_interval() {
 		if (!can_attack()) --m_attack_cooldown;
 	};
 
-	void DartMonkey::attack() {
+	void BombShooter::attack() {
 		if (!can_attack()) {
 			update_attack_interval();
 			return;
@@ -71,11 +71,11 @@ namespace monkeys {
 		m_attack_cooldown = m_attack_interval;
 	};
 
-	bool DartMonkey::can_attack() {
+	bool BombShooter::can_attack() {
 		return m_attack_cooldown == 0;
 	};
 
-	void DartMonkey::spawn_projectile(glm::vec2 position) {
+	void BombShooter::spawn_projectile(glm::vec2 position) {
 		glm::vec2 projectile_spawn_pos = m_Transform.translation + utility::rotate_vec2(m_projectile_spawn_position, m_Transform.rotation);
 		
 		glm::vec2 projectile_dir_pos = position - projectile_spawn_pos;
@@ -86,7 +86,7 @@ namespace monkeys {
 		);
 	}
 
-	void DartMonkey::face_towards(glm::vec2 position) {
+	void BombShooter::face_towards(glm::vec2 position) {
 		glm::vec2 m_position = m_base_hitbox->get_position();
 		int x_diff = position[0] - m_position[0];
 		int y_diff = position[1] - m_position[1];
