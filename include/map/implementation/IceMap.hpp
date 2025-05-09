@@ -7,7 +7,7 @@ namespace map::implementation {
 
 class IceMap final : public map::implementation::BaseMap {
 public:
-	// TODO
+	IceMap();
 
 private:
 	std::shared_ptr<>

@@ -14,6 +14,8 @@ protected:
 	BaseMap();
 public:
 	virtual void update() = 0;
+	
+	std::vector<std::shared_ptr<inputs::Clickable>> get_clickables() {return m_clickables;};
 protected:
 	std::shared_ptr<map::MapBackground> m_background;
 	
