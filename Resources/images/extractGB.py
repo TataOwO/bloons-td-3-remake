@@ -13,6 +13,7 @@ def extract_red_channel(input_path, output_path):
     try:
         # Open the image and convert to RGB mode (in case it's not already)
         img = Image.open(input_path).convert('RGBA')
+        img.seek(0)
         
         # Convert to numpy array for easier manipulation
         img_array = np.array(img)
@@ -38,8 +39,9 @@ def extract_red_channel(input_path, output_path):
 # Example usage
 if __name__ == "__main__":
     # Replace these with your actual file paths
-    monke_name = "super"
-    input_image_path = rf"./monke/{monke_name}.png"
-    output_image_path = rf"./monke/{monke_name}_red.png"
+    monke_name = "boomerang"
+    file_type = "png"
+    input_image_path = rf"./monke/{monke_name}.{file_type}"
+    output_image_path = rf"./monke/{monke_name}_red.{file_type}"
     
     extract_red_channel(input_image_path, output_image_path)
