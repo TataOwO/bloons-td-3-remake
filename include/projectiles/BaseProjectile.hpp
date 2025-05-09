@@ -10,7 +10,7 @@ namespace projectiles {
 
 class BaseProjectile : public Util::GameObject {
 protected:
-	BaseProjectile() = default;
+	BaseProjectile();
 
 public:
 	// Disable copying and moving

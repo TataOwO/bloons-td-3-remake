@@ -2,8 +2,12 @@
 
 #include "Util/Renderer.hpp"
 
-#include "monkeys/BaseMonkey.hpp"
 #include "monkeys/DartMonkey.hpp"
+#include "monkeys/BombShooter.hpp"
+#include "monkeys/IceMonkey.hpp"
+#include "monkeys/SuperMonkey.hpp"
+#include "monkeys/TackShooter.hpp"
+#include "monkeys/BoomerangMonkey.hpp"
 
 #include "projectiles/BaseProjectile.hpp"
 
@@ -39,31 +43,6 @@ bool MonkeyManager::point_is_collided_with_monkeys(glm::vec2 point) {
         }
     }
     return false;
-}
-
-bool MonkeyManager::place_dart_monkey(glm::vec2 position, const std::shared_ptr<layout::GameText> &money) {
-	int money_cost = CONSTANTS::MONKEY_CONSTANTS::DART.COST;
-
-    // Check if we have enough money
-    if (money_cost > money->get_value()) {
-        return false;
-    }
-    
-    // Create the new monkey
-    auto new_monkey = std::make_shared<monkeys::DartMonkey>(position);
-    
-    // Add to our collections
-    m_all_monkeys.push_back(new_monkey);
-    m_all_monkey_attackers.push_back(new_monkey);
-    m_dart_monkeys.push_back(new_monkey);
-    
-    // Add to renderer
-    m_render_manager->AddChild(new_monkey);
-    
-    // Deduct cost
-    money->sub_value(money_cost);
-    
-    return true;
 }
 
 void MonkeyManager::scan_bloons(const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec_first, const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec_last, const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec_strong) {
@@ -104,8 +83,11 @@ void MonkeyManager::process_attacks() {
         if (attacker->has_projectile()) {
             auto projectile = attacker->get_spawned_projectile();
 			
-            m_new_projectiles.push_back(projectile);
-            m_render_manager->AddChild(projectile);
+            m_new_projectiles.insert(m_new_projectiles.end(), projectile.begin(), projectile.end());
+            for (auto& p: projectile) {
+                m_render_manager->AddChild(p);
+            }
+
         }
         
         // Reset target for next scan cycle
@@ -123,6 +105,132 @@ void MonkeyManager::clear_new_projectiles() {
 
 const std::vector<std::shared_ptr<monkeys::BaseMonkey>>& MonkeyManager::get_all_monkeys() const {
     return m_all_monkeys;
+}
+
+bool MonkeyManager::place_dart_monkey(glm::vec2 position, const std::shared_ptr<layout::GameText> &money) {
+	int money_cost = CONSTANTS::MONKEY_CONSTANTS::DART.COST;
+
+    // if there isn't enough money
+    if (money_cost > money->get_value()) {
+        return false;
+    }
+    
+    auto new_monkey = std::make_shared<monkeys::DartMonkey>(position);
+    m_all_monkeys.push_back(new_monkey);
+    m_all_monkey_attackers.push_back(new_monkey);
+    m_dart_monkeys.push_back(new_monkey);
+    
+    // add to renderer
+    m_render_manager->AddChild(new_monkey);
+    
+    money->sub_value(money_cost);
+    
+    return true;
+}
+
+bool MonkeyManager::place_super_monkey(glm::vec2 position, const std::shared_ptr<layout::GameText> &money) {
+	int money_cost = CONSTANTS::MONKEY_CONSTANTS::SUPER.COST;
+
+    // if there isn't enough money
+    if (money_cost > money->get_value()) {
+        return false;
+    }
+    
+    auto new_monkey = std::make_shared<monkeys::SuperMonkey>(position);
+    m_all_monkeys.push_back(new_monkey);
+    m_all_monkey_attackers.push_back(new_monkey);
+    m_super_monkeys.push_back(new_monkey);
+    
+    // add to renderer
+    m_render_manager->AddChild(new_monkey);
+    
+    money->sub_value(money_cost);
+    
+    return true;
+}
+
+bool MonkeyManager::place_ice_monkey(glm::vec2 position, const std::shared_ptr<layout::GameText> &money) {
+	int money_cost = CONSTANTS::MONKEY_CONSTANTS::ICE.COST;
+
+    // if there isn't enough money
+    if (money_cost > money->get_value()) {
+        return false;
+    }
+    
+    auto new_monkey = std::make_shared<monkeys::IceMonkey>(position);
+    m_all_monkeys.push_back(new_monkey);
+    m_all_monkey_attackers.push_back(new_monkey);
+    m_ice_monkeys.push_back(new_monkey);
+    
+    // add to renderer
+    m_render_manager->AddChild(new_monkey);
+    
+    money->sub_value(money_cost);
+    
+    return true;
+}
+
+bool MonkeyManager::place_bomb_shooter(glm::vec2 position, const std::shared_ptr<layout::GameText> &money) {
+	int money_cost = CONSTANTS::MONKEY_CONSTANTS::BOMB.COST;
+
+    // if there isn't enough money
+    if (money_cost > money->get_value()) {
+        return false;
+    }
+    
+    auto new_monkey = std::make_shared<monkeys::BombShooter>(position);
+    m_all_monkeys.push_back(new_monkey);
+    m_all_monkey_attackers.push_back(new_monkey);
+    m_bomb_shooters.push_back(new_monkey);
+    
+    // add to renderer
+    m_render_manager->AddChild(new_monkey);
+    
+    money->sub_value(money_cost);
+    
+    return true;
+}
+
+bool MonkeyManager::place_tack_shooter(glm::vec2 position, const std::shared_ptr<layout::GameText> &money) {
+	int money_cost = CONSTANTS::MONKEY_CONSTANTS::TACK.COST;
+
+    // if there isn't enough money
+    if (money_cost > money->get_value()) {
+        return false;
+    }
+    
+    auto new_monkey = std::make_shared<monkeys::TackShooter>(position);
+    m_all_monkeys.push_back(new_monkey);
+    m_all_monkey_attackers.push_back(new_monkey);
+    m_tack_shooters.push_back(new_monkey);
+    
+    // add to renderer
+    m_render_manager->AddChild(new_monkey);
+    
+    money->sub_value(money_cost);
+    
+    return true;
+}
+
+bool MonkeyManager::place_boomerang_monkey(glm::vec2 position, const std::shared_ptr<layout::GameText> &money) {
+	int money_cost = CONSTANTS::MONKEY_CONSTANTS::BOOMERANG.COST;
+
+    // if there isn't enough money
+    if (money_cost > money->get_value()) {
+        return false;
+    }
+    
+    auto new_monkey = std::make_shared<monkeys::BoomerangMonkey>(position);
+    m_all_monkeys.push_back(new_monkey);
+    m_all_monkey_attackers.push_back(new_monkey);
+    m_boomerang_monkeys.push_back(new_monkey);
+    
+    // add to renderer
+    m_render_manager->AddChild(new_monkey);
+    
+    money->sub_value(money_cost);
+    
+    return true;
 }
 
 }
