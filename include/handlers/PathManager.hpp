@@ -1,6 +1,8 @@
 #ifndef PATH_MANAGER_HPP
 #define PATH_MANAGER_HPP
 
+#include "Util/GameObject.hpp"
+
 namespace Util {class Renderer;}
 namespace map::route {class Route;}
 namespace map::route {class RoutePath;}
@@ -8,9 +10,9 @@ namespace hitboxes {class I_BaseHitbox;}
 
 namespace handlers {
 
-class PathManager final {
+class PathManager final : public Util::GameObject {
 public:
-	PathManager(std::vector<std::shared_ptr<map::route::RoutePath>> paths, const std::shared_ptr<Util::Renderer> &render_manager);
+	PathManager(std::vector<std::shared_ptr<map::route::RoutePath>> paths);
 
 	std::shared_ptr<map::route::Route> get_collided_route(const std::shared_ptr<hitboxes::I_BaseHitbox> &hitbox);
 
@@ -23,8 +25,6 @@ private:
 
 	std::vector<std::shared_ptr<map::route::Route>> m_all_routes = {};
 
-	std::shared_ptr<Util::Renderer> m_render_manager;
-
 // base
 public:
     PathManager(const PathManager&) = delete;
@@ -35,7 +35,7 @@ public:
 
     PathManager& operator=(PathManager&&) = delete;
 
-	~PathManager() = default;
+	~PathManager();
 
 };
 

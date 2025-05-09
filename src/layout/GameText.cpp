@@ -42,5 +42,9 @@ void GameText::sub_value(const int& v) {
 	m_is_changed = true;
 }
 
+GameText::~GameText() {
+	
+}
+
 }
 

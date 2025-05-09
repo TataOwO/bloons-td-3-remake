@@ -1,17 +1,16 @@
 #ifndef IN_GAME_MENU_HPP
 #define IN_GAME_MENU_HPP
 
-#include "Util/Renderer.hpp"
-#include "layout/Button.hpp"
+#include "Util/GameObject.hpp"
 
 namespace Util {class Renderer;}
-namespace layout {class button;}
+namespace layout {class Button;}
 
 namespace layout {
 
-class InGameMenu {
+class InGameMenu final : public Util::GameObject {
 public:
-	InGameMenu(const std::shared_ptr<Util::Renderer> &render_manager);
+	InGameMenu();
 	
 	std::vector<std::shared_ptr<layout::Button>> get_buttons() const {return m_buttons;}
 private:
@@ -28,7 +27,7 @@ public:
 
 	InGameMenu& operator=(InGameMenu&&) = delete;
 
-	virtual ~InGameMenu() = default;
+	~InGameMenu();
 };
 
 }

@@ -13,7 +13,7 @@ enum class RouteConnection {
 	NOT_CONNECTED
 };
 
-class Route : public Util::GameObject {
+class Route final : public Util::GameObject {
 public:
 	Route(glm::vec2 start_point, glm::vec2 end_point);
 
@@ -59,7 +59,7 @@ public:
 
     Route& operator=(Route&&) = delete;
 
-	~Route() override = default;
+	~Route() override;
 };
 
 }

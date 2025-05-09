@@ -20,7 +20,7 @@ public:
 
 	Button& operator=(Button&&) = delete;
 
-	virtual ~Button() override = default;
+	~Button() override;
 };
 
 }

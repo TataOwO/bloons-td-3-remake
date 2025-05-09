@@ -41,7 +41,7 @@ public:
 
     SuperMonkey& operator=(SuperMonkey&&) = delete;
 
-	~SuperMonkey() override = default;
+	~SuperMonkey() override;
 };
 
 }

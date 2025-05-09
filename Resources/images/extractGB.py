@@ -39,7 +39,7 @@ def extract_red_channel(input_path, output_path):
 # Example usage
 if __name__ == "__main__":
     # Replace these with your actual file paths
-    monke_name = "boomerang"
+    monke_name = "ice"
     file_type = "png"
     input_image_path = rf"./monke/{monke_name}.{file_type}"
     output_image_path = rf"./monke/{monke_name}_red.{file_type}"

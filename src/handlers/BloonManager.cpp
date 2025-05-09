@@ -14,9 +14,7 @@
 
 namespace handlers {
 
-BloonManager::BloonManager(std::shared_ptr<Util::Renderer> render_manager, std::shared_ptr<handlers::PathManager> path_manager)
-	: m_render_manager(std::move(render_manager)),
-	  m_path_manager(std::move(path_manager)) {
+BloonManager::BloonManager(std::shared_ptr<handlers::PathManager> path_manager) : m_path_manager(path_manager) {
 }
 
 void BloonManager::update(int current_tick, const std::shared_ptr<layout::GameText> &game_hp) {
@@ -60,7 +58,7 @@ void BloonManager::add_bloon(const std::shared_ptr<bloons::BaseBloon> &bloon) {
 	m_active_bloons.push_back(bloon);
 
 	// Add to renderer
-	m_render_manager->AddChild(bloon);
+	AddChild(bloon);
 
 	// Insert into sorted lists
 	insert_into_sorted_lists(bloon);
@@ -134,7 +132,7 @@ int BloonManager::get_accumulated_money() {
 void BloonManager::clear() {
 	// Remove all bloons from the renderer
 	for (auto& bloon : m_active_bloons) {
-		m_render_manager->RemoveChild(bloon);
+		RemoveChild(bloon);
 	}
 
 	// Clear all containers
@@ -151,7 +149,7 @@ void BloonManager::clear() {
 void BloonManager::process_removal_queue() {
 	for (auto& bloon : m_removal_queue) {
 		// Remove from renderer
-		m_render_manager->RemoveChild(bloon);
+		RemoveChild(bloon);
 
 		// Remove from each sorted list
 		remove_from_sorted_lists(bloon);
@@ -293,6 +291,10 @@ void BloonManager::remove_from_sorted_lists(const std::shared_ptr<bloons::BaseBl
 	remove_from_list(m_bloons_by_front);
 	remove_from_list(m_bloons_by_back);
 	remove_from_list(m_bloons_by_hp);
+}
+
+BloonManager::~BloonManager() {
+	
 }
 
 }

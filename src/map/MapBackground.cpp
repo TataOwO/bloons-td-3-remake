@@ -10,7 +10,9 @@ MapBackground::MapBackground() {
 }
 
 void MapBackground::set_layers(const std::vector<std::string>& layers) {
-	m_layers = {};
+	for (auto& obj: GetChildren()) {
+		RemoveChild(obj);
+	}
 	
 	for (std::string image_name: layers) {
 		add_layer(image_name);
@@ -20,7 +22,9 @@ void MapBackground::set_layers(const std::vector<std::string>& layers) {
 }
 
 void MapBackground::add_layer(std::string image_path){
-	std::shared_ptr<Util::GameObject> obj = std::make_shared<Util::GameObject>();
+	auto obj = std::make_shared<Util::GameObject>();
+	
+	AddChild(obj);
 	
 	obj->SetDrawable(std::make_shared<Util::Image>(image_path));
 	obj->SetVisible(true);
@@ -32,13 +36,17 @@ void MapBackground::add_layer(std::string image_path){
 }
 
 void MapBackground::recalculate_zIndex() const {
-	int total_layers = m_layers.size();
+	auto total_layers = m_layers.size();
 	
-	for (int i=0; i<total_layers; ++i) {
+	for (unsigned int i=0; i<total_layers; ++i) {
 		std::shared_ptr<Util::GameObject> layer = m_layers[i];
 		
 		layer->SetZIndex(m_z_index + (1.0*i/total_layers));
 	}
+}
+
+MapBackground::~MapBackground() {
+	
 }
 
 }

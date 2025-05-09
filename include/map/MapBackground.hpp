@@ -5,7 +5,7 @@
 
 namespace map {
 
-class MapBackground {
+class MapBackground final : public Util::GameObject {
 public:
 	explicit MapBackground();
 
@@ -31,7 +31,7 @@ public:
 
 	MapBackground& operator=(MapBackground&&) = delete;
 
-	virtual ~MapBackground() = default;
+	~MapBackground();
 };
 
 }

@@ -7,6 +7,7 @@
 #include "handlers/MonkeyManager.hpp"
 #include "handlers/PathManager.hpp"
 #include "hitboxes/CircularHitbox.hpp"
+#include "utility/functions.hpp"
 
 namespace placement {
 
@@ -87,7 +88,7 @@ void MonkeyPlacementController::set_monkey(const PLACABLE_TYPE& type) {
 	}
 
 	m_Transform.scale = {monke_stat.IMAGE_SCALE,monke_stat.IMAGE_SCALE};
-	std::string filetype = (monke_stat.FILE_TYPE == CONSTANTS::MONKEY_CONSTANTS::Monke::fileType::PNG)? ".png": ".gif";
+	std::string filetype = ".png";
 
 	std::string prefix = RESOURCE_DIR"/images/monke/";
 	std::string placable_path = prefix + monke_name + filetype;
@@ -130,6 +131,10 @@ bool MonkeyPlacementController::check_valid_position() const {
 	// checks collision with other monkeys
 	if (m_monkey_manager->hitbox_is_collided_with_monkeys(m_hitbox)) {
 		return false;
+	}
+	
+	for (auto& obstacle: m_obstacles) {
+		if (utility::hitboxes_are_collided(m_hitbox, obstacle)) return false;
 	}
 
 	return true;
@@ -198,6 +203,12 @@ void MonkeyPlacementController::clear_all() {
 	std::cout << "cleared all monkeys" << std::endl;
 }
 
+void MonkeyPlacementController::set_monkey_obstacles(const std::vector<std::shared_ptr<hitboxes::I_BaseHitbox>>& obstacles) {
+	m_obstacles.clear();
+	
+	m_obstacles.insert(m_obstacles.end(), obstacles.begin(), obstacles.end());
+}
+
 void MonkeyPlacementController::set_mouse_pos(const glm::vec2& mouse_pos) {
 	if (!m_is_active) return;
 
@@ -216,6 +227,10 @@ void MonkeyPlacementController::set_active(bool active) {
 	if (active) {
 		update_visual_state();
 	}
+}
+
+MonkeyPlacementController::~MonkeyPlacementController() {
+	
 }
 
 }

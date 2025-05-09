@@ -12,61 +12,37 @@
 
 #include "handlers/MonkeyManager.hpp"
 
+#include "map/implementation/IceMap.hpp"
+#include "map/implementation/PeacefulMap.hpp"
+#include "map/implementation/SummonMap.hpp"
+// #include "map/implementation/IceMap.hpp"
+
 void App::Start() {
 	LOG_TRACE("Start");
 
-	// TODO: MOVE ALL THESE TO MAPS
-	// route
-	std::vector route_vec1 = {
-		std::make_shared<map::route::Route>(glm::vec2(215,0), glm::vec2(157, 158)),
-		std::make_shared<map::route::Route>(glm::vec2(157, 158), glm::vec2(406, 57)),
-		std::make_shared<map::route::Route>(glm::vec2(406, 57), glm::vec2(443,183)),
-		std::make_shared<map::route::Route>(glm::vec2(443,183), glm::vec2(262,209)),
-		std::make_shared<map::route::Route>(glm::vec2(262,209), glm::vec2(116,413)),
-		std::make_shared<map::route::Route>(glm::vec2(116,413), glm::vec2(316,462)),
-		std::make_shared<map::route::Route>(glm::vec2(316,462), glm::vec2(352,453)),
-		std::make_shared<map::route::Route>(glm::vec2(352,453), glm::vec2(397,345)),
-		std::make_shared<map::route::Route>(glm::vec2(397,345), glm::vec2(537,239)),
-		std::make_shared<map::route::Route>(glm::vec2(537,239), glm::vec2(563,195)),
-		std::make_shared<map::route::Route>(glm::vec2(563,195), glm::vec2(581,111)),
-		std::make_shared<map::route::Route>(glm::vec2(581,111), glm::vec2(632,149)),
-		std::make_shared<map::route::Route>(glm::vec2(632,149), glm::vec2(652,215)),
-		std::make_shared<map::route::Route>(glm::vec2(652,215), glm::vec2(624,328)),
-		std::make_shared<map::route::Route>(glm::vec2(624,328), glm::vec2(572,462)),
-		std::make_shared<map::route::Route>(glm::vec2(572,462), glm::vec2(485,460)),
-		std::make_shared<map::route::Route>(glm::vec2(485,460), glm::vec2(480,497)),
-		std::make_shared<map::route::Route>(glm::vec2(480,497), glm::vec2(428,604)),
-		std::make_shared<map::route::Route>(glm::vec2(428,604), glm::vec2(319,573)),
-		std::make_shared<map::route::Route>(glm::vec2(319,573), glm::vec2(185,559)),
-		std::make_shared<map::route::Route>(glm::vec2(185,559), glm::vec2(82,720)),
-	};
+	// initialize map object
+	m_map = std::make_shared<map::implementation::SummonMap>();
+	m_render_manager->AddChild(m_map);
 
-	// route paths
-	std::vector<std::shared_ptr<map::route::RoutePath>> route_paths = {
-		std::make_shared<map::route::RoutePath>(route_vec1),
-	};
-
-	// add route paths to manager
-	m_path_manager = std::make_shared<handlers::PathManager>(route_paths, m_render_manager);
+	// get path manager from map object
+	auto m_path_manager = m_map->get_path_manager();
 
 	// initialize monkey manager
-	m_monkey_manager = std::make_shared<handlers::MonkeyManager>(m_render_manager);
+	m_monkey_manager = std::make_shared<handlers::MonkeyManager>();
+	m_render_manager->AddChild(m_monkey_manager);
 
 	// initialize bloon manager
-	m_bloon_manager = std::make_shared<handlers::BloonManager>(m_render_manager, m_path_manager);
+	m_bloon_manager = std::make_shared<handlers::BloonManager>(m_path_manager);
+	m_render_manager->AddChild(m_bloon_manager);
 
 	// initialize projectile manager
-	m_projectile_manager = std::make_shared<handlers::ProjectileManager>(m_render_manager);
+	m_projectile_manager = std::make_shared<handlers::ProjectileManager>();
+	m_render_manager->AddChild(m_projectile_manager);
 
 	// initialize click manager
-	m_click_handler = std::make_shared<handlers::ClickHandler>(m_render_manager, m_path_manager, m_monkey_manager);
-
-	// background
-	// TODO: MAP OBJECT
-	background.set_layers(background_images);
-	for (const auto& layer: background.get_layers()) {
-		m_render_manager->AddChild(layer);
-	}
+	m_click_handler = std::make_shared<handlers::ClickHandler>(m_path_manager, m_monkey_manager);
+	m_render_manager->AddChild(m_click_handler);
+	m_click_handler->set_monkey_obstacles(m_map->get_obstacles());
 
 	// hp display
 	// TODO: UI
@@ -128,7 +104,7 @@ void App::Update() {
 		 mouse_ptsd_pos.x,
 		-mouse_ptsd_pos.y
 	};
-	
+
 	// monkey place controller first
 	m_click_handler->update_monkey_placement_controller(
 		mouse_pos,
@@ -141,7 +117,7 @@ void App::Update() {
 		mouse_pos,
 		Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)
 	);
-	
+
 	m_render_manager->Update();
 
 	/*

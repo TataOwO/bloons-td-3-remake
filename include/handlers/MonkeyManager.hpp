@@ -1,6 +1,8 @@
 #ifndef MONKEY_MANAGER_HPP
 #define MONKEY_MANAGER_HPP
 
+#include "Util/GameObject.hpp"
+
 namespace Util {class Renderer;}
 
 namespace monkeys {class BaseMonkey;}
@@ -19,8 +21,10 @@ namespace layout {class GameText;}
 
 namespace handlers {
 
-class MonkeyManager final {
+class MonkeyManager final : public Util::GameObject {
 public:
+    MonkeyManager();
+
     // Collision detection methods
     bool hitbox_is_collided_with_monkeys(const std::shared_ptr<hitboxes::I_BaseHitbox> &hitbox);
     bool point_is_collided_with_monkeys(glm::vec2 point);
@@ -55,18 +59,15 @@ private:
     
     std::vector<std::shared_ptr<projectiles::BaseProjectile>> m_new_projectiles = {};
     
-    std::shared_ptr<Util::Renderer> m_render_manager;
 
 // basic functions
 public:
-    MonkeyManager(const std::shared_ptr<Util::Renderer> &render_manager);
-
     MonkeyManager(const MonkeyManager&) = delete;
     MonkeyManager(MonkeyManager&&) = delete;
     MonkeyManager& operator=(const MonkeyManager&) = delete;
     MonkeyManager& operator=(MonkeyManager&&) = delete;
 
-    ~MonkeyManager() = default;
+    ~MonkeyManager();
 };
 
 }

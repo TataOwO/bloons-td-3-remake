@@ -41,7 +41,7 @@ public:
 
     BoomerangMonkey& operator=(BoomerangMonkey&&) = delete;
 
-	~BoomerangMonkey() override = default;
+	~BoomerangMonkey() override;
 };
 
 }

@@ -2,6 +2,7 @@
 #define BASE_MONKEY_HPP
 
 #include "Util/GameObject.hpp"
+#include "Constants.hpp"
 
 namespace hitboxes {class CircularHitbox;}
 namespace map::route {class Route;}
@@ -47,7 +48,7 @@ public:
 
 	BaseMonkey& operator=(BaseMonkey&&) = delete;
 
-	virtual ~BaseMonkey() override = default;
+	virtual ~BaseMonkey() override;
 };
 
 }

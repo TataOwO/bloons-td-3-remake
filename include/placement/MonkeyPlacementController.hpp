@@ -10,6 +10,7 @@ namespace Core {class Drawable;}
 namespace handlers {class PathManager;}
 namespace handlers {class MonkeyManager;}
 namespace monkeys  {class BaseMonkey;}
+namespace hitboxes {class I_BaseHitbox;}
 namespace hitboxes {class CircularHitbox;}
 namespace layout   {class GameText;}
 
@@ -58,6 +59,8 @@ public:
 	// get current type
 	PLACABLE_TYPE get_current_type() const { return m_current_monkey_type; }
 
+	void set_monkey_obstacles(const std::vector<std::shared_ptr<hitboxes::I_BaseHitbox>>&);
+
 private:
 	// checks if position is valid for current monkey type
 	bool check_valid_position() const;
@@ -89,6 +92,8 @@ private:
 
 	// Hitbox radius for different monkey types
 	float m_default_hitbox_radius = 30.0f;
+	
+	std::vector<std::shared_ptr<hitboxes::I_BaseHitbox>> m_obstacles = {};
 
 // base
 public:
@@ -96,7 +101,7 @@ public:
 	MonkeyPlacementController(MonkeyPlacementController&&) = delete;
 	MonkeyPlacementController& operator=(const MonkeyPlacementController&) = delete;
 	MonkeyPlacementController& operator=(MonkeyPlacementController&&) = delete;
-	~MonkeyPlacementController() override = default;
+	~MonkeyPlacementController() override;
 };
 
 }

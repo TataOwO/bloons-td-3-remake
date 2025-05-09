@@ -41,7 +41,7 @@ public:
 
     TackShooter& operator=(TackShooter&&) = delete;
 
-	~TackShooter() override = default;
+	~TackShooter() override;
 };
 
 }

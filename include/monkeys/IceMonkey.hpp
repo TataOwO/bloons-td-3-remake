@@ -4,6 +4,8 @@
 #include "monkeys/BaseMonkey.hpp"
 #include "monkeys/I_MonkeyAttacker.hpp"
 
+namespace Util {class Animation;}
+
 namespace monkeys {
 
 class IceMonkey final : public monkeys::BaseMonkey, public monkeys::I_MonkeyAttacker {
@@ -31,6 +33,9 @@ private: // I monkey attacker
 	
 	void face_towards(glm::vec2 position) override; // TODO: change this to protected
 
+private:
+	std::shared_ptr<Util::Animation> m_animation;
+
 // base
 public:
     IceMonkey(const IceMonkey&) = delete;
@@ -41,7 +46,7 @@ public:
 
     IceMonkey& operator=(IceMonkey&&) = delete;
 
-	~IceMonkey() override = default;
+	~IceMonkey() override;
 };
 
 }

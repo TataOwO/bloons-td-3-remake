@@ -13,10 +13,10 @@
 
 namespace handlers {
 
-PathManager::PathManager(std::vector<std::shared_ptr<map::route::RoutePath>> paths, const std::shared_ptr<Util::Renderer> &render_manager) : m_paths(paths), m_render_manager(render_manager) {
+PathManager::PathManager(std::vector<std::shared_ptr<map::route::RoutePath>> paths) : m_paths(paths) {
 	for (std::shared_ptr<map::route::RoutePath> rp: paths) {
 		// renderer
-		render_manager->AddChild(rp);
+		AddChild(rp);
 		
 		// insert
 		auto routes = rp->get_all_routes();
@@ -35,6 +35,10 @@ std::shared_ptr<map::route::Route> PathManager::get_collided_route(const std::sh
 
 std::shared_ptr<map::route::RoutePath> PathManager::get_random_route_path() const {
 	return m_paths.at(std::rand() % m_paths.size());
+}
+
+PathManager::~PathManager() {
+	
 }
 
 }

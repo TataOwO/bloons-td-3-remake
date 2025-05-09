@@ -1,6 +1,8 @@
 #ifndef PROJECTILE_MANAGER_HPP
 #define PROJECTILE_MANAGER_HPP
 
+#include "Util/GameObject.hpp"
+
 namespace bloons {class BaseBloon;}
 
 namespace Util {class Renderer;}
@@ -8,9 +10,9 @@ namespace projectiles {class BaseProjectile;}
 
 namespace handlers {
 
-class ProjectileManager final {
+class ProjectileManager final : public Util::GameObject {
 public:
-	ProjectileManager(const std::shared_ptr<Util::Renderer> &render_manager);
+	ProjectileManager();
 public:
 	std::vector<std::shared_ptr<projectiles::BaseProjectile>> get_all_projectiles() {return m_all_projectiles;};
 
@@ -23,8 +25,6 @@ private:
 	std::vector<std::shared_ptr<projectiles::BaseProjectile>> m_all_projectiles = {};
 	
 	std::vector<std::shared_ptr<projectiles::BaseProjectile>> m_removal_queue = {};
-
-	std::shared_ptr<Util::Renderer> m_render_manager;
 // base
 public:
     ProjectileManager(const ProjectileManager&) = delete;
@@ -35,7 +35,7 @@ public:
 
     ProjectileManager& operator=(ProjectileManager&&) = delete;
 
-	~ProjectileManager() = default;
+	~ProjectileManager();
 
 };
 

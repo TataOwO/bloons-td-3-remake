@@ -7,11 +7,16 @@
 
 namespace handlers {
 
-ProjectileManager::ProjectileManager(const std::shared_ptr<Util::Renderer> &render_manager) : m_render_manager(render_manager) {
+ProjectileManager::ProjectileManager() {
+	
 }
 
 void ProjectileManager::add_new_projectiles(const std::vector<std::shared_ptr<projectiles::BaseProjectile>>& projectile_vec) {
 	m_all_projectiles.insert(m_all_projectiles.end(), projectile_vec.begin(), projectile_vec.end());
+	
+	for (auto& p: projectile_vec) {
+		AddChild(p);
+	}
 }
 
 void ProjectileManager::update(const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec) {
@@ -26,7 +31,7 @@ void ProjectileManager::update(const std::vector<std::shared_ptr<bloons::BaseBlo
 			}
 			
 			if (projectile->is_dead()) {
-				m_render_manager->RemoveChild(projectile);
+				RemoveChild(projectile);
 				m_removal_queue.push_back(projectile);
 			}
 		}
@@ -37,7 +42,7 @@ void ProjectileManager::update(const std::vector<std::shared_ptr<bloons::BaseBlo
 
 void ProjectileManager::process_removal() {
 	for (auto& projectile: m_removal_queue) {
-		m_render_manager->RemoveChild(projectile);
+		RemoveChild(projectile);
 
 		auto it = std::find(m_all_projectiles.begin(), m_all_projectiles.end(), projectile);
 
@@ -45,6 +50,10 @@ void ProjectileManager::process_removal() {
 	}
 
 	m_removal_queue.clear();
+}
+
+ProjectileManager::~ProjectileManager() {
+	
 }
 
 }

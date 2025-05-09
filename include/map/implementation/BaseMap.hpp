@@ -3,6 +3,7 @@
 
 #include "Util/GameObject.hpp"
 
+namespace hitboxes {class I_BaseHitbox;}
 namespace map {class MapBackground;}
 namespace handlers {class PathManager;}
 namespace inputs {class Clickable;}
@@ -15,14 +16,26 @@ protected:
 public:
 	virtual void update() = 0;
 	
+	void set_show_route(bool show);
+	void toggle_show_route() {set_show_route(!route_is_visible);};
+	
+	const std::shared_ptr<handlers::PathManager> get_path_manager() {return m_path_manager;};
+
 	std::vector<std::shared_ptr<inputs::Clickable>> get_clickables() {return m_clickables;};
+	
+	std::vector<std::shared_ptr<hitboxes::I_BaseHitbox>> get_obstacles() const {return m_obstacles;};
 protected:
 	std::shared_ptr<map::MapBackground> m_background;
-	
+
 	// NOT INITIALIZED YET
 	std::shared_ptr<handlers::PathManager> m_path_manager;
 
 	std::vector<std::shared_ptr<inputs::Clickable>> m_clickables = {};
+	
+	std::vector<std::shared_ptr<hitboxes::I_BaseHitbox>> m_obstacles;
+	
+private:
+	bool route_is_visible = false;
 
 // base
 public:
@@ -34,9 +47,9 @@ public:
 
 	BaseMap& operator=(BaseMap&&) = delete;
 
-	virtual ~BaseMap() = default;
+	virtual ~BaseMap();
 };
 
 }
 
-#endif 
+#endif

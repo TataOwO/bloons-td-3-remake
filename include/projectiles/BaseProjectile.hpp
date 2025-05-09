@@ -13,14 +13,6 @@ protected:
 	BaseProjectile();
 
 public:
-	// Disable copying and moving
-	BaseProjectile(const BaseProjectile&) = delete;
-	BaseProjectile(BaseProjectile&&) = delete;
-	BaseProjectile& operator=(const BaseProjectile&) = delete;
-	BaseProjectile& operator=(BaseProjectile&&) = delete;
-
-	virtual ~BaseProjectile() override = default;
-
 	// Check collision with another hitbox
 	bool is_collided_with(const std::shared_ptr<bloons::BaseBloon> &bloon) const;
 
@@ -58,6 +50,15 @@ protected:
 	std::vector<std::shared_ptr<bloons::BaseBloon>> m_hit_bloon_vec;
 protected:
 	virtual void m_move() = 0;
+
+public:
+	// Disable copying and moving
+	BaseProjectile(const BaseProjectile&) = delete;
+	BaseProjectile(BaseProjectile&&) = delete;
+	BaseProjectile& operator=(const BaseProjectile&) = delete;
+	BaseProjectile& operator=(BaseProjectile&&) = delete;
+
+	virtual ~BaseProjectile() override;
 };
 
 }

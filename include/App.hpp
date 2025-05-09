@@ -12,6 +12,7 @@
 #include "handlers/BloonManager.hpp"
 #include "handlers/ProjectileManager.hpp"
 #include "handlers/ClickHandler.hpp"
+#include "map/implementation/BaseMap.hpp"
 
 class App {
 public:
@@ -38,16 +39,10 @@ private:
 
 	unsigned long long game_tick = 0;
 
-	// TODO: map object
-	map::MapBackground background = map::MapBackground();
-	std::vector<std::string> background_images = {
-		RESOURCE_DIR"/images/maps/ice_map.png",
-		RESOURCE_DIR"/images/maps/ice_map_frozen.png",
-		RESOURCE_DIR"/images/maps/ice_map_sleeping_frog.png"
-	};
+	std::shared_ptr<map::implementation::BaseMap> m_map;
 
-	// paths manager
-	std::shared_ptr<handlers::PathManager> m_path_manager;
+	// paths manager (no longer needed)
+	// std::shared_ptr<handlers::PathManager> m_path_manager;
 
 	// monkey manager
 	std::shared_ptr<handlers::MonkeyManager> m_monkey_manager;

@@ -100,7 +100,7 @@ public:
 
 	BaseBloon& operator=(BaseBloon&&) = delete;
 
-	virtual ~BaseBloon() override = default;
+	virtual ~BaseBloon() override;
 };
 
 }

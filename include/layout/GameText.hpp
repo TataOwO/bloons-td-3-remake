@@ -35,7 +35,7 @@ public:
 
 	GameText& operator=(GameText&&) = delete;
 
-	~GameText() override = default;
+	~GameText() override;
 };
 
 }

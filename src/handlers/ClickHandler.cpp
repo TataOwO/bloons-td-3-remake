@@ -21,16 +21,16 @@
 
 namespace handlers {
 
-ClickHandler::ClickHandler(const std::shared_ptr<Util::Renderer> &render_manager, const std::shared_ptr<handlers::PathManager>& path_manager, const std::shared_ptr<handlers::MonkeyManager>& monkey_manager) : m_render_manager(render_manager) {
+ClickHandler::ClickHandler(const std::shared_ptr<handlers::PathManager>& path_manager, const std::shared_ptr<handlers::MonkeyManager>& monkey_manager) {
 	m_monkey_placement_manager = std::make_shared<placement::MonkeyPlacementController>(path_manager, monkey_manager);
-	m_render_manager->AddChild(m_monkey_placement_manager);
+	AddChild(m_monkey_placement_manager);
 
-	auto dart_button = m_add_new_button(placement::PLACABLE_TYPE::DART, glm::vec2{288,120});
-	auto super_button = m_add_new_button(placement::PLACABLE_TYPE::SUPER, glm::vec2{336,120});
-	auto ice_button = m_add_new_button(placement::PLACABLE_TYPE::ICE, glm::vec2{384,120});
-	auto bomb_button = m_add_new_button(placement::PLACABLE_TYPE::BOMB, glm::vec2{432,120});
-	auto tack_button = m_add_new_button(placement::PLACABLE_TYPE::TACK, glm::vec2{288,72});
-	auto boomer_button = m_add_new_button(placement::PLACABLE_TYPE::BOOMERANG, glm::vec2{336,72});
+	auto dart_button = m_add_new_monkey_placement_button(placement::PLACABLE_TYPE::DART, glm::vec2{288,120});
+	auto super_button = m_add_new_monkey_placement_button(placement::PLACABLE_TYPE::SUPER, glm::vec2{336,120});
+	auto ice_button = m_add_new_monkey_placement_button(placement::PLACABLE_TYPE::ICE, glm::vec2{384,120});
+	auto bomb_button = m_add_new_monkey_placement_button(placement::PLACABLE_TYPE::BOMB, glm::vec2{432,120});
+	auto tack_button = m_add_new_monkey_placement_button(placement::PLACABLE_TYPE::TACK, glm::vec2{288,72});
+	auto boomer_button = m_add_new_monkey_placement_button(placement::PLACABLE_TYPE::BOOMERANG, glm::vec2{336,72});
 }
 
 void ClickHandler::update(const glm::vec2& mouse_pos, bool LB) {
@@ -77,6 +77,10 @@ void ClickHandler::update_monkey_placement_controller(const glm::vec2 & mouse_po
 	if (left_button && m_monkey_placement_manager->place_monkey(current_money)) m_monkey_placement_manager->clear_all();
 }
 
+void ClickHandler::set_monkey_obstacles(const std::vector<std::shared_ptr<hitboxes::I_BaseHitbox>>& obstcbles) {
+	m_monkey_placement_manager->set_monkey_obstacles(obstcbles);
+}
+
 void ClickHandler::add_clickable(const std::shared_ptr<inputs::Clickable>& clickable) {
 	// find position to insert at
 	// higher z index should be placed earlier (i hope)
@@ -117,7 +121,7 @@ void ClickHandler::remove_button(const std::vector<std::shared_ptr<layout::Butto
 	}
 }
 
-std::shared_ptr<layout::Button> ClickHandler::m_add_new_button(const placement::PLACABLE_TYPE& type, const glm::vec2& pos) {
+std::shared_ptr<layout::Button> ClickHandler::m_add_new_monkey_placement_button(const placement::PLACABLE_TYPE& type, const glm::vec2& pos) {
 	// creates new button
 	std::shared_ptr<layout::Button> new_button = std::make_shared<layout::Button>();
 
@@ -139,7 +143,7 @@ std::shared_ptr<layout::Button> ClickHandler::m_add_new_button(const placement::
 
 	// adds button to corresponding handlers
 	m_button_vec.push_back(new_button);
-	m_render_manager->AddChild(new_button);
+	AddChild(new_button);
 
 	switch (type) {
 	case placement::PLACABLE_TYPE::DART:
@@ -167,9 +171,7 @@ std::shared_ptr<layout::Button> ClickHandler::m_add_new_button(const placement::
 }
 
 ClickHandler::~ClickHandler() {
-	for (auto& button: m_button_vec) {
-		m_render_manager->RemoveChild(button);
-	}
+	
 }
 
 }

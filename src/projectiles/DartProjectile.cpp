@@ -93,4 +93,8 @@ void DartProjectile::m_move() {
 	m_Transform.rotation = m_hitbox->get_rotation();
 }
 
+DartProjectile::~DartProjectile() {
+	
+}
+
 }

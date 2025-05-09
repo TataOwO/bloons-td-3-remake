@@ -41,7 +41,7 @@ public:
 
     DartMonkey& operator=(DartMonkey&&) = delete;
 
-	~DartMonkey() override = default;
+	~DartMonkey() override;
 };
 
 }

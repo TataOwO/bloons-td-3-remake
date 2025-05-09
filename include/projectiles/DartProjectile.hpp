@@ -25,7 +25,7 @@ public:
 
 	DartProjectile& operator=(DartProjectile&&) = delete;
 
-	~DartProjectile() override = default;
+	~DartProjectile() override;
 };
 
 } // namespace projectiles

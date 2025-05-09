@@ -6,7 +6,7 @@
 namespace map::route {class Route;}
 
 namespace map::route {
-class RoutePath : public Util::GameObject {
+class RoutePath final : public Util::GameObject {
 public:
     explicit RoutePath(std::vector<std::shared_ptr<Route>> routes);
 public:
@@ -30,7 +30,7 @@ public:
 
     RoutePath& operator=(RoutePath&&) = delete;
 
-	~RoutePath() override = default;
+	~RoutePath() override;
 
 };
 }

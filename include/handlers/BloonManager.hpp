@@ -2,6 +2,7 @@
 #define BLOON_MANAGER_HPP
 
 #include <queue>
+#include "Util/GameObject.hpp"
 
 namespace handlers {class PathManager;}
 namespace Util     {class Renderer;}
@@ -24,9 +25,9 @@ struct BloonSpawnInfo {
 	}
 };
 
-class BloonManager {
+class BloonManager final : public Util::GameObject {
 public:
-	BloonManager(std::shared_ptr<Util::Renderer> render_manager, std::shared_ptr<handlers::PathManager> path_manager);
+	BloonManager(std::shared_ptr<handlers::PathManager> path_manager);
 
 	// process bloon updates
 	void update(int current_tick, const std::shared_ptr<layout::GameText> &game_hp);
@@ -85,7 +86,6 @@ private:
 	// scheduled bloon spawns using priority queue
 	std::priority_queue<BloonSpawnInfo, std::vector<BloonSpawnInfo>, std::greater<BloonSpawnInfo>> m_spawn_queue;
 
-	std::shared_ptr<Util::Renderer> m_render_manager;
 	std::shared_ptr<handlers::PathManager> m_path_manager;
 
 // base
@@ -94,7 +94,7 @@ public:
 	BloonManager(BloonManager&&) = delete;
 	BloonManager& operator=(const BloonManager&) = delete;
 	BloonManager& operator=(BloonManager&&) = delete;
-	~BloonManager() = default;
+	~BloonManager();
 };
 
 }

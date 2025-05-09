@@ -5,12 +5,13 @@
 
 namespace map::implementation {
 
-class IceMap final : public map::implementation::BaseMap {
+class IceMap final : public BaseMap {
 public:
 	IceMap();
 
+	void update() override;
+
 private:
-	std::shared_ptr<>
 
 // base
 public:
@@ -22,8 +23,8 @@ public:
 
 	IceMap& operator=(IceMap&&) = delete;
 
-	~IceMap() = default;
-}
+	~IceMap();
+};
 
 }
 

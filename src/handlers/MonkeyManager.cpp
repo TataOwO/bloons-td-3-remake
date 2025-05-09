@@ -23,8 +23,8 @@
 
 namespace handlers {
 
-MonkeyManager::MonkeyManager(const std::shared_ptr<Util::Renderer> &render_manager)
-    : m_render_manager(render_manager) {
+MonkeyManager::MonkeyManager() {
+	
 }
 
 bool MonkeyManager::hitbox_is_collided_with_monkeys(const std::shared_ptr<hitboxes::I_BaseHitbox> &hitbox) {
@@ -84,10 +84,6 @@ void MonkeyManager::process_attacks() {
             auto projectile = attacker->get_spawned_projectile();
 			
             m_new_projectiles.insert(m_new_projectiles.end(), projectile.begin(), projectile.end());
-            for (auto& p: projectile) {
-                m_render_manager->AddChild(p);
-            }
-
         }
         
         // Reset target for next scan cycle
@@ -121,7 +117,7 @@ bool MonkeyManager::place_dart_monkey(glm::vec2 position, const std::shared_ptr<
     m_dart_monkeys.push_back(new_monkey);
     
     // add to renderer
-    m_render_manager->AddChild(new_monkey);
+    AddChild(new_monkey);
     
     money->sub_value(money_cost);
     
@@ -142,7 +138,7 @@ bool MonkeyManager::place_super_monkey(glm::vec2 position, const std::shared_ptr
     m_super_monkeys.push_back(new_monkey);
     
     // add to renderer
-    m_render_manager->AddChild(new_monkey);
+    AddChild(new_monkey);
     
     money->sub_value(money_cost);
     
@@ -163,7 +159,7 @@ bool MonkeyManager::place_ice_monkey(glm::vec2 position, const std::shared_ptr<l
     m_ice_monkeys.push_back(new_monkey);
     
     // add to renderer
-    m_render_manager->AddChild(new_monkey);
+    AddChild(new_monkey);
     
     money->sub_value(money_cost);
     
@@ -184,7 +180,7 @@ bool MonkeyManager::place_bomb_shooter(glm::vec2 position, const std::shared_ptr
     m_bomb_shooters.push_back(new_monkey);
     
     // add to renderer
-    m_render_manager->AddChild(new_monkey);
+    AddChild(new_monkey);
     
     money->sub_value(money_cost);
     
@@ -205,7 +201,7 @@ bool MonkeyManager::place_tack_shooter(glm::vec2 position, const std::shared_ptr
     m_tack_shooters.push_back(new_monkey);
     
     // add to renderer
-    m_render_manager->AddChild(new_monkey);
+    AddChild(new_monkey);
     
     money->sub_value(money_cost);
     
@@ -226,11 +222,15 @@ bool MonkeyManager::place_boomerang_monkey(glm::vec2 position, const std::shared
     m_boomerang_monkeys.push_back(new_monkey);
     
     // add to renderer
-    m_render_manager->AddChild(new_monkey);
+    AddChild(new_monkey);
     
     money->sub_value(money_cost);
     
     return true;
+}
+
+MonkeyManager::~MonkeyManager() {
+	
 }
 
 }

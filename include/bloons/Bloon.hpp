@@ -30,7 +30,7 @@ public:
 
     Bloon& operator=(Bloon&&) = delete;
 
-	~Bloon() override = default;
+	~Bloon() override;
 };
 
 }
