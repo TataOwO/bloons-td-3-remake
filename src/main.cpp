@@ -13,9 +13,9 @@ int main(int, char**) {
 				app.set_state(App::State::UPDATE);
                 break;
 
-            case App::State::UPDATE:
-                app.Update();
-                break;
+			case App::State::UPDATE:
+				app.Update();
+				break;
 
             case App::State::END:
                 app.End();

@@ -31,6 +31,9 @@ bool hitboxes_are_collided(const std::shared_ptr<hitboxes::I_BaseHitbox> &a, con
 	case hitboxes::HitboxType::RECTANGULAR:
 		a_type = CONSTANTS::HITBOX_CONSTANTS::COLLISION_CHECK_PRIORITY::RECTANGULAR;
 	break;
+	case hitboxes::HitboxType::GROUP:
+		a_type = CONSTANTS::HITBOX_CONSTANTS::COLLISION_CHECK_PRIORITY::GROUP;
+	break;
 	}
 	switch (b->get_type()) {
 	case hitboxes::HitboxType::CIRCULAR:
@@ -41,6 +44,9 @@ bool hitboxes_are_collided(const std::shared_ptr<hitboxes::I_BaseHitbox> &a, con
 	break;
 	case hitboxes::HitboxType::RECTANGULAR:
 		b_type = CONSTANTS::HITBOX_CONSTANTS::COLLISION_CHECK_PRIORITY::RECTANGULAR;
+	break;
+	case hitboxes::HitboxType::GROUP:
+		b_type = CONSTANTS::HITBOX_CONSTANTS::COLLISION_CHECK_PRIORITY::GROUP;
 	break;
 	}
 	

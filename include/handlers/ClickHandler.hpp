@@ -32,8 +32,15 @@ public:
 	void add_clickables(const std::vector<std::shared_ptr<inputs::Clickable>>& c_vec);
 	void add_clickable(const std::shared_ptr<inputs::Clickable>& c_vec);
 	void remove_clickable(const std::vector<std::shared_ptr<inputs::Clickable>>& c_vec);
+
+	// game states
+	bool should_goto_map_selector() const {return *m_map_state;}
+	bool should_exit_game() const {return *m_exit_state;}
+	void clear_states() const {*m_exit_state = *m_map_state = false;}
 private:
 	std::shared_ptr<layout::Button> m_add_new_monkey_placement_button(const placement::PLACABLE_TYPE&, const glm::vec2&);
+
+	void add_existing_button(const std::shared_ptr<layout::Button>& button);
 	void remove_button(const std::vector<std::shared_ptr<layout::Button>>& b_vec);
 private:
 	std::vector<std::shared_ptr<inputs::Clickable>> m_clickable_vec = {};
@@ -43,6 +50,10 @@ private:
 	std::vector<std::shared_ptr<layout::Button>> m_button_removal_queue = {};
 
 	std::shared_ptr<placement::MonkeyPlacementController> m_monkey_placement_manager;
+
+	std::shared_ptr<bool> m_map_state  = std::make_shared<bool>(false);
+	std::shared_ptr<bool> m_exit_state = std::make_shared<bool>(false);
+
 // base
 public:
 	ClickHandler(const ClickHandler&) = delete;

@@ -2,12 +2,11 @@
 #define INTERFACE_BASE_HITBOX_HPP
 
 namespace hitboxes {
-class I_BaseHitbox;
-
 enum class HitboxType {
     CIRCULAR,
     OVAL,
-    RECTANGULAR
+    RECTANGULAR,
+	GROUP,
 };
 
 class I_BaseHitbox {

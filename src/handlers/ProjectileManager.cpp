@@ -52,6 +52,15 @@ void ProjectileManager::process_removal() {
 	m_removal_queue.clear();
 }
 
+void ProjectileManager::clear_all_projectiles() {
+	for (const auto& projectile: m_all_projectiles) {
+		RemoveChild(projectile);
+	}
+	
+	m_all_projectiles.clear();
+	m_removal_queue.clear();
+}
+
 ProjectileManager::~ProjectileManager() {
 	
 }

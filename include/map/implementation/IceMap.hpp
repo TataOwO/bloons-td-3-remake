@@ -11,6 +11,7 @@ public:
 
 	void update() override;
 
+	MAP_TYPE get_map_type() const override {return MAP_TYPE::ICE;}
 private:
 
 // base

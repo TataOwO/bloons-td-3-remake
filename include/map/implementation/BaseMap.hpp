@@ -10,11 +10,20 @@ namespace inputs {class Clickable;}
 
 namespace map::implementation {
 
+enum class MAP_TYPE {
+	PEACEFUL,
+	ICE,
+	SUMMON,
+	TELEPORT,
+	SECRET,
+};
+
 class BaseMap : public Util::GameObject {
 protected:
 	BaseMap();
 public:
 	virtual void update() = 0;
+	virtual MAP_TYPE get_map_type() const = 0;
 	
 	void set_show_route(bool show);
 	void toggle_show_route() {set_show_route(!route_is_visible);};

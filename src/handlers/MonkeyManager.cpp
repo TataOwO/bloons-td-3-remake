@@ -12,7 +12,6 @@
 #include "projectiles/BaseProjectile.hpp"
 
 #include "bloons/BaseBloon.hpp"
-#include "bloons/Bloon.hpp"
 
 #include "hitboxes/CircularHitbox.hpp"
 #include "layout/GameText.hpp"
@@ -99,7 +98,7 @@ void MonkeyManager::clear_new_projectiles() {
     m_new_projectiles.clear();
 }
 
-const std::vector<std::shared_ptr<monkeys::BaseMonkey>>& MonkeyManager::get_all_monkeys() const {
+std::vector<std::shared_ptr<monkeys::BaseMonkey>> MonkeyManager::get_all_monkeys() const {
     return m_all_monkeys;
 }
 
@@ -227,6 +226,22 @@ bool MonkeyManager::place_boomerang_monkey(glm::vec2 position, const std::shared
     money->sub_value(money_cost);
     
     return true;
+}
+
+void MonkeyManager::clear_all_monkeys() {
+	for (auto monke: m_all_monkeys) {
+		RemoveChild(monke);
+	}
+	
+	m_all_monkeys.clear();
+	m_all_monkey_attackers.clear();
+	m_dart_monkeys.clear();
+	m_super_monkeys.clear();
+	m_ice_monkeys.clear();
+	m_bomb_shooters.clear();
+	m_tack_shooters.clear();
+	m_boomerang_monkeys.clear();
+	m_new_projectiles.clear();
 }
 
 MonkeyManager::~MonkeyManager() {

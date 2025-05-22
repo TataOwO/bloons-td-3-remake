@@ -21,11 +21,9 @@ public:
 	// calls on_click() if clicked, returns true if success
 	bool process_click(const glm::vec2 click_pos) const {
 		return // evaluate
-			(on_click
+			on_click
 			&& m_hitbox->contains_point(click_pos)
-			&& on_click())
-			// debug
-			|| ((std::cout << "click processed!" << std::endl) && false);
+			&& on_click();
 	}
 
 	// function setter
@@ -36,7 +34,7 @@ public:
 	// z index, higher ones will be selected first
 	void set_z_index(const float& zi) {z_index = zi;}
 	float get_z_index() const {return z_index;}
-private:
+protected:
 	// takes function from object
 	std::function<bool()> on_click;
 

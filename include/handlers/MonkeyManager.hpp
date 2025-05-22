@@ -46,7 +46,8 @@ public:
     void clear_new_projectiles();
     
     // Getters
-    const std::vector<std::shared_ptr<monkeys::BaseMonkey>>& get_all_monkeys() const;
+    std::vector<std::shared_ptr<monkeys::BaseMonkey>> get_all_monkeys() const;
+	void clear_all_monkeys();
 private:
     std::vector<std::shared_ptr<monkeys::BaseMonkey>> m_all_monkeys = {};
     std::vector<std::shared_ptr<monkeys::I_MonkeyAttacker>> m_all_monkey_attackers = {};

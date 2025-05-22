@@ -11,15 +11,16 @@
 #include "bloons/Bloon.hpp"
 #include "layout/GameText.hpp"
 #include "map/route/RoutePath.hpp"
+#include "map/route/Route.hpp"
 
 namespace handlers {
 
-BloonManager::BloonManager(std::shared_ptr<handlers::PathManager> path_manager) : m_path_manager(path_manager) {
+BloonManager::BloonManager() {
 }
 
-void BloonManager::update(int current_tick, const std::shared_ptr<layout::GameText> &game_hp) {
+void BloonManager::update(const std::shared_ptr<handlers::PathManager>& path_manager, int current_tick, const std::shared_ptr<layout::GameText> &game_hp) {
 	// Process any scheduled spawns for this tick
-	process_spawn_queue(current_tick);
+	process_spawn_queue(path_manager, current_tick);
 
 	std::vector<std::shared_ptr<bloons::BaseBloon>> should_spawn_children = {};
 
@@ -69,7 +70,7 @@ void BloonManager::schedule_bloon_spawn(bloons::BLOON_TYPE type, int ticks_until
 	m_spawn_queue.push(BloonSpawnInfo(type, spawn_tick));
 }
 
-void BloonManager::spawn_random_bloon() {
+void BloonManager::spawn_random_bloon(const std::shared_ptr<map::route::Route> &spawn_route) {
 	// Array of possible bloon types
 	std::vector<bloons::BLOON_TYPE> types = {
 		bloons::BLOON_TYPE::RED,
@@ -85,9 +86,6 @@ void BloonManager::spawn_random_bloon() {
 
 	// Select random bloon type
 	bloons::BLOON_TYPE selected_type = types.at(std::rand() % types.size());
-
-	// Get random path for spawning
-	auto spawn_route = m_path_manager->get_random_route_path()->get_start_route();
 
 	// Create and add the new bloon
 	auto new_bloon = std::make_shared<bloons::Bloon>(spawn_route, selected_type);
@@ -216,14 +214,14 @@ void BloonManager::spawn_child_bloon(const std::shared_ptr<bloons::BaseBloon> &p
 	add_bloon(child_bloon);
 }
 
-void BloonManager::process_spawn_queue(int current_tick) {
+void BloonManager::process_spawn_queue(const std::shared_ptr<handlers::PathManager> &path_manager, int current_tick) {
 	// Process all bloons scheduled for this tick or earlier
 	while (!m_spawn_queue.empty() && m_spawn_queue.top().spawn_tick <= current_tick) {
 		auto spawn_info = m_spawn_queue.top();
 		m_spawn_queue.pop();
 
 		// Get a random route for spawning
-		auto spawn_route = m_path_manager->get_random_route_path()->get_start_route();
+		auto spawn_route = path_manager->get_random_route_path()->get_start_route();
 
 		// Create and add the new bloon
 		auto new_bloon = std::make_shared<bloons::Bloon>(spawn_route, spawn_info.type);

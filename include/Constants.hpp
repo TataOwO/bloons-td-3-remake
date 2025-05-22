@@ -226,6 +226,7 @@ namespace HITBOX_CONSTANTS {
 			CIRCULAR,
 			OVAL,
 			RECTANGULAR,
+			GROUP,
 		};
 	};
 };

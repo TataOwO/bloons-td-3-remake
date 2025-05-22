@@ -16,7 +16,8 @@
 #include <iostream>
 
 #include "hitboxes/CircularHitbox.hpp"
-#include "layout/Button.hpp"
+#include "hitboxes/RectangularHitbox.hpp"
+#include "hitboxes/HitboxGroup.hpp"
 #include "Util/Image.hpp"
 
 namespace handlers {
@@ -26,11 +27,71 @@ ClickHandler::ClickHandler(const std::shared_ptr<handlers::PathManager>& path_ma
 	AddChild(m_monkey_placement_manager);
 
 	auto dart_button = m_add_new_monkey_placement_button(placement::PLACABLE_TYPE::DART, glm::vec2{288,120});
+	add_existing_button(dart_button);
 	auto super_button = m_add_new_monkey_placement_button(placement::PLACABLE_TYPE::SUPER, glm::vec2{336,120});
+	add_existing_button(super_button);
 	auto ice_button = m_add_new_monkey_placement_button(placement::PLACABLE_TYPE::ICE, glm::vec2{384,120});
+	add_existing_button(ice_button);
 	auto bomb_button = m_add_new_monkey_placement_button(placement::PLACABLE_TYPE::BOMB, glm::vec2{432,120});
+	add_existing_button(bomb_button);
 	auto tack_button = m_add_new_monkey_placement_button(placement::PLACABLE_TYPE::TACK, glm::vec2{288,72});
+	add_existing_button(tack_button);
 	auto boomer_button = m_add_new_monkey_placement_button(placement::PLACABLE_TYPE::BOOMERANG, glm::vec2{336,72});
+	add_existing_button(boomer_button);
+
+	// map button
+	auto map_button = std::make_shared<layout::Button>();
+	map_button->m_Transform.translation = {390,-345};
+	map_button->SetZIndex(CONSTANTS::Z_INDEX_CONSTANTS::IN_GAME_BUTTONS);
+	// map button hitbox
+	auto map_button_hitbox = std::make_shared<hitboxes::HitboxGroup>();
+	std::vector<std::shared_ptr<hitboxes::I_BaseHitbox>> map_button_hitboxes = {};
+	map_button_hitboxes.push_back(std::make_shared<hitboxes::CircularHitbox>(glm::vec2{375,-345}, 15));
+	map_button_hitboxes.push_back(std::make_shared<hitboxes::RectangularHitbox>(glm::vec2{390,-345},glm::vec2{30,30},0));
+	map_button_hitboxes.push_back(std::make_shared<hitboxes::CircularHitbox>(glm::vec2{405,-345}, 15));
+	map_button_hitbox->add_hitboxes(map_button_hitboxes);
+	map_button->set_hitbox(map_button_hitbox);
+	// on click
+	map_button->set_on_click([ms=m_map_state]() {
+		*ms = true;
+		std::cout << "map button clicked" << std::endl;
+		return true;
+	});
+	map_button->set_removal([]() {
+		return false;
+	});
+	// map button drawable
+	map_button->set_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/map.png"));
+	map_button->set_hover_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/map_yellow.png"));
+	// add to children
+	add_existing_button(map_button);
+
+	// exit button
+	auto exit_button = std::make_shared<layout::Button>();
+	exit_button->m_Transform.translation = {450,-345};
+	exit_button->SetZIndex(CONSTANTS::Z_INDEX_CONSTANTS::IN_GAME_BUTTONS);
+	// exit button hitbox
+	auto exit_button_hitbox = std::make_shared<hitboxes::HitboxGroup>();
+	std::vector<std::shared_ptr<hitboxes::I_BaseHitbox>> exit_button_hitboxes = {};
+	exit_button_hitboxes.push_back(std::make_shared<hitboxes::CircularHitbox>(glm::vec2{435,-345}, 15));
+	exit_button_hitboxes.push_back(std::make_shared<hitboxes::RectangularHitbox>(glm::vec2{450,-345},glm::vec2{30,30},0));
+	exit_button_hitboxes.push_back(std::make_shared<hitboxes::CircularHitbox>(glm::vec2{465,-345}, 15));
+	exit_button_hitbox->add_hitboxes(exit_button_hitboxes);
+	exit_button->set_hitbox(exit_button_hitbox);
+	// on click
+	exit_button->set_on_click([me=m_exit_state]() {
+		*me = true;
+		std::cout << "exit button clicked" << std::endl;
+		return true;
+	});
+	exit_button->set_removal([]() {
+		return false;
+	});
+	// exit button drawable
+	exit_button->set_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/exit.png"));
+	exit_button->set_hover_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/exit_yellow.png"));
+	// add to children
+	add_existing_button(exit_button);
 }
 
 void ClickHandler::update(const glm::vec2& mouse_pos, bool LB) {
@@ -52,10 +113,8 @@ void ClickHandler::update(const glm::vec2& mouse_pos, bool LB) {
 			continue;
 		}
 
-		if (!LB) continue;
-
 		// breaks when a clickable is successfully clicked
-		if (button->process_click(mouse_pos)) break;
+		if (button->update(mouse_pos, LB)) break;
 	}
 
 	// removes clickable
@@ -111,6 +170,13 @@ void ClickHandler::remove_clickable(const std::vector<std::shared_ptr<inputs::Cl
 	}
 }
 
+void ClickHandler::add_existing_button(const std::shared_ptr<layout::Button>& new_button) {
+	new_button->SetVisible(true);
+	m_button_vec.push_back(new_button);
+	AddChild(new_button);
+
+}
+
 void ClickHandler::remove_button(const std::vector<std::shared_ptr<layout::Button>>& b_vec) {
 	for (auto& b: b_vec) {
 		auto it = std::find(m_button_vec.begin(), m_button_vec.end(), b);
@@ -128,7 +194,6 @@ std::shared_ptr<layout::Button> ClickHandler::m_add_new_monkey_placement_button(
 	// initialize button's GameObject
 	new_button->SetZIndex(CONSTANTS::Z_INDEX_CONSTANTS::IN_GAME_BUTTONS);
 	new_button->m_Transform.scale = {0.5f, 0.5f};
-	new_button->SetVisible(true);
 
 	// initialize button's Clickable
 	new_button->m_Transform.translation = pos;
@@ -141,37 +206,39 @@ std::shared_ptr<layout::Button> ClickHandler::m_add_new_monkey_placement_button(
 		return true;
 	});
 
-	// adds button to corresponding handlers
-	m_button_vec.push_back(new_button);
-	AddChild(new_button);
+	std::string path_prefix = RESOURCE_DIR"/images/buttons/";
+	std::string monke_name;
 
 	switch (type) {
 	case placement::PLACABLE_TYPE::DART:
-		new_button->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/dart.png"));
+		monke_name = "dart";
 	break;
 	case placement::PLACABLE_TYPE::BOOMERANG:
-		new_button->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/boomerang.png"));
+		monke_name = "boomerang";
 	break;
 	case placement::PLACABLE_TYPE::SUPER:
-		new_button->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/super.png"));
+		monke_name = "super";
 	break;
 	case placement::PLACABLE_TYPE::BOMB:
-		new_button->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/bomb.png"));
+		monke_name = "bomb";
 	break;
 	case placement::PLACABLE_TYPE::TACK:
-		new_button->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/tack.png"));
+		monke_name = "tack";
 	break;
 	case placement::PLACABLE_TYPE::ICE:
-		new_button->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/ice.png"));
+		monke_name = "ice";
 	break;
 	default: break;
 	}
+	
+	new_button->set_drawable(std::make_shared<Util::Image>(path_prefix + monke_name + ".png"));
+	new_button->set_hover_drawable(std::make_shared<Util::Image>(path_prefix + monke_name + "_yellow.png"));
 
 	return new_button;
 }
 
 ClickHandler::~ClickHandler() {
-	
+
 }
 
 }

@@ -20,8 +20,9 @@ def extract_red_channel(input_path, output_path):
         
         # Set green and blue channels to 0
         # RGB is represented as [r, g, b] in the last dimension
-        img_array[:, :, 1] = 0  # Green channel
-        img_array[:, :, 2] = 0  # Blue channel
+        img_array[:, :, 0] = 0  # Red channel
+        # img_array[:, :, 1] = 0  # Green channel
+        # img_array[:, :, 2] = 0  # Blue channel
         
         # Convert back to PIL Image
         red_only_img = Image.fromarray(img_array)
@@ -39,9 +40,11 @@ def extract_red_channel(input_path, output_path):
 # Example usage
 if __name__ == "__main__":
     # Replace these with your actual file paths
-    monke_name = "ice"
+    path = rf"./buttons/maps/"
+    monke_name = "peaceful_map"
     file_type = "png"
-    input_image_path = rf"./monke/{monke_name}.{file_type}"
-    output_image_path = rf"./monke/{monke_name}_red.{file_type}"
+    color_name = "yellow"
+    input_image_path = rf"{path}{monke_name}.{file_type}"
+    output_image_path = rf"{path}{monke_name}_{color_name}.{file_type}"
     
     extract_red_channel(input_image_path, output_image_path)

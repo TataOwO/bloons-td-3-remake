@@ -19,6 +19,8 @@ public:
 	void add_new_projectiles(const std::vector<std::shared_ptr<projectiles::BaseProjectile>>& projectile_vec);
 
 	void update(const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec);
+	
+	void clear_all_projectiles();
 private:
 	void process_removal();
 private:

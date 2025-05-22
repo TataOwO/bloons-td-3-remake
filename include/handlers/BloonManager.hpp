@@ -9,6 +9,7 @@ namespace Util     {class Renderer;}
 namespace bloons   {class BaseBloon;}
 namespace bloons   {enum class BLOON_TYPE;}
 namespace layout   {class GameText;}
+namespace map::route {class Route;}
 
 namespace handlers {
 
@@ -27,10 +28,10 @@ struct BloonSpawnInfo {
 
 class BloonManager final : public Util::GameObject {
 public:
-	BloonManager(std::shared_ptr<handlers::PathManager> path_manager);
+	BloonManager();
 
 	// process bloon updates
-	void update(int current_tick, const std::shared_ptr<layout::GameText> &game_hp);
+	void update(const std::shared_ptr<handlers::PathManager>& path_manager, int current_tick, const std::shared_ptr<layout::GameText> &game_hp);
 
 	void add_bloon(const std::shared_ptr<bloons::BaseBloon> &bloon);
 
@@ -38,7 +39,7 @@ public:
 	void schedule_bloon_spawn(bloons::BLOON_TYPE type, int ticks_until_spawn);
 
 	// spawn bloon at random
-	void spawn_random_bloon();
+	void spawn_random_bloon(const std::shared_ptr<map::route::Route>& spawn_route);
 
 	void damage_bloon(const std::shared_ptr<bloons::BaseBloon> &bloon, int damage);
 
@@ -66,12 +67,13 @@ private:
 	void spawn_child_bloon(const std::shared_ptr<bloons::BaseBloon> &parent, bloons::BLOON_TYPE child_type);
 
 	// process the spawn queue for the current tick
-	void process_spawn_queue(int current_tick);
+	void process_spawn_queue(const std::shared_ptr<handlers::PathManager>& path_manager, int current_tick);
 
 	// Maintain sorted lists
 	void insert_into_sorted_lists(const std::shared_ptr<bloons::BaseBloon> &bloon);
 	void remove_from_sorted_lists(const std::shared_ptr<bloons::BaseBloon> &bloon);
 
+public:
 	// active bloons (that aren't destroyed)
 	std::vector<std::shared_ptr<bloons::BaseBloon>> m_active_bloons = {};
 
@@ -85,8 +87,6 @@ private:
 
 	// scheduled bloon spawns using priority queue
 	std::priority_queue<BloonSpawnInfo, std::vector<BloonSpawnInfo>, std::greater<BloonSpawnInfo>> m_spawn_queue;
-
-	std::shared_ptr<handlers::PathManager> m_path_manager;
 
 // base
 public:

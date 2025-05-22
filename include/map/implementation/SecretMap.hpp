@@ -1,0 +1,32 @@
+#ifndef SECRET_MAP_HPP
+#define SECRET_MAP_HPP
+
+#include "map/implementation/BaseMap.hpp"
+
+namespace map::implementation {
+
+class SecretMap final : public BaseMap {
+public:
+	SecretMap();
+
+	void update() override;
+
+	MAP_TYPE get_map_type() const override {return MAP_TYPE::SECRET;}
+private:
+
+// base
+public:
+	SecretMap(const SecretMap&) = delete;
+
+	SecretMap(SecretMap&&) = delete;
+
+	SecretMap& operator=(const SecretMap&) = delete;
+
+	SecretMap& operator=(SecretMap&&) = delete;
+
+	~SecretMap();
+};
+
+}
+
+#endif
