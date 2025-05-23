@@ -8,7 +8,7 @@ namespace monkeys {
 
 class TackShooter final : public monkeys::BaseMonkey, public monkeys::I_MonkeyAttacker {
 public:
-	TackShooter(glm::vec2 position);
+	explicit TackShooter(glm::vec2 position);
 
 	void scan_bloon(std::shared_ptr<bloons::BaseBloon> bloon) override;
 	
@@ -16,13 +16,15 @@ public:
 	
 	std::shared_ptr<bloons::BaseBloon> get_target() override;
 	
-	bool has_projectile() override {return m_spawned_projectile.size();}
+	bool has_projectile() override {return !m_spawned_projectile.empty();}
 
 	std::vector<std::shared_ptr<projectiles::BaseProjectile>> get_spawned_projectile() override;
 	
 	void attack() override;
 
 	bool can_attack() override;
+
+	static MONKEY_TYPE get_type() {return MONKEY_TYPE::TACK;}
 
 private: // I monkey attacker
 	void update_attack_interval() override;

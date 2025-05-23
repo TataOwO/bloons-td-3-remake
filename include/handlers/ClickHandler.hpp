@@ -26,7 +26,7 @@ public:
 	std::vector<std::shared_ptr<inputs::Clickable>> get_clickables() const {return m_clickable_vec;};
 
 	// monket placement obstacles
-	void set_monkey_obstacles(const std::vector<std::shared_ptr<hitboxes::I_BaseHitbox>>&);
+	void set_monkey_obstacles(const std::vector<std::shared_ptr<hitboxes::I_BaseHitbox>>&) const;
 
 	// setters
 	void add_clickables(const std::vector<std::shared_ptr<inputs::Clickable>>& c_vec);

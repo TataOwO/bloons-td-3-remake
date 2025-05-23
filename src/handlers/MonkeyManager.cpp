@@ -229,7 +229,7 @@ bool MonkeyManager::place_boomerang_monkey(glm::vec2 position, const std::shared
 }
 
 void MonkeyManager::clear_all_monkeys() {
-	for (auto monke: m_all_monkeys) {
+	for (const auto& monke: m_all_monkeys) {
 		RemoveChild(monke);
 	}
 	

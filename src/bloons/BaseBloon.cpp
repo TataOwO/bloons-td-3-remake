@@ -57,7 +57,12 @@ void BaseBloon::m_move() {
 		m_Transform.translation = m_target_point;
 		m_current_route = m_current_route->get_next_route();
 
-		if (!is_at_end()) m_target_point = twist_pos(m_current_route->get_end_point());
+		if (!is_at_end()) {
+			m_target_point = twist_pos(m_current_route->get_end_point());
+			
+			// teleports to route start if it requires
+			if (m_current_route->should_teleport_to_start()) m_Transform.translation = m_current_route->get_start_point();
+		}
 	} else {
 		m_Transform.translation = {
 			m_Transform.translation[0] + diff[0] * m_speed / diff_distance,

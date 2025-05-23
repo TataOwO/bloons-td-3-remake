@@ -3,6 +3,9 @@
 
 #include <string_view>
 
+// TODO: WAVES
+// https://bloons.fandom.com/wiki/Rounds_(pre-BTD5)
+
 namespace CONSTANTS {
 
 namespace OPERATION_CONSTANTS {

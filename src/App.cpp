@@ -6,11 +6,6 @@
 #include "Util/Keycode.hpp"
 #include "Util/Logger.hpp"
 
-#include "map/implementation/IceMap.hpp"
-#include "map/implementation/PeacefulMap.hpp"
-#include "map/implementation/SummonMap.hpp"
-#include "map/implementation/SecretMap.hpp"
-
 void App::Start() {
 	LOG_TRACE("Start");
 	
@@ -20,7 +15,7 @@ void App::Start() {
 	break;
 	case GameState::MAIN_GAME:
 		m_render_manager->AddChild(m_main_game);
-		m_main_game->init(m_map_selector->get_map());
+		m_main_game->init(m_map_selector->get_map_type());
 	break;
 	default: break;
 	}

@@ -9,6 +9,7 @@ class IceMap final : public BaseMap {
 public:
 	IceMap();
 
+	void set_wave(int) override;
 	void update() override;
 
 	MAP_TYPE get_map_type() const override {return MAP_TYPE::ICE;}
@@ -24,7 +25,7 @@ public:
 
 	IceMap& operator=(IceMap&&) = delete;
 
-	~IceMap();
+	~IceMap() override;
 };
 
 }

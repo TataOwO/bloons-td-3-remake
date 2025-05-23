@@ -101,7 +101,7 @@ bool RectangularHitbox::check_collision_oval(const std::shared_ptr<OvalHitbox>& 
 		
 		glm::vec2 oval_to_edge_start = edge_start - oval->get_position();
 		
-		// calculate the distance between the them using dot
+		// calculate the distance between them using dot
 		float t = glm::dot(oval_to_edge_start, edge_vector) / (edge_length*edge_length);
 		t = std::clamp(t, 0.0f, 1.0f);
 		

@@ -15,7 +15,7 @@ enum class RouteConnection {
 
 class Route final : public Util::GameObject {
 public:
-	Route(glm::vec2 start_point, glm::vec2 end_point);
+	Route(glm::vec2 start_point, glm::vec2 end_point, bool tts=false);
 
 	RouteConnection route_is_connected(const std::shared_ptr<Route> &route);
 
@@ -26,6 +26,8 @@ public:
 
 	double recursive_calculate_exit_length();
 	double get_length_to_exit() const {return m_length_to_exit;};
+
+	bool should_teleport_to_start() const {return m_teleport_to_start;}
 
 	void set_next_route(const std::shared_ptr<Route> &next_route);
 
@@ -48,6 +50,7 @@ private:
 
 	std::shared_ptr<Route> m_next_route = nullptr;
 
+	bool m_teleport_to_start;
 // base
 public:
 

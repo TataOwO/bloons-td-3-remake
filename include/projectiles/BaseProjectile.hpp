@@ -58,7 +58,7 @@ public:
 	BaseProjectile& operator=(const BaseProjectile&) = delete;
 	BaseProjectile& operator=(BaseProjectile&&) = delete;
 
-	virtual ~BaseProjectile() override;
+	~BaseProjectile() override;
 };
 
 }

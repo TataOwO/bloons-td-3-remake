@@ -9,6 +9,7 @@ class PeacefulMap final : public BaseMap {
 public:
 	PeacefulMap();
 
+	void set_wave(int) override;
 	void update() override;
 
 	MAP_TYPE get_map_type() const override {return MAP_TYPE::PEACEFUL;}
@@ -24,7 +25,7 @@ public:
 
 	PeacefulMap& operator=(PeacefulMap&&) = delete;
 
-	~PeacefulMap();
+	~PeacefulMap() override;
 };
 
 }

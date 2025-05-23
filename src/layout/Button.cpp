@@ -12,10 +12,13 @@ bool Button::update(const glm::vec2& pos, const bool& clicked) {
 	}
 	
 	if (!clicked) {
+		m_state = BUTTON_STATE::HOVER;
 		SetDrawable(m_hover_drawable);
 		return false;
 	}
 	
+	// bool clicked = process_click(pos);
+	//if (clicked) m_state = BUTTON_STATE::INACTIVE;
 	return process_click(pos);
 }
 

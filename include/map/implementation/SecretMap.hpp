@@ -9,6 +9,7 @@ class SecretMap final : public BaseMap {
 public:
 	SecretMap();
 
+	void set_wave(int) override;
 	void update() override;
 
 	MAP_TYPE get_map_type() const override {return MAP_TYPE::SECRET;}
@@ -24,7 +25,7 @@ public:
 
 	SecretMap& operator=(SecretMap&&) = delete;
 
-	~SecretMap();
+	~SecretMap() override;
 };
 
 }

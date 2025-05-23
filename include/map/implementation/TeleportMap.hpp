@@ -3,17 +3,25 @@
 
 #include "map/implementation/BaseMap.hpp"
 
+namespace Util {class Animation;}
+
 namespace map::implementation {
 
 class TeleportMap final : public BaseMap {
 public:
 	TeleportMap();
 
+	void set_wave(int) override;
 	void update() override;
 
 	MAP_TYPE get_map_type() const override {return MAP_TYPE::TELEPORT;}
 private:
+	std::vector<std::shared_ptr<handlers::PathManager>> m_wave_paths;
+	bool m_animation_was_playing = false;
 
+	std::shared_ptr<Util::Animation> m_animation;
+
+	std::vector<std::shared_ptr<Util::Animation>> m_animations_vec;
 // base
 public:
 	TeleportMap(const TeleportMap&) = delete;
@@ -24,7 +32,7 @@ public:
 
 	TeleportMap& operator=(TeleportMap&&) = delete;
 
-	~TeleportMap();
+	~TeleportMap() override = default;
 };
 
 }

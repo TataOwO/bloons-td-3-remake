@@ -7,9 +7,17 @@
 #include "handlers/PathManager.hpp"
 #include "handlers/ProjectileManager.hpp"
 #include "layout/GameText.hpp"
-#include "map/implementation/BaseMap.hpp"
 #include "map/route/RoutePath.hpp"
+#include "Util/Image.hpp"
 #include "Util/Input.hpp"
+
+#include "map/implementation/BaseMap.hpp"
+#include "map/implementation/IceMap.hpp"
+#include "map/implementation/PeacefulMap.hpp"
+#include "map/implementation/SummonMap.hpp"
+#include "map/implementation/TeleportMap.hpp"
+#include "map/implementation/SecretMap.hpp"
+
 
 namespace logics {
 
@@ -37,22 +45,48 @@ MainGame::MainGame() {
 	AddChild(m_click_handler);
 	AddChild(m_hp_text);
 	AddChild(m_money_text);
+	
+	auto background_background = std::make_shared<Util::GameObject>();
+	background_background->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/wood_background.png"));
+	background_background->SetZIndex(-1);
+	AddChild(background_background);
+	background_background->m_Transform.translation = {300,0};
 }
 
-void MainGame::init(const std::shared_ptr<map::implementation::BaseMap>& map) {
-	RemoveChild(m_map);
-	// initialize map object
-	m_map = map;
-	AddChild(m_map);
-
-	// get path manager from map object
-	auto m_path_manager = m_map->get_path_manager();
-
+void MainGame::init(const map::implementation::MAP_TYPE& map_type) {
 	m_monkey_manager->clear_all_monkeys();
 	m_projectile_manager->clear_all_projectiles();
 
 	// bloon manager clear
 	m_bloon_manager->clear();
+
+	RemoveChild(m_map);
+	// initialize map object
+	switch (map_type) {
+		case map::implementation::MAP_TYPE::SUMMON: {
+			auto map = std::make_shared<map::implementation::SummonMap>();
+			// map->
+			m_map = map;
+		}
+		break;
+		case map::implementation::MAP_TYPE::PEACEFUL:
+			m_map = std::make_shared<map::implementation::PeacefulMap>();
+		break;
+		case map::implementation::MAP_TYPE::ICE:
+			m_map = std::make_shared<map::implementation::IceMap>();
+		break;
+		case map::implementation::MAP_TYPE::TELEPORT:
+			m_map = std::make_shared<map::implementation::TeleportMap>();
+		break;
+		case map::implementation::MAP_TYPE::SECRET:
+			m_map = std::make_shared<map::implementation::SecretMap>();
+		break;
+		default: break;
+	}
+	AddChild(m_map);
+
+	// get path manager from map object
+	auto m_path_manager = m_map->get_path_manager();
 
 	// initialize click manager
 	RemoveChild(m_click_handler);
@@ -77,6 +111,9 @@ void MainGame::update() {
 		auto path_manager = m_map->get_path_manager();
 		m_bloon_manager->spawn_random_bloon(path_manager->get_random_route_path()->get_start_route());
 	}
+	
+	m_map->set_wave((game_tick%18000)/300.0);
+	m_map->update();
 
 	// bloons update
 	m_bloon_manager->update(m_map->get_path_manager(), game_tick, m_hp_text);

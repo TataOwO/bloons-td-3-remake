@@ -68,7 +68,7 @@ public:
     MonkeyManager& operator=(const MonkeyManager&) = delete;
     MonkeyManager& operator=(MonkeyManager&&) = delete;
 
-    ~MonkeyManager();
+    ~MonkeyManager() override;
 };
 
 }

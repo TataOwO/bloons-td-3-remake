@@ -6,14 +6,10 @@
 
 #include "hitboxes/RectangularHitbox.hpp"
 
-#include "map/implementation/IceMap.hpp"
-#include "map/implementation/PeacefulMap.hpp"
-#include "map/implementation/SummonMap.hpp"
-#include "map/implementation/SecretMap.hpp"
-
 #include "map/MapBackground.hpp"
 	
 #include "layout/Button.hpp"
+#include "map/implementation/BaseMap.hpp"
 
 namespace logics {
 
@@ -32,7 +28,8 @@ MapSelector::MapSelector() {
 	peaceful_button->set_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/peaceful_map.png"));
 	peaceful_button->set_hover_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/peaceful_map_yellow.png"));
 	peaceful_button->set_on_click([&]() {
-		m_generated_map = std::make_shared<map::implementation::PeacefulMap>();
+		m_spawn_map_type = map::implementation::MAP_TYPE::PEACEFUL;
+		has_map = true;
 		return true;
 	});
 	peaceful_button->set_removal([](){return false;});
@@ -47,7 +44,8 @@ MapSelector::MapSelector() {
 	ice_button->set_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/ice_map.png"));
 	ice_button->set_hover_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/ice_map_yellow.png"));
 	ice_button->set_on_click([&]() {
-		m_generated_map = std::make_shared<map::implementation::IceMap>();
+		m_spawn_map_type = map::implementation::MAP_TYPE::ICE;
+		has_map = true;
 		return true;
 	});
 	ice_button->set_removal([](){return false;});
@@ -62,7 +60,8 @@ MapSelector::MapSelector() {
 	summon_button->set_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/summon_map.png"));
 	summon_button->set_hover_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/summon_map_yellow.png"));
 	summon_button->set_on_click([&]() {
-		m_generated_map = std::make_shared<map::implementation::SummonMap>();
+		m_spawn_map_type = map::implementation::MAP_TYPE::SUMMON;
+		has_map = true;
 		return true;
 	});
 	summon_button->set_removal([](){return false;});
@@ -77,7 +76,8 @@ MapSelector::MapSelector() {
 	teleport_button->set_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/teleport_map.png"));
 	teleport_button->set_hover_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/teleport_map_yellow.png"));
 	teleport_button->set_on_click([&]() {
-		m_generated_map = std::make_shared<map::implementation::SecretMap>();
+		m_spawn_map_type = map::implementation::MAP_TYPE::TELEPORT;
+		has_map = true;
 		return true;
 	});
 	teleport_button->set_removal([](){return false;});
@@ -86,6 +86,12 @@ MapSelector::MapSelector() {
 	teleport_button->m_Transform.translation = teleport_hitbox->get_position();
 	AddChild(teleport_button);
 	m_button_vec.push_back(teleport_button);
+	
+	auto background_background = std::make_shared<Util::GameObject>();
+	background_background->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/wood_background.png"));
+	background_background->SetZIndex(-1);
+	AddChild(background_background);
+	background_background->m_Transform.translation = {420,0};
 }
 
 void MapSelector::update() {
@@ -130,18 +136,20 @@ void MapSelector::update() {
 	case 7:
 		if (Util::Input::IsKeyUp(Util::Keycode::L)) ++secret_map_state;
 	break;
+	default: ;
 	}
 	
-	if (secret_map_state == 8) m_generated_map = std::make_shared<map::implementation::SecretMap>();
+	if (secret_map_state == 8) {
+		m_spawn_map_type = map::implementation::MAP_TYPE::SECRET;
+		has_map = true;
+	}
 }
 
-std::shared_ptr<map::implementation::BaseMap> MapSelector::get_map() {
-	auto ret = m_generated_map;
-	
-	m_generated_map = nullptr;
+map::implementation::MAP_TYPE MapSelector::get_map_type() {
 	secret_map_state = 0;
+	has_map = false;
 	
-	return ret;
+	return m_spawn_map_type;
 }
 
 }

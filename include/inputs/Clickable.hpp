@@ -4,7 +4,6 @@
 #include "hitboxes/I_BaseHitbox.hpp"
 
 #include <functional>
-#include <iostream>
 
 namespace inputs {
 

@@ -13,8 +13,8 @@
 
 namespace handlers {
 
-PathManager::PathManager(std::vector<std::shared_ptr<map::route::RoutePath>> paths) : m_paths(paths) {
-	for (std::shared_ptr<map::route::RoutePath> rp: paths) {
+PathManager::PathManager(const std::vector<std::shared_ptr<map::route::RoutePath>>& paths) : m_paths(paths) {
+	for (const std::shared_ptr<map::route::RoutePath>& rp: paths) {
 		// renderer
 		AddChild(rp);
 		

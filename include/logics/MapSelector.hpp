@@ -4,6 +4,7 @@
 #include "Util/GameObject.hpp"
 
 namespace map::implementation {class BaseMap;}
+namespace map::implementation {enum class MAP_TYPE;}
 namespace map {class MapBackground;}
 
 namespace inputs {class Clickable;}
@@ -19,10 +20,11 @@ public:
 
 	void update();
 
-	bool should_switch() const {return m_generated_map!=nullptr;}
-	std::shared_ptr<map::implementation::BaseMap> get_map();
+	bool should_switch() const {return has_map;}
+	map::implementation::MAP_TYPE get_map_type();
 private:
-	std::shared_ptr<map::implementation::BaseMap> m_generated_map;
+	map::implementation::MAP_TYPE m_spawn_map_type;
+	bool has_map = false;
 
 	std::shared_ptr<map::MapBackground> m_background;
 

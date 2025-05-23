@@ -12,7 +12,7 @@ namespace handlers {
 
 class PathManager final : public Util::GameObject {
 public:
-	PathManager(std::vector<std::shared_ptr<map::route::RoutePath>> paths);
+	PathManager(const std::vector<std::shared_ptr<map::route::RoutePath>>& paths);
 
 	std::shared_ptr<map::route::Route> get_collided_route(const std::shared_ptr<hitboxes::I_BaseHitbox> &hitbox);
 
@@ -35,7 +35,7 @@ public:
 
     PathManager& operator=(PathManager&&) = delete;
 
-	~PathManager();
+	~PathManager() override;
 
 };
 

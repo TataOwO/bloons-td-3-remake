@@ -2,7 +2,6 @@
 
 #include "map/MapBackground.hpp"
 #include "handlers/PathManager.hpp"
-#include "inputs/Clickable.hpp"
 #include "map/route/Route.hpp"
 #include "hitboxes/RectangularHitbox.hpp"
 

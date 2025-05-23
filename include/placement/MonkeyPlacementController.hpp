@@ -39,7 +39,7 @@ public:
 
 	void update();
 
-	// monket placement
+	// monkey placement
 	bool is_valid_placement() const;
 	bool place_monkey(const std::shared_ptr<layout::GameText> &available_money) const;
 

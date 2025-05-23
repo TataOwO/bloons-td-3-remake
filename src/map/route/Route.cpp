@@ -7,7 +7,7 @@
 
 namespace map::route {
 
-Route::Route(glm::vec2 start_point, glm::vec2 end_point) {
+Route::Route(glm::vec2 start_point, glm::vec2 end_point, bool tts) : m_teleport_to_start(tts) {
 	m_start_point = convert_pos(start_point);
 	m_end_point   = convert_pos(end_point);
 

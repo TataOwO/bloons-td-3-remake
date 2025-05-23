@@ -34,7 +34,7 @@ SummonMap::SummonMap() {
 	std::vector<std::shared_ptr<map::route::Route>> route_vec1 = {};
 	
 	glm::vec2 prev = points.at(0);
-	for (unsigned int i=0; i<points.size(); ++i) {
+	for (unsigned int i=1; i<points.size(); ++i) {
 		glm::vec2 now = points.at(i);
 		route_vec1.push_back(std::make_shared<map::route::Route>(prev, now));
 		prev = now;
@@ -58,6 +58,10 @@ SummonMap::SummonMap() {
 	m_background = std::make_shared<map::MapBackground>();
 	m_background->set_layers(background_images);
 	AddChild(m_background);
+}
+
+void SummonMap::set_wave(int wave_number) {
+	
 }
 
 void SummonMap::update() {

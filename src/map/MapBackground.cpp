@@ -14,14 +14,14 @@ void MapBackground::set_layers(const std::vector<std::string>& layers) {
 		RemoveChild(obj);
 	}
 	
-	for (std::string image_name: layers) {
+	for (const std::string& image_name: layers) {
 		add_layer(image_name);
 	}
 	
 	recalculate_zIndex();
 }
 
-void MapBackground::add_layer(std::string image_path){
+void MapBackground::add_layer(const std::string& image_path){
 	auto obj = std::make_shared<Util::GameObject>();
 	
 	AddChild(obj);

@@ -8,6 +8,12 @@ namespace Core {class Drawable;}
 
 namespace layout {
 
+enum class BUTTON_STATE {
+	INACTIVE,
+	HOVER,
+	CLICK
+};
+
 class Button final : public Util::GameObject, public inputs::Clickable {
 public:
 	Button() : Util::GameObject(), inputs::Clickable() {};
@@ -19,6 +25,8 @@ public:
 private:
 	std::shared_ptr<Core::Drawable> m_normal_drawable;
 	std::shared_ptr<Core::Drawable> m_hover_drawable;
+	
+	BUTTON_STATE m_state = BUTTON_STATE::INACTIVE;
 // base
 public:
 	Button(const Button&) = delete;

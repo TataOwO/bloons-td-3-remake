@@ -11,7 +11,7 @@ public:
 
 	void set_layers(const std::vector<std::string>& layers);
 	
-	void add_layer(std::string image_path);
+	void add_layer(const std::string& image_path);
 	
 	std::vector<std::shared_ptr<Util::GameObject>> get_layers() const {return m_layers;};
 protected:
@@ -31,7 +31,7 @@ public:
 
 	MapBackground& operator=(MapBackground&&) = delete;
 
-	~MapBackground();
+	~MapBackground() override;
 };
 
 }

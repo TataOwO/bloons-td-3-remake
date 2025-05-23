@@ -71,7 +71,7 @@ SecretMap::SecretMap() {
 	for (const std::vector<glm::vec2>& vec: points) {
 		std::vector<std::shared_ptr<map::route::Route>> rv1 = {};
 		glm::vec2 prev = vec.at(0);
-		for (unsigned int i=0; i<vec.size(); ++i) {
+		for (unsigned int i=1; i<vec.size(); ++i) {
 			glm::vec2 now = vec.at(i);
 			rv1.push_back(std::make_shared<map::route::Route>(prev, now));
 			prev = now;
@@ -108,6 +108,10 @@ SecretMap::SecretMap() {
 	m_background = std::make_shared<map::MapBackground>();
 	m_background->set_layers(background_images);
 	AddChild(m_background);
+}
+
+void SecretMap::set_wave(int wave_number) {
+	
 }
 
 void SecretMap::update() {

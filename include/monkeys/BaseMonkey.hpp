@@ -11,6 +11,15 @@ namespace projectiles {class BaseProjectile;}
 
 namespace monkeys {
 
+enum class MONKEY_TYPE {
+	DART,
+	BOMB,
+	BOOMERANG,
+	ICE,
+	SUPER,
+	TACK
+};
+
 class BaseMonkey : public Util::GameObject {
 public:
 	bool is_collided_with_route(const std::shared_ptr<map::route::Route> &route) const;
@@ -37,7 +46,7 @@ protected:
 	void initialize_with_stat(const CONSTANTS::MONKEY_CONSTANTS::MONKE &);
 
 protected:
-	BaseMonkey(glm::vec2 position);
+	explicit BaseMonkey(glm::vec2 position);
 
 public:
 	BaseMonkey(const BaseMonkey&) = delete;
@@ -48,7 +57,7 @@ public:
 
 	BaseMonkey& operator=(BaseMonkey&&) = delete;
 
-	virtual ~BaseMonkey() override;
+	~BaseMonkey() override;
 };
 
 }

@@ -4,6 +4,7 @@
 #include "Util/GameObject.hpp"
 
 namespace map::implementation {class BaseMap;}
+namespace map::implementation {enum class MAP_TYPE;}
 namespace handlers {class MonkeyManager;};
 namespace handlers {class BloonManager;};
 namespace handlers {class ProjectileManager;};
@@ -15,7 +16,7 @@ namespace logics {
 class MainGame final : public Util::GameObject {
 public:
 	MainGame();
-	void init(const std::shared_ptr<map::implementation::BaseMap>& map);
+	void init(const map::implementation::MAP_TYPE& map_type);
 	void update();
 	
 	bool should_select_map() const;

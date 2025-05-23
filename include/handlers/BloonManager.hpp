@@ -94,7 +94,7 @@ public:
 	BloonManager(BloonManager&&) = delete;
 	BloonManager& operator=(const BloonManager&) = delete;
 	BloonManager& operator=(BloonManager&&) = delete;
-	~BloonManager();
+	~BloonManager() override;
 };
 
 }

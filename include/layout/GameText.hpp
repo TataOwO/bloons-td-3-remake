@@ -9,8 +9,8 @@ namespace layout {
 
 class GameText final : public Util::GameObject {
 public:
-	GameText(const std::string &prefix, const int& size);
-	
+	GameText(std::string prefix, const int &size);
+
 	void update();
 
 	int get_value() const {return m_value;};
@@ -23,7 +23,7 @@ private:
 	
 	std::shared_ptr<Util::Text> m_text_obj;
 	
-	std::string m_prefix = "";
+	std::string m_prefix;
 
 // base
 public:

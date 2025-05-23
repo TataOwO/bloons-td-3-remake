@@ -27,7 +27,7 @@ public:
 
 	InGameMenu& operator=(InGameMenu&&) = delete;
 
-	~InGameMenu();
+	~InGameMenu() override;
 };
 
 }

@@ -22,13 +22,14 @@ class BaseMap : public Util::GameObject {
 protected:
 	BaseMap();
 public:
+	virtual void set_wave(int) = 0;
 	virtual void update() = 0;
 	virtual MAP_TYPE get_map_type() const = 0;
 	
 	void set_show_route(bool show);
 	void toggle_show_route() {set_show_route(!route_is_visible);};
 	
-	const std::shared_ptr<handlers::PathManager> get_path_manager() {return m_path_manager;};
+	std::shared_ptr<handlers::PathManager> get_path_manager() {return m_path_manager;};
 
 	std::vector<std::shared_ptr<inputs::Clickable>> get_clickables() {return m_clickables;};
 	
@@ -43,6 +44,7 @@ protected:
 	
 	std::vector<std::shared_ptr<hitboxes::I_BaseHitbox>> m_obstacles;
 	
+	int m_current_wave = 1;
 private:
 	bool route_is_visible = false;
 
@@ -56,7 +58,7 @@ public:
 
 	BaseMap& operator=(BaseMap&&) = delete;
 
-	virtual ~BaseMap();
+	~BaseMap() override;
 };
 
 }

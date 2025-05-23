@@ -166,29 +166,23 @@ bool MonkeyPlacementController::place_monkey(const std::shared_ptr<layout::GameT
 	switch (m_current_monkey_type) {
 	case PLACABLE_TYPE::DART:
 		placement_successful = m_monkey_manager->place_dart_monkey(position, available_money);
-		break;
+	break;
 	case PLACABLE_TYPE::SUPER:
 		placement_successful = m_monkey_manager->place_super_monkey(position, available_money);
-		break;
 	break;
 	case PLACABLE_TYPE::ICE:
 		placement_successful = m_monkey_manager->place_ice_monkey(position, available_money);
-		break;
 	break;
 	case PLACABLE_TYPE::BOMB:
 		placement_successful = m_monkey_manager->place_bomb_shooter(position, available_money);
-		break;
 	break;
 	case PLACABLE_TYPE::TACK:
 		placement_successful = m_monkey_manager->place_tack_shooter(position, available_money);
-		break;
 	break;
 	case PLACABLE_TYPE::BOOMERANG:
 		placement_successful = m_monkey_manager->place_boomerang_monkey(position, available_money);
-		break;
 	break;
-	default:
-		break;
+	default: break;
 	}
 
 	return placement_successful;

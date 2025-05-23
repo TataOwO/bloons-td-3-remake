@@ -1,6 +1,5 @@
 #include "projectiles/DartProjectile.hpp"
 
-#include <cmath>
 #include "Util/Image.hpp"
 #include "utility/functions.hpp"
 
@@ -46,7 +45,7 @@ void DartProjectile::deal_damage(std::shared_ptr<bloons::BaseBloon> bloon) {
 	if (bloon == nullptr) return;
 	
 	// checks if bloon is already hit by this projectile
-	for (auto b: m_hit_bloon_vec) {
+	for (const auto& b: m_hit_bloon_vec) {
 		if (b == nullptr) continue;
 		if (b == bloon) return;
 	}

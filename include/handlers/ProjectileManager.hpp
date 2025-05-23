@@ -37,7 +37,7 @@ public:
 
     ProjectileManager& operator=(ProjectileManager&&) = delete;
 
-	~ProjectileManager();
+	~ProjectileManager() override;
 
 };
 

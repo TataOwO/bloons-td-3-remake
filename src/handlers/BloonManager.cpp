@@ -67,7 +67,7 @@ void BloonManager::add_bloon(const std::shared_ptr<bloons::BaseBloon> &bloon) {
 
 void BloonManager::schedule_bloon_spawn(bloons::BLOON_TYPE type, int ticks_until_spawn) {
 	int spawn_tick = ticks_until_spawn;
-	m_spawn_queue.push(BloonSpawnInfo(type, spawn_tick));
+	m_spawn_queue.emplace(type, spawn_tick);
 }
 
 void BloonManager::spawn_random_bloon(const std::shared_ptr<map::route::Route> &spawn_route) {

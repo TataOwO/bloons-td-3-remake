@@ -136,7 +136,7 @@ void ClickHandler::update_monkey_placement_controller(const glm::vec2 & mouse_po
 	if (left_button && m_monkey_placement_manager->place_monkey(current_money)) m_monkey_placement_manager->clear_all();
 }
 
-void ClickHandler::set_monkey_obstacles(const std::vector<std::shared_ptr<hitboxes::I_BaseHitbox>>& obstcbles) {
+void ClickHandler::set_monkey_obstacles(const std::vector<std::shared_ptr<hitboxes::I_BaseHitbox>>& obstcbles) const {
 	m_monkey_placement_manager->set_monkey_obstacles(obstcbles);
 }
 
