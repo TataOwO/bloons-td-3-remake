@@ -1,7 +1,9 @@
 #include "handlers/ProjectileManager.hpp"
 
 #include "bloons/BaseBloon.hpp"
+#include "hitboxes/I_BaseHitbox.hpp"
 #include "projectiles/BaseProjectile.hpp"
+#include "projectiles/BombExplosion.hpp"
 
 #include "Util/Renderer.hpp"
 
@@ -41,13 +43,23 @@ void ProjectileManager::update(const std::vector<std::shared_ptr<bloons::BaseBlo
 }
 
 void ProjectileManager::process_removal() {
+	std::vector<std::shared_ptr<projectiles::BaseProjectile>> explosions = {};
+	
 	for (auto& projectile: m_removal_queue) {
 		RemoveChild(projectile);
 
 		auto it = std::find(m_all_projectiles.begin(), m_all_projectiles.end(), projectile);
 
 		if (it != m_all_projectiles.end()) m_all_projectiles.erase(it);
+		
+		if (projectile->get_type() == projectiles::PROJECTILE_TYPE::BOMB && !projectile->has_pierce()) {
+			glm::vec2 center = projectile->get_hitbox()->get_position();
+			
+			explosions.push_back(std::make_shared<projectiles::BombExplosion>(center, 0));
+		}
 	}
+
+	add_new_projectiles(explosions);
 
 	m_removal_queue.clear();
 }

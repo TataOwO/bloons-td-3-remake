@@ -14,6 +14,73 @@ namespace OPERATION_CONSTANTS {
 	constexpr std::string_view BITSTREAM = RESOURCE_DIR"/fonts/VeraMono.ttf";
 };
 
+namespace PROJECTILE_CONSTANTS {
+	// BASE PROJECTILE
+	typedef struct PROJECTILE {
+		int DAMAGE;
+		int EXTRA_CERAMIC_DAMAGE;
+		int SURVIVE_PERIOD;
+		int PIERCE;
+		float SPEED;
+	} Projectile;
+
+	constexpr Projectile EXPLOSION {
+		2,
+		1,
+		15,
+		20,
+		0.0f, // doesn't matter
+	};
+
+	constexpr Projectile BOMB {
+		0,
+		0,
+		7,
+		1,
+		20.0f
+	};
+
+	constexpr Projectile ICE {
+		1,
+		0,
+		3,
+		20,
+		0, // doesn't matter
+	};
+
+	constexpr Projectile TACK {
+		1,
+		0,
+		4,
+		1,
+		20.0f
+	};
+
+	constexpr Projectile SUPER {
+		1,
+		1,
+		14,
+		1,
+		20.0f
+	};
+
+	constexpr Projectile BOOMERANG {
+		1,
+		1,
+		25,
+		3,
+		0.0f // doesn't matter
+	};
+
+	constexpr Projectile DART {
+		1,
+		0,
+		7,
+		1,
+		20.0f
+	};
+};
+
 namespace MONKEY_CONSTANTS {
 	// BASE MONKE
 	typedef struct MONKE {
@@ -91,25 +158,6 @@ namespace MONKEY_CONSTANTS {
 		37,
 		RESOURCE_DIR"/images/monke/boomerang.png",
 		1.5,
-	};
-};
-
-namespace PROJECTILE_CONSTANTS {
-	// BASE PROJECTILE
-	typedef struct PROJECTILE {
-		int DAMAGE;
-		int EXTRA_CERAMIC_DAMAGE;
-		int SURVIVE_PERIOD;
-		int PIERCE;
-		float SPEED;
-	} Projectile;
-
-	constexpr Projectile DART {
-		1,
-		0,
-		30,
-		1,
-		20.0f
 	};
 };
 

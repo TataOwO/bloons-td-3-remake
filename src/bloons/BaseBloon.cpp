@@ -40,6 +40,11 @@ int BaseBloon::get_length_to_exit() {
 void BaseBloon::m_move() {
 	if (is_at_end()) throw std::runtime_error("bloon is at the end");
 
+	if (is_frozen()) {
+		--m_frozen_tick;
+		return;
+	}
+
 	// add pos to history
 	m_path_history.push_front(m_Transform.translation);
 	if (m_path_history.size() > m_max_path_history_size) {

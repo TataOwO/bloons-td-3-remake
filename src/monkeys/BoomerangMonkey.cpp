@@ -1,10 +1,12 @@
 #include "monkeys/BoomerangMonkey.hpp"
 
+#include <cmath>
+
 #include "Constants.hpp"
 #include "bloons/BaseBloon.hpp"
 #include "hitboxes/CircularHitbox.hpp"
 
-#include "projectiles/DartProjectile.hpp"
+#include "projectiles/BoomerangProjectile.hpp"
 #include "Util/Image.hpp"
 
 #include "utility/functions.hpp"
@@ -82,7 +84,7 @@ void BoomerangMonkey::spawn_projectile(glm::vec2 position) {
 	float projectile_rotation = std::atan2(projectile_dir_pos.y, projectile_dir_pos.x);
 	
 	m_spawned_projectile.push_back(
-		std::make_shared<projectiles::DartProjectile>(projectile_spawn_pos, projectile_rotation+0.5*M_PI)
+		std::make_shared<projectiles::BoomerangProjectile>(projectile_spawn_pos, projectile_rotation-M_PI/2)
 	);
 }
 

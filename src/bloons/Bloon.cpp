@@ -36,6 +36,7 @@ void Bloon::handle_take_damage(int damage) {
 	// if it is ceramic, simply changes the image
 	case bloons::BLOON_TYPE::CERAMIC: {
 		int image_id = 11-m_hp; // images from 1~10
+		if (image_id>10) image_id = 10;
 		std::string prefix = RESOURCE_DIR"/images/bloons/ceremic/";
 		std::string image_path = prefix + std::to_string(image_id) + ".png";
 		m_Drawable = std::make_shared<Util::Image>(std::string(image_path));

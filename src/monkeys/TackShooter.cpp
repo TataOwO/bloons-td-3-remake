@@ -6,7 +6,7 @@
 #include "bloons/BaseBloon.hpp"
 #include "hitboxes/CircularHitbox.hpp"
 
-#include "projectiles/DartProjectile.hpp"
+#include "projectiles/TackProjectile.hpp"
 #include "Util/Image.hpp"
 
 #include "utility/functions.hpp"
@@ -79,28 +79,28 @@ bool TackShooter::can_attack() {
 void TackShooter::spawn_projectile(glm::vec2 position) {
 	auto pos = m_Transform.translation;
 	m_spawned_projectile.push_back(
-		std::make_shared<projectiles::DartProjectile>(pos, 0.00*M_PI)
+		std::make_shared<projectiles::TackProjectile>(pos, 0.00*M_PI)
 	);
 	m_spawned_projectile.push_back(
-		std::make_shared<projectiles::DartProjectile>(pos, 0.25*M_PI)
+		std::make_shared<projectiles::TackProjectile>(pos, 0.25*M_PI)
 	);
 	m_spawned_projectile.push_back(
-		std::make_shared<projectiles::DartProjectile>(pos, 0.50*M_PI)
+		std::make_shared<projectiles::TackProjectile>(pos, 0.50*M_PI)
 	);
 	m_spawned_projectile.push_back(
-		std::make_shared<projectiles::DartProjectile>(pos, 0.75*M_PI)
+		std::make_shared<projectiles::TackProjectile>(pos, 0.75*M_PI)
 	);
 	m_spawned_projectile.push_back(
-		std::make_shared<projectiles::DartProjectile>(pos, 1.00*M_PI)
+		std::make_shared<projectiles::TackProjectile>(pos, 1.00*M_PI)
 	);
 	m_spawned_projectile.push_back(
-		std::make_shared<projectiles::DartProjectile>(pos, 1.25*M_PI)
+		std::make_shared<projectiles::TackProjectile>(pos, 1.25*M_PI)
 	);
 	m_spawned_projectile.push_back(
-		std::make_shared<projectiles::DartProjectile>(pos, 1.50*M_PI)
+		std::make_shared<projectiles::TackProjectile>(pos, 1.50*M_PI)
 	);
 	m_spawned_projectile.push_back(
-		std::make_shared<projectiles::DartProjectile>(pos, 1.75*M_PI)
+		std::make_shared<projectiles::TackProjectile>(pos, 1.75*M_PI)
 	);
 }
 

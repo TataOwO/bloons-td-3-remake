@@ -12,6 +12,8 @@ public:
 	void update() override;
 	
 	void deal_damage(std::shared_ptr<bloons::BaseBloon> bloon) override;
+	
+	PROJECTILE_TYPE get_type() const override {return PROJECTILE_TYPE::DART;}
 private:
     void m_move() override;
 

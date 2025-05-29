@@ -8,6 +8,16 @@ namespace bloons {class BaseBloon;}
 
 namespace projectiles {
 
+enum class PROJECTILE_TYPE {
+	DART,
+	BOMB,
+	EXPLOSION,
+	BOOMERANG,
+	ICE,
+	SUPER,
+	TACK
+};
+
 class BaseProjectile : public Util::GameObject {
 protected:
 	BaseProjectile();
@@ -19,12 +29,15 @@ public:
 	// Update the projectile's state (e.g., movement)
 	virtual void update() = 0;
 
-	bool is_dead() const {return m_pierce==0 || m_tick>=m_survive_period;}
+	bool is_dead() const {return !has_pierce() || timed_out();}
+	bool has_pierce() const {return m_pierce!=0;}
+	bool timed_out() const {return m_tick>=m_survive_period;}
 
 	std::shared_ptr<hitboxes::I_BaseHitbox> get_hitbox() { return m_hitbox; }
 	
 	virtual void deal_damage(std::shared_ptr<bloons::BaseBloon> bloon) = 0;
 
+	virtual PROJECTILE_TYPE get_type() const = 0;
 protected:
 	std::shared_ptr<hitboxes::I_BaseHitbox> m_hitbox;
 

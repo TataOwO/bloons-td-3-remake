@@ -4,7 +4,7 @@
 #include "bloons/BaseBloon.hpp"
 #include "hitboxes/CircularHitbox.hpp"
 
-#include "projectiles/DartProjectile.hpp"
+#include "projectiles/IceProjectile.hpp"
 #include "Util/Animation.hpp"
 
 #include "utility/functions.hpp"
@@ -83,7 +83,7 @@ bool IceMonkey::can_attack() {
 void IceMonkey::spawn_projectile(glm::vec2 position) {
 	// TODO: USES ICE PROJECTILE
 	m_spawned_projectile.push_back(
-		std::make_shared<projectiles::DartProjectile>(m_Transform.translation, 0.0f)
+		std::make_shared<projectiles::IceProjectile>(m_Transform.translation, 0.0f)
 	);
 }
 

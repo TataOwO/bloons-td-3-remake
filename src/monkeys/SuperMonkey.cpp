@@ -4,7 +4,7 @@
 #include "bloons/BaseBloon.hpp"
 #include "hitboxes/CircularHitbox.hpp"
 
-#include "projectiles/DartProjectile.hpp"
+#include "projectiles/SuperProjectile.hpp"
 #include "Util/Image.hpp"
 
 #include "utility/functions.hpp"
@@ -83,7 +83,7 @@ void SuperMonkey::spawn_projectile(glm::vec2 position) {
 	float projectile_rotation = std::atan2(projectile_dir_pos.y, projectile_dir_pos.x)+0.5*M_PI;
 	
 	m_spawned_projectile.push_back(
-		std::make_shared<projectiles::DartProjectile>(projectile_spawn_pos, projectile_rotation)
+		std::make_shared<projectiles::SuperProjectile>(projectile_spawn_pos, projectile_rotation)
 	);
 }
 

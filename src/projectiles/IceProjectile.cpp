@@ -1,4 +1,4 @@
-#include "projectiles/DartProjectile.hpp"
+#include "projectiles/IceProjectile.hpp"
 
 #include "Util/Image.hpp"
 #include "utility/functions.hpp"
@@ -6,12 +6,12 @@
 #include "Constants.hpp"
 
 #include "bloons/BaseBloon.hpp"
-#include "hitboxes/RectangularHitbox.hpp"
+#include "hitboxes/CircularHitbox.hpp"
 
 namespace projectiles {
 
-DartProjectile::DartProjectile(const glm::vec2& position, float rotation) : BaseProjectile() {
-	m_hitbox = std::make_shared<hitboxes::RectangularHitbox>(position, glm::vec2(10,20), rotation);
+IceProjectile::IceProjectile(const glm::vec2& position, float rotation) : BaseProjectile() {
+	m_hitbox = std::make_shared<hitboxes::CircularHitbox>(position, 60);
 
 	auto stat = CONSTANTS::PROJECTILE_CONSTANTS::DART;
 
@@ -19,9 +19,7 @@ DartProjectile::DartProjectile(const glm::vec2& position, float rotation) : Base
 	m_pierce = stat.PIERCE;
 	m_survive_period = stat.SURVIVE_PERIOD;
 
-	m_Drawable = std::make_shared<Util::Image>(RESOURCE_DIR"/images/projectiles/dart.png", false);
-
-	// m_Transform.scale = {2, 2};
+	SetVisible(false);
 
 	// Setting initial velocity based on rotation
 	// Since rotation=0 faces upwards, we need to calculate velocity accordingly
@@ -29,9 +27,13 @@ DartProjectile::DartProjectile(const glm::vec2& position, float rotation) : Base
 	m_velocity = utility::rotate_vec2(glm::vec2(0, -speed), rotation);
 
 	SetVisible(true);
+	
+	m_lead_popping_power = true;
+	m_frozen_popping_power = true;
+	m_white_popping_power = false;
 }
 
-void DartProjectile::update() {
+void IceProjectile::update() {
 	// Update position based on velocity
 	m_move();
 
@@ -39,7 +41,7 @@ void DartProjectile::update() {
 	++m_tick;
 }
 
-void DartProjectile::deal_damage(std::shared_ptr<bloons::BaseBloon> bloon) {
+void IceProjectile::deal_damage(std::shared_ptr<bloons::BaseBloon> bloon) {
 	// skips if projectile is dead or bloon doesn't exist
 	if (is_dead()) return;
 	if (bloon == nullptr) return;
@@ -71,6 +73,7 @@ void DartProjectile::deal_damage(std::shared_ptr<bloons::BaseBloon> bloon) {
 	else {
 		// if projectile has the abliity to pop this bloon
 		bloon->handle_take_damage(to_be_dealt_damage);
+		bloon->set_frozen(36);
 	}
 
 	// always subtract 1 from pierce, and add bloons to hit vec
@@ -78,7 +81,7 @@ void DartProjectile::deal_damage(std::shared_ptr<bloons::BaseBloon> bloon) {
 	m_hit_bloon_vec.push_back(bloon);
 }
 
-void DartProjectile::m_move() {
+void IceProjectile::m_move() {
 	glm::vec2 current_position = m_hitbox->get_position();
 
 	glm::vec2 new_position = current_position + m_velocity;
@@ -89,10 +92,10 @@ void DartProjectile::m_move() {
 	m_Transform.translation = new_position;
 
 	// Also update rotation of the drawable to match the hitbox
-	m_Transform.rotation = m_hitbox->get_rotation()+M_PI;
+	m_Transform.rotation = m_hitbox->get_rotation();
 }
 
-DartProjectile::~DartProjectile() {
+IceProjectile::~IceProjectile() {
 
 }
 
