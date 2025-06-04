@@ -78,6 +78,11 @@ enum class WAVE_STATE {
 	WAITING_FOR_COMPLETION // all bloons spawned, waiting for them to be cleared
 };
 
+enum class END_SCREEN {
+	WON,
+	FAILED
+};
+
 }
 
 #endif
