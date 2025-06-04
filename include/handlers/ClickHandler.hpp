@@ -7,6 +7,7 @@
 namespace hitboxes {class I_BaseHitbox;}
 namespace handlers  {class MonkeyManager;}
 namespace handlers  {class PathManager;}
+namespace handlers  {class BloonWaveManager;}
 namespace inputs    {class Clickable;}
 namespace placement {class MonkeyPlacementController;}
 namespace CONSTANTS::TYPE {enum class PLACABLE;}
@@ -18,7 +19,7 @@ namespace handlers {
 
 class ClickHandler final : public utility::Mortal, public Util::GameObject {
 public:
-	ClickHandler(const std::shared_ptr<handlers::PathManager>& path_manager, const std::shared_ptr<handlers::MonkeyManager>& monkey_manager);
+	ClickHandler(const std::shared_ptr<handlers::PathManager>& path_manager, const std::shared_ptr<handlers::MonkeyManager>& monkey_manager, const std::shared_ptr<handlers::BloonWaveManager>& bloon_wave_manager);
 
 	void update(const glm::vec2& mouse_pos, bool left_button);
 	void update_monkey_placement_controller(const glm::vec2& mouse_pos, bool left_button, bool right_button, const std::shared_ptr<layout::GameText> &current_money) const;
@@ -49,7 +50,12 @@ private:
 	std::vector<std::shared_ptr<layout::Button>> m_button_vec = {};
 	std::vector<std::shared_ptr<layout::Button>> m_button_removal_queue = {};
 
+	// other managers required to be stored here
 	std::shared_ptr<placement::MonkeyPlacementController> m_monkey_placement_manager;
+	std::shared_ptr<handlers::BloonWaveManager> m_bloon_wave_manager;
+	
+	// wave buttons
+	std::shared_ptr<layout::Button> m_wave_button;
 
 	std::shared_ptr<bool> m_map_state  = std::make_shared<bool>(false);
 	std::shared_ptr<bool> m_exit_state = std::make_shared<bool>(false);

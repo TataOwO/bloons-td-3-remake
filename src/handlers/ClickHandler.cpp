@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <iostream>
 
+#include "handlers/BloonWaveManager.hpp"
 #include "hitboxes/CircularHitbox.hpp"
 #include "hitboxes/RectangularHitbox.hpp"
 #include "hitboxes/HitboxGroup.hpp"
@@ -22,7 +23,7 @@
 
 namespace handlers {
 
-ClickHandler::ClickHandler(const std::shared_ptr<handlers::PathManager>& path_manager, const std::shared_ptr<handlers::MonkeyManager>& monkey_manager) {
+ClickHandler::ClickHandler(const std::shared_ptr<handlers::PathManager>& path_manager, const std::shared_ptr<handlers::MonkeyManager>& monkey_manager, const std::shared_ptr<handlers::BloonWaveManager>& bloon_wave_manager) : m_bloon_wave_manager(bloon_wave_manager) {
 	m_monkey_placement_manager = std::make_shared<placement::MonkeyPlacementController>(path_manager, monkey_manager);
 	AddChild(m_monkey_placement_manager);
 
@@ -92,6 +93,27 @@ ClickHandler::ClickHandler(const std::shared_ptr<handlers::PathManager>& path_ma
 	exit_button->set_hover_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/exit_yellow.png"));
 	// add to children
 	add_existing_button(exit_button);
+	
+	// wave button
+	m_wave_button = std::make_shared<layout::Button>();
+	m_wave_button->m_Transform.translation = {360,-240};
+	m_wave_button->SetZIndex(CONSTANTS::Z_INDEX::IN_GAME_BUTTONS);
+	// wave button hitbox
+	m_wave_button->set_hitbox(std::make_shared<hitboxes::RectangularHitbox>(glm::vec2{360,-240},glm::vec2{240,180},0));
+	// on click
+	m_wave_button->set_on_click([bwm=bloon_wave_manager]() {
+		bwm->set_spawn_new_wave();
+		std::cout << "wave button clicked" << std::endl;
+		return true;
+	});
+	m_wave_button->set_removal([]() {
+		return false;
+	});
+	// wave button drawable
+	m_wave_button->set_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/start_wave.png"));
+	m_wave_button->set_hover_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/start_wave_hover.png"));
+	// add to children
+	add_existing_button(m_wave_button);
 }
 
 void ClickHandler::update(const glm::vec2& mouse_pos, bool LB) {
@@ -116,7 +138,11 @@ void ClickHandler::update(const glm::vec2& mouse_pos, bool LB) {
 		// breaks when a clickable is successfully clicked
 		if (button->update(mouse_pos, LB)) break;
 	}
-
+	
+	// wave button updates
+	if (m_bloon_wave_manager->is_wave_in_progress()) m_wave_button->disable();
+	else m_wave_button->enable();
+	
 	// removes clickable
 	remove_clickable(m_removal_queue);
 	m_removal_queue.clear();

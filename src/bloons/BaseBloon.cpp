@@ -32,13 +32,13 @@ int BaseBloon::get_length_to_exit() {
 	};
 
 	// if bloon is at the end (aka route doesn't exist anymore)
-	if (!m_current_route) glm::length(end_point_diff);
+	if (!m_current_route) return glm::length(end_point_diff);
 
 	return glm::length(end_point_diff) + m_current_route->get_length_to_exit();
 };
 
 void BaseBloon::m_move() {
-	if (is_at_end()) throw std::runtime_error("bloon is at the end");
+	if (is_at_end()) return;
 
 	if (is_frozen()) {
 		--m_frozen_tick;

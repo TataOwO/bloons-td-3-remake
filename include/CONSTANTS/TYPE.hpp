@@ -72,6 +72,12 @@ enum class PROJECTILE {
 	TACK
 };
 
+enum class WAVE_STATE {
+	WAITING_FOR_START, // waiting for player to start next wave
+	SPAWNING, // should spawn new bloons
+	WAITING_FOR_COMPLETION // all bloons spawned, waiting for them to be cleared
+};
+
 }
 
 #endif

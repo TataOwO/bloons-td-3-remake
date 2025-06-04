@@ -1,4 +1,3 @@
-// BloonManager.cpp modifications
 #include "handlers/BloonManager.hpp"
 #include <algorithm>
 #include <cstdlib>

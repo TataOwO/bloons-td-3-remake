@@ -86,7 +86,9 @@ void BoomerangProjectile::deal_damage(std::shared_ptr<bloons::BaseBloon> bloon) 
 void BoomerangProjectile::m_move() {
 	glm::vec2 current_position = m_hitbox->get_position();
 	
-	glm::vec2 new_position = current_position + m_move_direction_vec.at(m_tick);
+	glm::vec2 new_position;
+	if (m_tick < static_cast<int>(m_move_direction_vec.size())) new_position = current_position + m_move_direction_vec.at(m_tick);
+	else new_position = current_position;
 	
 	m_hitbox->set_position(new_position);
 	

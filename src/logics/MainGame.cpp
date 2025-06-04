@@ -2,6 +2,7 @@
 
 #include "Constants.hpp"
 #include "handlers/BloonManager.hpp"
+#include "handlers/BloonWaveManager.hpp"
 #include "handlers/ClickHandler.hpp"
 #include "handlers/MonkeyManager.hpp"
 #include "handlers/PathManager.hpp"
@@ -30,14 +31,17 @@ MainGame::MainGame() {
 
 	// initialize bloon manager
 	m_bloon_manager = std::make_shared<handlers::BloonManager>();
+	m_wave_manager = std::make_shared<handlers::BloonWaveManager>();
 
 	// TODO:
 	// MOVE TO UI
 	m_hp_text = std::make_shared<layout::GameText>("HP", 30);
 	m_money_text = std::make_shared<layout::GameText>("money", 30);
+	m_wave_text = std::make_shared<layout::GameText>("wave", 30);
 	m_hp_text->m_Transform.translation = {360,330};
 	m_money_text->m_Transform.translation = {360,280};
-	
+	m_wave_text->m_Transform.translation = {360,230};
+
 	AddChild(m_map);
 	AddChild(m_monkey_manager);
 	AddChild(m_bloon_manager);
@@ -45,7 +49,8 @@ MainGame::MainGame() {
 	AddChild(m_click_handler);
 	AddChild(m_hp_text);
 	AddChild(m_money_text);
-	
+	AddChild(m_wave_text);
+
 	auto background_background = std::make_shared<Util::GameObject>();
 	background_background->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/wood_background.png"));
 	background_background->SetZIndex(-1);
@@ -59,6 +64,7 @@ void MainGame::init(const CONSTANTS::TYPE::MAP& map_type) {
 
 	// bloon manager clear
 	m_bloon_manager->clear();
+	m_wave_manager->reset();
 
 	RemoveChild(m_map);
 	// initialize map object
@@ -90,7 +96,7 @@ void MainGame::init(const CONSTANTS::TYPE::MAP& map_type) {
 
 	// initialize click manager
 	RemoveChild(m_click_handler);
-	m_click_handler = std::make_shared<handlers::ClickHandler>(m_path_manager, m_monkey_manager);
+	m_click_handler = std::make_shared<handlers::ClickHandler>(m_path_manager, m_monkey_manager, m_wave_manager);
 	m_click_handler->set_monkey_obstacles(m_map->get_obstacles());
 	AddChild(m_click_handler);
 
@@ -98,25 +104,19 @@ void MainGame::init(const CONSTANTS::TYPE::MAP& map_type) {
 	// TODO: UI
 	m_hp_text->set_value(CONSTANTS::OPERATION::GAME_HP);
 	m_money_text->set_value(CONSTANTS::OPERATION::MONEY);
+	m_wave_text->set_value(1);
 }
 
 void MainGame::update() {
 	if (should_exit_game()) return;
 
-	++game_tick;
+	m_wave_manager->update(m_bloon_manager);
 
-	// spawn random bloons
-	// TODO: WAVES
-	if (game_tick % 20 - 10 == 0) {
-		auto path_manager = m_map->get_path_manager();
-		m_bloon_manager->spawn_random_bloon(path_manager->get_random_route_path()->get_start_route());
-	}
-	
-	m_map->set_wave((game_tick%18000)/300.0);
+	m_map->set_wave(m_wave_manager->get_current_wave_number());
 	m_map->update();
 
 	// bloons update
-	m_bloon_manager->update(m_map->get_path_manager(), game_tick, m_hp_text);
+	m_bloon_manager->update(m_map->get_path_manager(), m_wave_manager->get_current_tick(), m_hp_text);
 
 	// monkey targeting
 	m_monkey_manager->scan_bloons(
@@ -142,11 +142,16 @@ void MainGame::update() {
 	// update money
 	// TODO: UI
 	m_money_text->add_value(m_bloon_manager->get_accumulated_money());
+	
+	// update wave
+	// TODO: UI
+	m_wave_text->set_value(m_wave_manager->get_current_wave_number());
 
 	// hp display
 	// TODO: UI
 	m_hp_text->update();
 	m_money_text->update();
+	m_wave_text->update();
 
 	// get mouse pos
 	auto mouse_ptsd_pos = Util::Input::GetCursorPosition();

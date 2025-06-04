@@ -8,7 +8,7 @@ namespace CONSTANTS::WAVES {
 using BLOON = CONSTANTS::TYPE::BLOON;
 
 // generated wave data through python
-inline constexpr std::array<std::array<BLOON, 200>, 50> WAVE_DATA = {{
+inline const std::array<std::vector<BLOON>, 50> WAVE_DATA = {{
 	// Wave 1
 	{
 		BLOON::RED, BLOON::RED, BLOON::RED, BLOON::RED, BLOON::RED, BLOON::RED, BLOON::RED, BLOON::RED, BLOON::RED, BLOON::RED, BLOON::RED, BLOON::RED, BLOON::RED, BLOON::RED

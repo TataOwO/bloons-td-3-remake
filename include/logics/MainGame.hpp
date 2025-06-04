@@ -13,6 +13,7 @@ namespace handlers {class MonkeyManager;};
 namespace handlers {class BloonManager;};
 namespace handlers {class ProjectileManager;};
 namespace handlers {class ClickHandler;};
+namespace handlers {class BloonWaveManager;};
 namespace layout {class GameText;};
 
 namespace logics {
@@ -36,6 +37,7 @@ private:
 
 	// bloon manager
 	std::shared_ptr<handlers::BloonManager> m_bloon_manager;
+	std::shared_ptr<handlers::BloonWaveManager> m_wave_manager;
 
 	// projectiles
 	std::shared_ptr<handlers::ProjectileManager> m_projectile_manager;
@@ -46,6 +48,7 @@ private:
 	// TODO: UI
 	std::shared_ptr<layout::GameText> m_hp_text;
 	std::shared_ptr<layout::GameText> m_money_text;
+	std::shared_ptr<layout::GameText> m_wave_text;
 };
 
 }

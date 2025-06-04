@@ -22,6 +22,20 @@ bool Button::update(const glm::vec2& pos, const bool& clicked) {
 	return process_click(pos);
 }
 
+void Button::enable() {
+	if (m_enabled) return;
+	
+	m_enabled = true;
+	SetVisible(true);
+}
+
+void Button::disable() {
+	if (!m_enabled) return;
+	
+	m_enabled = false;
+	SetVisible(false);
+}
+
 void Button::set_drawable(const std::shared_ptr<Core::Drawable>& drawable) {
 	m_normal_drawable = drawable;
 }

@@ -26,8 +26,9 @@ public:
 	}
 
 	// enable / disable
-	void enable() {m_enabled = true;};
-	void disable() {m_enabled = false;};
+	bool is_enabled() const {return m_enabled;};
+	virtual void enable() {m_enabled = true;};
+	virtual void disable() {m_enabled = false;};
 
 	// function setter
 	void set_removal(const std::function<bool()> &func) {removal_func = func;}

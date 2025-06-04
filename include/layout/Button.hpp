@@ -20,6 +20,9 @@ public:
 	
 	bool update(const glm::vec2&, const bool&);
 	
+	void enable() override;
+	void disable() override;
+	
 	void set_drawable(const std::shared_ptr<Core::Drawable>&);
 	void set_hover_drawable(const std::shared_ptr<Core::Drawable>&);
 private:
