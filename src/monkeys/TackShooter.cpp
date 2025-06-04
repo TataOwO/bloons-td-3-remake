@@ -17,7 +17,7 @@ TackShooter::TackShooter(glm::vec2 position)
 : BaseMonkey(position) {
 	m_Transform.translation = position;
 
-	auto stat = CONSTANTS::MONKEY_CONSTANTS::TACK;
+	auto stat = CONSTANTS::MONKEY::TACK;
 
 	// base monkey initialization
 	initialize_with_stat(stat);

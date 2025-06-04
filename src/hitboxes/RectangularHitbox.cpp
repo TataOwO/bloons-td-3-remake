@@ -18,11 +18,11 @@ RectangularHitbox::RectangularHitbox(const glm::vec2& center, const glm::vec2& d
 
 bool RectangularHitbox::is_collided_with(std::shared_ptr<I_BaseHitbox> box) const {
 	switch (box->get_type()) {
-		case HitboxType::CIRCULAR:
+		case CONSTANTS::TYPE::HITBOX::CIRCULAR:
 			return check_collision_circular(std::static_pointer_cast<CircularHitbox>(box));
-		case HitboxType::OVAL:
+		case CONSTANTS::TYPE::HITBOX::OVAL:
 			return check_collision_oval(std::static_pointer_cast<OvalHitbox>(box));
-		case HitboxType::RECTANGULAR:
+		case CONSTANTS::TYPE::HITBOX::RECTANGULAR:
 			return check_collision_rectangular(std::static_pointer_cast<RectangularHitbox>(box));
 		default:
 			return false; // this should never happen
@@ -67,7 +67,7 @@ bool RectangularHitbox::check_collision_oval(const std::shared_ptr<OvalHitbox>& 
 	
 	// this is approaximation
 	// check if sample points on oval is inside the rectangle
-	constexpr int NUM_SAMPLES = CONSTANTS::HITBOX_CONSTANTS::RECTANGLE_SAMPLE_COUNT; // number of sample points
+	constexpr int NUM_SAMPLES = CONSTANTS::HITBOX::RECTANGLE_SAMPLE_COUNT; // number of sample points
 	for (int i = 0; i < NUM_SAMPLES; i++) {
 		float angle = 2.0f * static_cast<float>(M_PI) * static_cast<float>(i) / NUM_SAMPLES;
 		glm::vec2 direction(std::cos(angle), std::sin(angle));

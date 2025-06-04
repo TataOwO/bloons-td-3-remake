@@ -25,7 +25,7 @@ public:
 	void set_rotation(float radians) override { rotation = radians; }
 	
 	// hitbox type
-	HitboxType get_type() const override { return HitboxType::CIRCULAR; }
+	CONSTANTS::TYPE::HITBOX get_type() const override { return CONSTANTS::TYPE::HITBOX::CIRCULAR; }
 	
 	// points
 	bool contains_point(const glm::vec2& point) const override;

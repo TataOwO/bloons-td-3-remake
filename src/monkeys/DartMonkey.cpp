@@ -17,7 +17,7 @@ DartMonkey::DartMonkey(glm::vec2 position)
 : BaseMonkey(position) {
 	m_Transform.translation = position;
 
-	auto stat = CONSTANTS::MONKEY_CONSTANTS::DART;
+	auto stat = CONSTANTS::MONKEY::DART;
 
 	// base monkey initialization
 	initialize_with_stat(stat);

@@ -11,11 +11,11 @@ CircularHitbox::CircularHitbox(const glm::vec2& center, float radius)
 
 bool CircularHitbox::is_collided_with(std::shared_ptr<I_BaseHitbox> box) const {
 	switch (box->get_type()) {
-		case HitboxType::CIRCULAR:
+		case CONSTANTS::TYPE::HITBOX::CIRCULAR:
 			return check_collision_circular(std::static_pointer_cast<CircularHitbox>(box));
-		case HitboxType::OVAL:
+		case CONSTANTS::TYPE::HITBOX::OVAL:
 			return check_collision_oval(std::static_pointer_cast<OvalHitbox>(box));
-		case HitboxType::RECTANGULAR:
+		case CONSTANTS::TYPE::HITBOX::RECTANGULAR:
 			return check_collision_rectangular(std::static_pointer_cast<RectangularHitbox>(box));
 		default:
 			return false; // this sbould never happen

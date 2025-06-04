@@ -15,7 +15,7 @@ BombShooter::BombShooter(glm::vec2 position)
 : BaseMonkey(position) {
 	m_Transform.translation = position;
 
-	auto stat = CONSTANTS::MONKEY_CONSTANTS::BOMB;
+	auto stat = CONSTANTS::MONKEY::BOMB;
 
 	// base monkey initialization
 	initialize_with_stat(stat);

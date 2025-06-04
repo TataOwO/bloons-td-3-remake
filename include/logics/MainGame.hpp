@@ -3,6 +3,10 @@
 
 #include "Util/GameObject.hpp"
 
+namespace CONSTANTS::TYPE {
+	enum class MAP;
+}
+
 namespace map::implementation {class BaseMap;}
 namespace map::implementation {enum class MAP_TYPE;}
 namespace handlers {class MonkeyManager;};
@@ -16,7 +20,7 @@ namespace logics {
 class MainGame final : public Util::GameObject {
 public:
 	MainGame();
-	void init(const map::implementation::MAP_TYPE& map_type);
+	void init(const CONSTANTS::TYPE::MAP& map_type);
 	void update();
 	
 	bool should_select_map() const;

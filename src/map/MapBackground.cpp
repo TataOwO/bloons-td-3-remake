@@ -6,7 +6,7 @@
 namespace map {
 
 MapBackground::MapBackground() {
-	m_z_index = CONSTANTS::Z_INDEX_CONSTANTS::MAP_BACKGROUND;
+	m_z_index = CONSTANTS::Z_INDEX::MAP_BACKGROUND;
 }
 
 void MapBackground::set_layers(const std::vector<std::string>& layers) {

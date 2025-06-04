@@ -1,6 +1,7 @@
 #ifndef BASE_MAP_HPP
 #define BASE_MAP_HPP
 
+#include "constants/TYPE.hpp"
 #include "Util/GameObject.hpp"
 
 namespace hitboxes {class I_BaseHitbox;}
@@ -10,21 +11,13 @@ namespace inputs {class Clickable;}
 
 namespace map::implementation {
 
-enum class MAP_TYPE {
-	PEACEFUL,
-	ICE,
-	SUMMON,
-	TELEPORT,
-	SECRET,
-};
-
 class BaseMap : public Util::GameObject {
 protected:
 	BaseMap();
 public:
 	virtual void set_wave(int) = 0;
 	virtual void update() = 0;
-	virtual MAP_TYPE get_map_type() const = 0;
+	virtual CONSTANTS::TYPE::MAP get_map_type() const = 0;
 	
 	void set_show_route(bool show);
 	void toggle_show_route() {set_show_route(!route_is_visible);};

@@ -7,7 +7,7 @@
 namespace projectiles {
 
 BaseProjectile::BaseProjectile() {
-	SetZIndex(CONSTANTS::Z_INDEX_CONSTANTS::PROJECTILE);
+	SetZIndex(CONSTANTS::Z_INDEX::PROJECTILE);
 }
 
 bool BaseProjectile::is_collided_with(const std::shared_ptr<bloons::BaseBloon> &bloon) const {

@@ -16,7 +16,7 @@ SuperMonkey::SuperMonkey(glm::vec2 position)
 
 	m_Transform.translation = position;
 
-	auto stat = CONSTANTS::MONKEY_CONSTANTS::SUPER;
+	auto stat = CONSTANTS::MONKEY::SUPER;
 
 	// base monkey initialization
 	initialize_with_stat(stat);

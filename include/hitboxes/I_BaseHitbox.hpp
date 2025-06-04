@@ -1,13 +1,9 @@
 #ifndef INTERFACE_BASE_HITBOX_HPP
 #define INTERFACE_BASE_HITBOX_HPP
 
+#include "CONSTANTS/TYPE.hpp"
+
 namespace hitboxes {
-enum class HitboxType {
-    CIRCULAR,
-    OVAL,
-    RECTANGULAR,
-	GROUP,
-};
 
 class I_BaseHitbox {
 public:
@@ -21,7 +17,7 @@ public:
     
     virtual void set_rotation(float radians) = 0;
     
-    virtual HitboxType get_type() const = 0;
+    virtual CONSTANTS::TYPE::HITBOX get_type() const = 0;
     
     virtual bool contains_point(const glm::vec2& point) const = 0;
     

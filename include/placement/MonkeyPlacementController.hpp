@@ -3,6 +3,7 @@
 
 #include <unordered_set>
 
+#include "constants/TYPE.hpp"
 #include "Util/GameObject.hpp"
 
 namespace Core {class Drawable;}
@@ -16,26 +17,11 @@ namespace layout   {class GameText;}
 
 namespace placement {
 
-enum class PLACABLE_TYPE {
-	DART,
-	BOOMERANG,
-	SUPER,
-	ICE,
-	BOMB,
-	TACK,
-	SPIKE,
-	GLUE,
-	PINEAPPLE,
-	VILLAGE,
-	CATAPULT,
-	_NULL,
-};
-
 class MonkeyPlacementController : public Util::GameObject {
 public:
 	MonkeyPlacementController(const std::shared_ptr<handlers::PathManager> &path_manager, const std::shared_ptr<handlers::MonkeyManager> &monkey_manager);
 
-	void set_monkey(const PLACABLE_TYPE& type);
+	void set_monkey(const CONSTANTS::TYPE::PLACABLE& type);
 
 	void update();
 
@@ -57,7 +43,7 @@ public:
 	void set_mouse_pos(const glm::vec2& mouse_pos);
 
 	// get current type
-	PLACABLE_TYPE get_current_type() const { return m_current_monkey_type; }
+	CONSTANTS::TYPE::PLACABLE get_current_type() const { return m_current_monkey_type; }
 
 	void set_monkey_obstacles(const std::vector<std::shared_ptr<hitboxes::I_BaseHitbox>>&);
 
@@ -75,7 +61,7 @@ private:
 	std::shared_ptr<handlers::PathManager> m_path_manager;
 	std::shared_ptr<handlers::MonkeyManager> m_monkey_manager;
 
-	PLACABLE_TYPE m_current_monkey_type = PLACABLE_TYPE::_NULL;
+	CONSTANTS::TYPE::PLACABLE m_current_monkey_type = CONSTANTS::TYPE::PLACABLE::_NULL;
 	std::shared_ptr<monkeys::BaseMonkey> m_spawned_monkey;
 
 	std::shared_ptr<hitboxes::CircularHitbox> m_hitbox = nullptr;
@@ -84,10 +70,10 @@ private:
 	bool m_current_position_valid = false;
 
 	// Track which types need to be placed ON routes instead of off routes
-	const std::unordered_set<PLACABLE_TYPE> m_route_only_types = {
-		PLACABLE_TYPE::GLUE,
-		PLACABLE_TYPE::PINEAPPLE,
-		PLACABLE_TYPE::SPIKE
+	const std::unordered_set<CONSTANTS::TYPE::PLACABLE> m_route_only_types = {
+		CONSTANTS::TYPE::PLACABLE::GLUE,
+		CONSTANTS::TYPE::PLACABLE::PINEAPPLE,
+		CONSTANTS::TYPE::PLACABLE::SPIKE
 	};
 
 	// Hitbox radius for different monkey types

@@ -1,6 +1,7 @@
 #ifndef MAP_SELECTOR_HPP
 #define MAP_SELECTOR_HPP
 
+#include "constants/TYPE.hpp"
 #include "Util/GameObject.hpp"
 
 namespace map::implementation {class BaseMap;}
@@ -21,9 +22,9 @@ public:
 	void update();
 
 	bool should_switch() const {return has_map;}
-	map::implementation::MAP_TYPE get_map_type();
+	CONSTANTS::TYPE::MAP get_map_type();
 private:
-	map::implementation::MAP_TYPE m_spawn_map_type;
+	CONSTANTS::TYPE::MAP m_spawn_map_type;
 	bool has_map = false;
 
 	std::shared_ptr<map::MapBackground> m_background;

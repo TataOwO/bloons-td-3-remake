@@ -9,7 +9,7 @@ namespace handlers  {class MonkeyManager;}
 namespace handlers  {class PathManager;}
 namespace inputs    {class Clickable;}
 namespace placement {class MonkeyPlacementController;}
-namespace placement {enum class PLACABLE_TYPE;}
+namespace CONSTANTS::TYPE {enum class PLACABLE;}
 namespace Util      {class Renderer;}
 namespace layout    {class GameText;}
 namespace layout    {class Button;}
@@ -38,7 +38,7 @@ public:
 	bool should_exit_game() const {return *m_exit_state;}
 	void clear_states() const {*m_exit_state = *m_map_state = false;}
 private:
-	std::shared_ptr<layout::Button> m_add_new_monkey_placement_button(const placement::PLACABLE_TYPE&, const glm::vec2&);
+	std::shared_ptr<layout::Button> m_add_new_monkey_placement_button(const CONSTANTS::TYPE::PLACABLE&, const glm::vec2&);
 
 	void add_existing_button(const std::shared_ptr<layout::Button>& button);
 	void remove_button(const std::vector<std::shared_ptr<layout::Button>>& b_vec);

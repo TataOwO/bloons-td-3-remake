@@ -13,7 +13,7 @@ namespace projectiles {
 BombProjectile::BombProjectile(const glm::vec2& position, float rotation) : BaseProjectile() {
 	m_hitbox = std::make_shared<hitboxes::RectangularHitbox>(position, glm::vec2(10,20), rotation);
 	
-	auto stat = CONSTANTS::PROJECTILE_CONSTANTS::BOMB;
+	auto stat = CONSTANTS::PROJECTILE::BOMB;
 	
 	m_damage = stat.DAMAGE;
 	m_pierce = stat.PIERCE;
@@ -53,19 +53,19 @@ void BombProjectile::deal_damage(std::shared_ptr<bloons::BaseBloon> bloon) {
 	auto bloon_type = bloon->get_type();
 	
 	int to_be_dealt_damage = m_damage;
-	if (bloon_type == bloons::BLOON_TYPE::CERAMIC) to_be_dealt_damage += m_extra_ceramic_damage;
+	if (bloon_type == CONSTANTS::TYPE::BLOON::CERAMIC) to_be_dealt_damage += m_extra_ceramic_damage;
 	
 	// checks if projectile has the ability to pop this bloon
-	if (!m_lead_popping_power && bloon_type == bloons::BLOON_TYPE::LEAD) {
+	if (!m_lead_popping_power && bloon_type == CONSTANTS::TYPE::BLOON::LEAD) {
 		// play lead sound effect
 	}
 	else if (!m_frozen_popping_power && bloon->is_frozen()) {
 		// play ice(lead) sound effect
 	}
-	else if (!m_white_popping_power && bloon_type == bloons::BLOON_TYPE::WHITE) {
+	else if (!m_white_popping_power && bloon_type == CONSTANTS::TYPE::BLOON::WHITE) {
 		// handles not popping white
 	}
-	else if (!m_black_popping_power && bloon_type == bloons::BLOON_TYPE::BLACK) {
+	else if (!m_black_popping_power && bloon_type == CONSTANTS::TYPE::BLOON::BLACK) {
 		// handles not popping black
 	}
 	else {

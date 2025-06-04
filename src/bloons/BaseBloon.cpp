@@ -81,8 +81,8 @@ void BaseBloon::m_move() {
 // random number generator for bloon pos
 inline std::random_device base_bloon_rd;
 inline std::mt19937 base_bloon_gen(base_bloon_rd());
-inline std::uniform_real_distribution<double> base_bloon_dist(-CONSTANTS::BLOON_CONSTANTS::BLOON_DRIFT_OFFSET, CONSTANTS::BLOON_CONSTANTS::BLOON_DRIFT_OFFSET);
-inline std::uniform_real_distribution<float> base_bloon_z_index_dist(CONSTANTS::Z_INDEX_CONSTANTS::BLOON, CONSTANTS::Z_INDEX_CONSTANTS::BLOON+1);
+inline std::uniform_real_distribution<double> base_bloon_dist(-CONSTANTS::BLOON::BLOON_DRIFT_OFFSET, CONSTANTS::BLOON::BLOON_DRIFT_OFFSET);
+inline std::uniform_real_distribution<float> base_bloon_z_index_dist(CONSTANTS::Z_INDEX::BLOON, CONSTANTS::Z_INDEX::BLOON+1);
 
 glm::vec2 BaseBloon::twist_pos(glm::vec2 pos) {
 	return pos + glm::vec2{base_bloon_dist(base_bloon_gen), base_bloon_dist(base_bloon_gen)};
@@ -94,20 +94,20 @@ double BaseBloon::get_random_z_index() {
 
 std::array<std::shared_ptr<Core::Drawable>, 10> BaseBloon::bloon_drawable_arr = {};
 
-const std::shared_ptr<Core::Drawable> BaseBloon::get_bloon_drawable(BLOON_TYPE t) {
+const std::shared_ptr<Core::Drawable> BaseBloon::get_bloon_drawable(CONSTANTS::TYPE::BLOON t) {
 	static bool initialized = false;
 	if (!initialized) {
 		bloon_drawable_arr = {
-			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::RED.IMAGE_PATH    )),
-			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::BLUE.IMAGE_PATH   )),
-			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::GREEN.IMAGE_PATH  )),
-			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::YELLOW.IMAGE_PATH )),
-			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::WHITE.IMAGE_PATH  )),
-			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::BLACK.IMAGE_PATH  )),
-			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::LEAD.IMAGE_PATH   )),
-			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::RAINBOW.IMAGE_PATH)),
-			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::CERAMIC.IMAGE_PATH)),
-			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON_CONSTANTS::MOAB::IMAGE_PATH  ))
+			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON::RED.IMAGE_PATH    )),
+			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON::BLUE.IMAGE_PATH   )),
+			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON::GREEN.IMAGE_PATH  )),
+			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON::YELLOW.IMAGE_PATH )),
+			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON::WHITE.IMAGE_PATH  )),
+			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON::BLACK.IMAGE_PATH  )),
+			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON::LEAD.IMAGE_PATH   )),
+			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON::RAINBOW.IMAGE_PATH)),
+			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON::CERAMIC.IMAGE_PATH)),
+			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON::MOAB::IMAGE_PATH  ))
 		};
 		
 		initialized = true;

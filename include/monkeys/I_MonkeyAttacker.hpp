@@ -6,13 +6,6 @@ namespace projectiles {class BaseProjectile;}
 
 namespace monkeys {
 
-enum class TARGETING {
-	FIRST,
-	LAST,
-	STRONG,
-	CLOSE
-};
-
 class I_MonkeyAttacker {
 protected:
 	I_MonkeyAttacker() = default;
@@ -36,7 +29,7 @@ public:
 	bool has_target() const {return m_target_bloon!=nullptr;}
 
 	// not virtual since every objects access this the same way
-	TARGETING get_targeting() const {return m_targeting;}
+	CONSTANTS::TYPE::TARGETING get_targeting() const {return m_targeting;}
 protected:
 	virtual void update_attack_interval() = 0;
 
@@ -53,7 +46,7 @@ protected:
 
 	std::shared_ptr<bloons::BaseBloon> m_target_bloon = nullptr;
 
-	TARGETING m_targeting = TARGETING::FIRST;
+	CONSTANTS::TYPE::TARGETING m_targeting = CONSTANTS::TYPE::TARGETING::FIRST;
 };
 
 }

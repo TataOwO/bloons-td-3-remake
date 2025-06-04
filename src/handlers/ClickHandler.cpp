@@ -26,23 +26,23 @@ ClickHandler::ClickHandler(const std::shared_ptr<handlers::PathManager>& path_ma
 	m_monkey_placement_manager = std::make_shared<placement::MonkeyPlacementController>(path_manager, monkey_manager);
 	AddChild(m_monkey_placement_manager);
 
-	auto dart_button = m_add_new_monkey_placement_button(placement::PLACABLE_TYPE::DART, glm::vec2{288,120});
+	auto dart_button = m_add_new_monkey_placement_button(CONSTANTS::TYPE::PLACABLE::DART, glm::vec2{288,120});
 	add_existing_button(dart_button);
-	auto super_button = m_add_new_monkey_placement_button(placement::PLACABLE_TYPE::SUPER, glm::vec2{336,120});
+	auto super_button = m_add_new_monkey_placement_button(CONSTANTS::TYPE::PLACABLE::SUPER, glm::vec2{336,120});
 	add_existing_button(super_button);
-	auto ice_button = m_add_new_monkey_placement_button(placement::PLACABLE_TYPE::ICE, glm::vec2{384,120});
+	auto ice_button = m_add_new_monkey_placement_button(CONSTANTS::TYPE::PLACABLE::ICE, glm::vec2{384,120});
 	add_existing_button(ice_button);
-	auto bomb_button = m_add_new_monkey_placement_button(placement::PLACABLE_TYPE::BOMB, glm::vec2{432,120});
+	auto bomb_button = m_add_new_monkey_placement_button(CONSTANTS::TYPE::PLACABLE::BOMB, glm::vec2{432,120});
 	add_existing_button(bomb_button);
-	auto tack_button = m_add_new_monkey_placement_button(placement::PLACABLE_TYPE::TACK, glm::vec2{288,72});
+	auto tack_button = m_add_new_monkey_placement_button(CONSTANTS::TYPE::PLACABLE::TACK, glm::vec2{288,72});
 	add_existing_button(tack_button);
-	auto boomer_button = m_add_new_monkey_placement_button(placement::PLACABLE_TYPE::BOOMERANG, glm::vec2{336,72});
+	auto boomer_button = m_add_new_monkey_placement_button(CONSTANTS::TYPE::PLACABLE::BOOMERANG, glm::vec2{336,72});
 	add_existing_button(boomer_button);
 
 	// map button
 	auto map_button = std::make_shared<layout::Button>();
 	map_button->m_Transform.translation = {390,-345};
-	map_button->SetZIndex(CONSTANTS::Z_INDEX_CONSTANTS::IN_GAME_BUTTONS);
+	map_button->SetZIndex(CONSTANTS::Z_INDEX::IN_GAME_BUTTONS);
 	// map button hitbox
 	auto map_button_hitbox = std::make_shared<hitboxes::HitboxGroup>();
 	std::vector<std::shared_ptr<hitboxes::I_BaseHitbox>> map_button_hitboxes = {};
@@ -69,7 +69,7 @@ ClickHandler::ClickHandler(const std::shared_ptr<handlers::PathManager>& path_ma
 	// exit button
 	auto exit_button = std::make_shared<layout::Button>();
 	exit_button->m_Transform.translation = {450,-345};
-	exit_button->SetZIndex(CONSTANTS::Z_INDEX_CONSTANTS::IN_GAME_BUTTONS);
+	exit_button->SetZIndex(CONSTANTS::Z_INDEX::IN_GAME_BUTTONS);
 	// exit button hitbox
 	auto exit_button_hitbox = std::make_shared<hitboxes::HitboxGroup>();
 	std::vector<std::shared_ptr<hitboxes::I_BaseHitbox>> exit_button_hitboxes = {};
@@ -187,12 +187,12 @@ void ClickHandler::remove_button(const std::vector<std::shared_ptr<layout::Butto
 	}
 }
 
-std::shared_ptr<layout::Button> ClickHandler::m_add_new_monkey_placement_button(const placement::PLACABLE_TYPE& type, const glm::vec2& pos) {
+std::shared_ptr<layout::Button> ClickHandler::m_add_new_monkey_placement_button(const CONSTANTS::TYPE::PLACABLE& type, const glm::vec2& pos) {
 	// creates new button
 	std::shared_ptr<layout::Button> new_button = std::make_shared<layout::Button>();
 
 	// initialize button's GameObject
-	new_button->SetZIndex(CONSTANTS::Z_INDEX_CONSTANTS::IN_GAME_BUTTONS);
+	new_button->SetZIndex(CONSTANTS::Z_INDEX::IN_GAME_BUTTONS);
 	new_button->m_Transform.scale = {0.5f, 0.5f};
 
 	// initialize button's Clickable
@@ -210,22 +210,22 @@ std::shared_ptr<layout::Button> ClickHandler::m_add_new_monkey_placement_button(
 	std::string monke_name;
 
 	switch (type) {
-	case placement::PLACABLE_TYPE::DART:
+	case CONSTANTS::TYPE::PLACABLE::DART:
 		monke_name = "dart";
 	break;
-	case placement::PLACABLE_TYPE::BOOMERANG:
+	case CONSTANTS::TYPE::PLACABLE::BOOMERANG:
 		monke_name = "boomerang";
 	break;
-	case placement::PLACABLE_TYPE::SUPER:
+	case CONSTANTS::TYPE::PLACABLE::SUPER:
 		monke_name = "super";
 	break;
-	case placement::PLACABLE_TYPE::BOMB:
+	case CONSTANTS::TYPE::PLACABLE::BOMB:
 		monke_name = "bomb";
 	break;
-	case placement::PLACABLE_TYPE::TACK:
+	case CONSTANTS::TYPE::PLACABLE::TACK:
 		monke_name = "tack";
 	break;
-	case placement::PLACABLE_TYPE::ICE:
+	case CONSTANTS::TYPE::PLACABLE::ICE:
 		monke_name = "ice";
 	break;
 	default: break;

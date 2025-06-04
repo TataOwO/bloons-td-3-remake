@@ -11,7 +11,7 @@ public:
 
     bool is_collided_with(std::shared_ptr<I_BaseHitbox> box) const override; // IMPLEMENT
 
-    HitboxType get_type() const override {return HitboxType::GROUP;};
+    CONSTANTS::TYPE::HITBOX get_type() const override {return CONSTANTS::TYPE::HITBOX::GROUPED;};
 
     bool contains_point(const glm::vec2& point) const override;
 	

@@ -14,7 +14,7 @@ public:
 	void set_wave(int) override;
 	void update() override;
 
-	MAP_TYPE get_map_type() const override {return MAP_TYPE::TELEPORT;}
+	CONSTANTS::TYPE::MAP get_map_type() const override {return CONSTANTS::TYPE::MAP::TELEPORT;}
 private:
 	std::vector<std::shared_ptr<handlers::PathManager>> m_wave_paths;
 	bool m_animation_was_playing = false;

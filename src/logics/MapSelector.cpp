@@ -28,7 +28,7 @@ MapSelector::MapSelector() {
 	peaceful_button->set_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/peaceful_map.png"));
 	peaceful_button->set_hover_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/peaceful_map_yellow.png"));
 	peaceful_button->set_on_click([&]() {
-		m_spawn_map_type = map::implementation::MAP_TYPE::PEACEFUL;
+		m_spawn_map_type = CONSTANTS::TYPE::MAP::PEACEFUL;
 		has_map = true;
 		return true;
 	});
@@ -44,7 +44,7 @@ MapSelector::MapSelector() {
 	ice_button->set_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/ice_map.png"));
 	ice_button->set_hover_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/ice_map_yellow.png"));
 	ice_button->set_on_click([&]() {
-		m_spawn_map_type = map::implementation::MAP_TYPE::ICE;
+		m_spawn_map_type = CONSTANTS::TYPE::MAP::ICE;
 		has_map = true;
 		return true;
 	});
@@ -60,7 +60,7 @@ MapSelector::MapSelector() {
 	summon_button->set_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/summon_map.png"));
 	summon_button->set_hover_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/summon_map_yellow.png"));
 	summon_button->set_on_click([&]() {
-		m_spawn_map_type = map::implementation::MAP_TYPE::SUMMON;
+		m_spawn_map_type = CONSTANTS::TYPE::MAP::SUMMON;
 		has_map = true;
 		return true;
 	});
@@ -76,7 +76,7 @@ MapSelector::MapSelector() {
 	teleport_button->set_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/teleport_map.png"));
 	teleport_button->set_hover_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/teleport_map_yellow.png"));
 	teleport_button->set_on_click([&]() {
-		m_spawn_map_type = map::implementation::MAP_TYPE::TELEPORT;
+		m_spawn_map_type = CONSTANTS::TYPE::MAP::TELEPORT;
 		has_map = true;
 		return true;
 	});
@@ -140,12 +140,12 @@ void MapSelector::update() {
 	}
 	
 	if (secret_map_state == 8) {
-		m_spawn_map_type = map::implementation::MAP_TYPE::SECRET;
+		m_spawn_map_type = CONSTANTS::TYPE::MAP::SECRET;
 		has_map = true;
 	}
 }
 
-map::implementation::MAP_TYPE MapSelector::get_map_type() {
+CONSTANTS::TYPE::MAP MapSelector::get_map_type() {
 	secret_map_state = 0;
 	has_map = false;
 	

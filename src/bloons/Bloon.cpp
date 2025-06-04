@@ -10,7 +10,7 @@
 
 namespace bloons {
 
-Bloon::Bloon(const std::shared_ptr<map::route::Route> &start_route, bloons::BLOON_TYPE type)
+Bloon::Bloon(const std::shared_ptr<map::route::Route> &start_route, CONSTANTS::TYPE::BLOON type)
 : BaseBloon(start_route) {
 	m_type = type;
 
@@ -30,11 +30,11 @@ void Bloon::handle_take_damage(int damage) {
 
 	// don't change type when the target bloon is rainbow or moab
 	switch (m_type) {
-	case bloons::BLOON_TYPE::RAINBOW:
-	case bloons::BLOON_TYPE::MOAB:
+	case CONSTANTS::TYPE::BLOON::RAINBOW:
+	case CONSTANTS::TYPE::BLOON::MOAB:
 		return;
 	// if it is ceramic, simply changes the image
-	case bloons::BLOON_TYPE::CERAMIC: {
+	case CONSTANTS::TYPE::BLOON::CERAMIC: {
 		int image_id = 11-m_hp; // images from 1~10
 		if (image_id>10) image_id = 10;
 		std::string prefix = RESOURCE_DIR"/images/bloons/ceremic/";
@@ -47,54 +47,54 @@ void Bloon::handle_take_damage(int damage) {
 
 	switch (m_hp) {
 	case 1:
-		set_bloon_type(bloons::BLOON_TYPE::RED);
+		set_bloon_type(CONSTANTS::TYPE::BLOON::RED);
 	break;
 	case 2:
-		set_bloon_type(bloons::BLOON_TYPE::BLUE);
+		set_bloon_type(CONSTANTS::TYPE::BLOON::BLUE);
 	break;
 	case 3:
-		set_bloon_type(bloons::BLOON_TYPE::GREEN);
+		set_bloon_type(CONSTANTS::TYPE::BLOON::GREEN);
 	break;
 	case 4:
-		set_bloon_type(bloons::BLOON_TYPE::YELLOW);
+		set_bloon_type(CONSTANTS::TYPE::BLOON::YELLOW);
 	break;
 	default:
 	break;
 	}
 };
 
-void Bloon::set_bloon_type(bloons::BLOON_TYPE type) {
-	CONSTANTS::BLOON_CONSTANTS::Bloon stat;
+void Bloon::set_bloon_type(CONSTANTS::TYPE::BLOON type) {
+	CONSTANTS::BLOON::Bloon stat;
 	switch(type) {
-	case bloons::BLOON_TYPE::RED    :
-		stat = CONSTANTS::BLOON_CONSTANTS::RED;
+	case CONSTANTS::TYPE::BLOON::RED    :
+		stat = CONSTANTS::BLOON::RED;
 	break;
-	case bloons::BLOON_TYPE::BLUE   :
-		stat = CONSTANTS::BLOON_CONSTANTS::BLUE;
+	case CONSTANTS::TYPE::BLOON::BLUE   :
+		stat = CONSTANTS::BLOON::BLUE;
 	break;
-	case bloons::BLOON_TYPE::GREEN  :
-		stat = CONSTANTS::BLOON_CONSTANTS::GREEN;
+	case CONSTANTS::TYPE::BLOON::GREEN  :
+		stat = CONSTANTS::BLOON::GREEN;
 	break;
-	case bloons::BLOON_TYPE::YELLOW :
-		stat = CONSTANTS::BLOON_CONSTANTS::YELLOW;
+	case CONSTANTS::TYPE::BLOON::YELLOW :
+		stat = CONSTANTS::BLOON::YELLOW;
 	break;
-	case bloons::BLOON_TYPE::WHITE  :
-		stat = CONSTANTS::BLOON_CONSTANTS::WHITE;
+	case CONSTANTS::TYPE::BLOON::WHITE  :
+		stat = CONSTANTS::BLOON::WHITE;
 	break;
-	case bloons::BLOON_TYPE::BLACK  :
-		stat = CONSTANTS::BLOON_CONSTANTS::BLACK;
+	case CONSTANTS::TYPE::BLOON::BLACK  :
+		stat = CONSTANTS::BLOON::BLACK;
 	break;
-	case bloons::BLOON_TYPE::LEAD   :
-		stat = CONSTANTS::BLOON_CONSTANTS::LEAD;
+	case CONSTANTS::TYPE::BLOON::LEAD   :
+		stat = CONSTANTS::BLOON::LEAD;
 	break;
-	case bloons::BLOON_TYPE::RAINBOW:
-		stat = CONSTANTS::BLOON_CONSTANTS::RAINBOW;
+	case CONSTANTS::TYPE::BLOON::RAINBOW:
+		stat = CONSTANTS::BLOON::RAINBOW;
 	break;
-	case bloons::BLOON_TYPE::CERAMIC:
-		stat = CONSTANTS::BLOON_CONSTANTS::CERAMIC;
+	case CONSTANTS::TYPE::BLOON::CERAMIC:
+		stat = CONSTANTS::BLOON::CERAMIC;
 	break;
 	default:
-		throw std::invalid_argument("void Bloon::set_bloon_type(bloons::BLOON_TYPE type): UNKNOWN BLOON TYPE");
+		throw std::invalid_argument("void Bloon::set_bloon_type(CONSTANTS::TYPE::BLOON type): UNKNOWN BLOON TYPE");
 	break;
 	}
 
@@ -107,7 +107,7 @@ void Bloon::set_bloon_type(bloons::BLOON_TYPE type) {
 
 void Bloon::m_take_damage(int damage) {
 	// if ceramic, only give 10$ when hp reaches 0
-	if (m_type == bloons::BLOON_TYPE::CERAMIC) {
+	if (m_type == CONSTANTS::TYPE::BLOON::CERAMIC) {
 		m_accumulated_money += (m_hp==0)? 10: 0;
 	}
 	

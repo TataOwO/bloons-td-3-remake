@@ -4,10 +4,10 @@
 #include <queue>
 #include "Util/GameObject.hpp"
 
+namespace CONSTANTS::TYPE {enum class BLOON;}
 namespace handlers {class PathManager;}
 namespace Util     {class Renderer;}
 namespace bloons   {class BaseBloon;}
-namespace bloons   {enum class BLOON_TYPE;}
 namespace layout   {class GameText;}
 namespace map::route {class Route;}
 
@@ -15,10 +15,10 @@ namespace handlers {
 
 // bloon spawn struct
 struct BloonSpawnInfo {
-	bloons::BLOON_TYPE type;
+	CONSTANTS::TYPE::BLOON type;
 	int spawn_tick;
 
-	BloonSpawnInfo(bloons::BLOON_TYPE t, int tick) : type(t), spawn_tick(tick) {}
+	BloonSpawnInfo(CONSTANTS::TYPE::BLOON t, int tick) : type(t), spawn_tick(tick) {}
 
 	// for priority queue
 	bool operator>(const BloonSpawnInfo& other) const {
@@ -34,9 +34,10 @@ public:
 	void update(const std::shared_ptr<handlers::PathManager>& path_manager, int current_tick, const std::shared_ptr<layout::GameText> &game_hp);
 
 	void add_bloon(const std::shared_ptr<bloons::BaseBloon> &bloon);
+	bool is_completely_empty() const;
 
 	// add bloon spawn to queue
-	void schedule_bloon_spawn(bloons::BLOON_TYPE type, int ticks_until_spawn);
+	void schedule_bloon_spawn(CONSTANTS::TYPE::BLOON type, int ticks_until_spawn);
 
 	// spawn bloon at random
 	void spawn_random_bloon(const std::shared_ptr<map::route::Route>& spawn_route);
@@ -63,8 +64,8 @@ private:
 	void handle_bloon_destruction(const std::shared_ptr<bloons::BaseBloon> &bloon);
 	
 	// Helper methods for spawning child bloons
-	void spawn_child_bloons(const std::shared_ptr<bloons::BaseBloon> &parent, bloons::BLOON_TYPE child_type, int count);
-	void spawn_child_bloon(const std::shared_ptr<bloons::BaseBloon> &parent, bloons::BLOON_TYPE child_type);
+	void spawn_child_bloons(const std::shared_ptr<bloons::BaseBloon> &parent, CONSTANTS::TYPE::BLOON child_type, int count);
+	void spawn_child_bloon(const std::shared_ptr<bloons::BaseBloon> &parent, CONSTANTS::TYPE::BLOON child_type);
 
 	// process the spawn queue for the current tick
 	void process_spawn_queue(const std::shared_ptr<handlers::PathManager>& path_manager, int current_tick);

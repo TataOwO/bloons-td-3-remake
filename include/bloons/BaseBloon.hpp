@@ -2,6 +2,9 @@
 #define BASE_BLOON_HPP
 
 #include <deque>
+
+#include "CONSTANTS/TYPE.hpp"
+#include "handlers/BloonManager.hpp"
 #include "Util/GameObject.hpp"
 
 namespace Core {class Drawable;}
@@ -9,19 +12,6 @@ namespace map::route {class Route;}
 namespace hitboxes {class I_BaseHitbox;}
 
 namespace bloons {
-
-enum class BLOON_TYPE : int {
-	RED    =0,
-	BLUE   =1,
-	GREEN  =2,
-	YELLOW =3,
-	WHITE  =4,
-	BLACK  =5,
-	LEAD   =6,
-	RAINBOW=7,
-	CERAMIC=8,
-	MOAB   =9
-};
 
 // https://bloons.fandom.com/wiki/Massive_Ornary_Air_Blimp_(MOAB)
 class BaseBloon : public Util::GameObject {
@@ -53,7 +43,7 @@ public:
 	void set_max_path_history_size(size_t size) { m_max_path_history_size = size; }
 	size_t get_max_path_history_size() const { return m_max_path_history_size; }
 
-	bloons::BLOON_TYPE get_type() const {return m_type;}
+	CONSTANTS::TYPE::BLOON get_type() const {return m_type;}
 	
 	bool is_frozen() const {return m_frozen_tick!=0;}
 	void set_frozen(int t) {m_frozen_tick = (m_frozen_tick<t)? t: m_frozen_tick;}
@@ -65,12 +55,12 @@ protected:
 
 	static double get_random_z_index();
 	
-	static const std::shared_ptr<Core::Drawable> get_bloon_drawable(BLOON_TYPE);
+	static const std::shared_ptr<Core::Drawable> get_bloon_drawable(CONSTANTS::TYPE::BLOON);
 protected:
 	std::shared_ptr<map::route::Route> m_current_route;
 	glm::vec2 m_target_point = {};
 
-	BLOON_TYPE m_type = BLOON_TYPE::RED;
+	CONSTANTS::TYPE::BLOON m_type = CONSTANTS::TYPE::BLOON::RED;
 
 	double m_speed = 0;
 

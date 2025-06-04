@@ -52,7 +52,7 @@ void ProjectileManager::process_removal() {
 
 		if (it != m_all_projectiles.end()) m_all_projectiles.erase(it);
 		
-		if (projectile->get_type() == projectiles::PROJECTILE_TYPE::BOMB && !projectile->has_pierce()) {
+		if (projectile->get_type() == CONSTANTS::TYPE::PROJECTILE::BOMB && !projectile->has_pierce()) {
 			glm::vec2 center = projectile->get_hitbox()->get_position();
 			
 			explosions.push_back(std::make_shared<projectiles::BombExplosion>(center, 0));

@@ -24,7 +24,7 @@ public:
 
 	bool can_attack() override;
 	
-	static MONKEY_TYPE get_type() {return MONKEY_TYPE::BOOMERANG;}
+	static CONSTANTS::TYPE::MONKEY get_type() {return CONSTANTS::TYPE::MONKEY::BOOMERANG;}
 
 private: // I monkey attacker
 	void update_attack_interval() override;

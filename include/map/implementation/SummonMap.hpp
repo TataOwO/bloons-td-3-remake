@@ -16,7 +16,7 @@ public:
 	void set_wave(int) override;
 	void update() override;
 
-	MAP_TYPE get_map_type() const override {return MAP_TYPE::SUMMON;}
+	CONSTANTS::TYPE::MAP get_map_type() const override {return CONSTANTS::TYPE::MAP::SUMMON;}
 
 	void set_monkey_manager(const std::shared_ptr<handlers::MonkeyManager>& monkey_m) {m_monkey_manager = monkey_m;};
 private:

@@ -12,7 +12,7 @@ public:
 	void set_wave(int) override;
 	void update() override;
 
-	MAP_TYPE get_map_type() const override {return MAP_TYPE::ICE;}
+	CONSTANTS::TYPE::MAP get_map_type() const override {return CONSTANTS::TYPE::MAP::ICE;}
 private:
 
 // base

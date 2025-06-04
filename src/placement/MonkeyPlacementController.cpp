@@ -19,7 +19,7 @@ MonkeyPlacementController::MonkeyPlacementController(
 	m_hitbox = std::make_shared<hitboxes::CircularHitbox>(glm::vec2(0, 0), m_default_hitbox_radius);
 
 	SetVisible(false);
-	SetZIndex(CONSTANTS::Z_INDEX_CONSTANTS::MONKE + 0.1f);
+	SetZIndex(CONSTANTS::Z_INDEX::MONKE + 0.1f);
 }
 
 void MonkeyPlacementController::update() {
@@ -29,56 +29,56 @@ void MonkeyPlacementController::update() {
 	update_visual_state();
 }
 
-void MonkeyPlacementController::set_monkey(const PLACABLE_TYPE& type) {
+void MonkeyPlacementController::set_monkey(const CONSTANTS::TYPE::PLACABLE& type) {
 	m_current_monkey_type = type;
 
-	if (type == PLACABLE_TYPE::_NULL) {
+	if (type == CONSTANTS::TYPE::PLACABLE::_NULL) {
 		SetVisible(false);
 		m_is_active = false;
 		return;
 	}
 	
-	CONSTANTS::MONKEY_CONSTANTS::Monke monke_stat;
+	CONSTANTS::MONKEY::Monke monke_stat;
 
 	std::string monke_name = "";
 	switch (type) {
-	case PLACABLE_TYPE::DART:
+	case CONSTANTS::TYPE::PLACABLE::DART:
 		monke_name = "dart";
-		monke_stat = CONSTANTS::MONKEY_CONSTANTS::DART;
+		monke_stat = CONSTANTS::MONKEY::DART;
 		break;
-	case PLACABLE_TYPE::BOOMERANG:
+	case CONSTANTS::TYPE::PLACABLE::BOOMERANG:
 		monke_name = "boomerang";
-		monke_stat = CONSTANTS::MONKEY_CONSTANTS::BOOMERANG;
+		monke_stat = CONSTANTS::MONKEY::BOOMERANG;
 		break;
-	case PLACABLE_TYPE::SUPER:
+	case CONSTANTS::TYPE::PLACABLE::SUPER:
 		monke_name = "super";
-		monke_stat = CONSTANTS::MONKEY_CONSTANTS::SUPER;
+		monke_stat = CONSTANTS::MONKEY::SUPER;
 		break;
-	case PLACABLE_TYPE::ICE:
+	case CONSTANTS::TYPE::PLACABLE::ICE:
 		monke_name = "ice";
-		monke_stat = CONSTANTS::MONKEY_CONSTANTS::ICE;
+		monke_stat = CONSTANTS::MONKEY::ICE;
 		break;
-	case PLACABLE_TYPE::BOMB:
+	case CONSTANTS::TYPE::PLACABLE::BOMB:
 		monke_name = "bomb";
-		monke_stat = CONSTANTS::MONKEY_CONSTANTS::BOMB;
+		monke_stat = CONSTANTS::MONKEY::BOMB;
 		break;
-	case PLACABLE_TYPE::TACK:
+	case CONSTANTS::TYPE::PLACABLE::TACK:
 		monke_name = "tack";
-		monke_stat = CONSTANTS::MONKEY_CONSTANTS::TACK;
+		monke_stat = CONSTANTS::MONKEY::TACK;
 		break;
-	// case PLACABLE_TYPE::SPIKE:
+	// case CONSTANTS::TYPE::PLACABLE::SPIKE:
 		// monke_name = "spike";
 		// break;
-	// case PLACABLE_TYPE::GLUE:
+	// case CONSTANTS::TYPE::PLACABLE::GLUE:
 		// monke_name = "glue";
 		// break;
-	// case PLACABLE_TYPE::PINEAPPLE:
+	// case CONSTANTS::TYPE::PLACABLE::PINEAPPLE:
 		// monke_name = "pineapple";
 		// break;
-	// case PLACABLE_TYPE::VILLAGE:
+	// case CONSTANTS::TYPE::PLACABLE::VILLAGE:
 		// monke_name = "village";
 		// break;
-	// case PLACABLE_TYPE::CATAPULT:
+	// case CONSTANTS::TYPE::PLACABLE::CATAPULT:
 		// monke_name = "catapult";
 		// break;
 	default:
@@ -109,7 +109,7 @@ void MonkeyPlacementController::set_monkey(const PLACABLE_TYPE& type) {
 }
 
 bool MonkeyPlacementController::check_valid_position() const {
-	if (m_current_monkey_type == PLACABLE_TYPE::_NULL || !m_is_active || !m_hitbox) {
+	if (m_current_monkey_type == CONSTANTS::TYPE::PLACABLE::_NULL || !m_is_active || !m_hitbox) {
 		return false;
 	}
 
@@ -155,7 +155,7 @@ bool MonkeyPlacementController::is_valid_placement() const {
 }
 
 bool MonkeyPlacementController::place_monkey(const std::shared_ptr<layout::GameText> &available_money) const {
-	if (!m_is_active || !is_valid_placement() || m_current_monkey_type == PLACABLE_TYPE::_NULL) {
+	if (!m_is_active || !is_valid_placement() || m_current_monkey_type == CONSTANTS::TYPE::PLACABLE::_NULL) {
 		return false;
 	}
 
@@ -164,22 +164,22 @@ bool MonkeyPlacementController::place_monkey(const std::shared_ptr<layout::GameT
 	glm::vec2 position = m_hitbox->get_position();
 
 	switch (m_current_monkey_type) {
-	case PLACABLE_TYPE::DART:
+	case CONSTANTS::TYPE::PLACABLE::DART:
 		placement_successful = m_monkey_manager->place_dart_monkey(position, available_money);
 	break;
-	case PLACABLE_TYPE::SUPER:
+	case CONSTANTS::TYPE::PLACABLE::SUPER:
 		placement_successful = m_monkey_manager->place_super_monkey(position, available_money);
 	break;
-	case PLACABLE_TYPE::ICE:
+	case CONSTANTS::TYPE::PLACABLE::ICE:
 		placement_successful = m_monkey_manager->place_ice_monkey(position, available_money);
 	break;
-	case PLACABLE_TYPE::BOMB:
+	case CONSTANTS::TYPE::PLACABLE::BOMB:
 		placement_successful = m_monkey_manager->place_bomb_shooter(position, available_money);
 	break;
-	case PLACABLE_TYPE::TACK:
+	case CONSTANTS::TYPE::PLACABLE::TACK:
 		placement_successful = m_monkey_manager->place_tack_shooter(position, available_money);
 	break;
-	case PLACABLE_TYPE::BOOMERANG:
+	case CONSTANTS::TYPE::PLACABLE::BOOMERANG:
 		placement_successful = m_monkey_manager->place_boomerang_monkey(position, available_money);
 	break;
 	default: break;
@@ -192,7 +192,7 @@ void MonkeyPlacementController::clear_all() {
 	SetVisible(false);
 	m_is_active = false;
 	m_spawned_monkey = nullptr;
-	m_current_monkey_type = PLACABLE_TYPE::_NULL;
+	m_current_monkey_type = CONSTANTS::TYPE::PLACABLE::_NULL;
 
 	std::cout << "cleared all monkeys" << std::endl;
 }

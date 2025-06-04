@@ -13,7 +13,7 @@ public:
 	
 	void deal_damage(std::shared_ptr<bloons::BaseBloon> bloon) override;
 	
-	PROJECTILE_TYPE get_type() const override {return PROJECTILE_TYPE::BOOMERANG;}
+	CONSTANTS::TYPE::PROJECTILE get_type() const override {return CONSTANTS::TYPE::PROJECTILE::BOOMERANG;}
 private:
     void m_move() override;
 

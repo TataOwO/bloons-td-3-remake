@@ -15,7 +15,7 @@ IceMonkey::IceMonkey(glm::vec2 position)
 : BaseMonkey(position) {
 	m_Transform.translation = position;
 
-	auto stat = CONSTANTS::MONKEY_CONSTANTS::ICE;
+	auto stat = CONSTANTS::MONKEY::ICE;
 
 	// base monkey initialization
 	initialize_with_stat(stat);

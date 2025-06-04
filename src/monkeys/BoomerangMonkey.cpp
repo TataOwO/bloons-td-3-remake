@@ -17,7 +17,7 @@ BoomerangMonkey::BoomerangMonkey(glm::vec2 position)
 : BaseMonkey(position) {
 	m_Transform.translation = position;
 
-	auto stat = CONSTANTS::MONKEY_CONSTANTS::BOOMERANG;
+	auto stat = CONSTANTS::MONKEY::BOOMERANG;
 
 	// base monkey initialization
 	initialize_with_stat(stat);

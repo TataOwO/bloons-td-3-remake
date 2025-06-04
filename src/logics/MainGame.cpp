@@ -53,7 +53,7 @@ MainGame::MainGame() {
 	background_background->m_Transform.translation = {300,0};
 }
 
-void MainGame::init(const map::implementation::MAP_TYPE& map_type) {
+void MainGame::init(const CONSTANTS::TYPE::MAP& map_type) {
 	m_monkey_manager->clear_all_monkeys();
 	m_projectile_manager->clear_all_projectiles();
 
@@ -63,22 +63,22 @@ void MainGame::init(const map::implementation::MAP_TYPE& map_type) {
 	RemoveChild(m_map);
 	// initialize map object
 	switch (map_type) {
-		case map::implementation::MAP_TYPE::SUMMON: {
+		case CONSTANTS::TYPE::MAP::SUMMON: {
 			auto map = std::make_shared<map::implementation::SummonMap>();
 			// map->
 			m_map = map;
 		}
 		break;
-		case map::implementation::MAP_TYPE::PEACEFUL:
+		case CONSTANTS::TYPE::MAP::PEACEFUL:
 			m_map = std::make_shared<map::implementation::PeacefulMap>();
 		break;
-		case map::implementation::MAP_TYPE::ICE:
+		case CONSTANTS::TYPE::MAP::ICE:
 			m_map = std::make_shared<map::implementation::IceMap>();
 		break;
-		case map::implementation::MAP_TYPE::TELEPORT:
+		case CONSTANTS::TYPE::MAP::TELEPORT:
 			m_map = std::make_shared<map::implementation::TeleportMap>();
 		break;
-		case map::implementation::MAP_TYPE::SECRET:
+		case CONSTANTS::TYPE::MAP::SECRET:
 			m_map = std::make_shared<map::implementation::SecretMap>();
 		break;
 		default: break;
@@ -96,8 +96,8 @@ void MainGame::init(const map::implementation::MAP_TYPE& map_type) {
 
 	// hp display
 	// TODO: UI
-	m_hp_text->set_value(CONSTANTS::OPERATION_CONSTANTS::GAME_HP);
-	m_money_text->set_value(CONSTANTS::OPERATION_CONSTANTS::MONEY);
+	m_hp_text->set_value(CONSTANTS::OPERATION::GAME_HP);
+	m_money_text->set_value(CONSTANTS::OPERATION::MONEY);
 }
 
 void MainGame::update() {

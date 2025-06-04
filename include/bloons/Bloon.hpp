@@ -7,7 +7,7 @@ namespace bloons {
 
 class Bloon final : public bloons::BaseBloon {
 public:
-	Bloon(const std::shared_ptr<map::route::Route> &start_route, bloons::BLOON_TYPE type);
+	Bloon(const std::shared_ptr<map::route::Route> &start_route, CONSTANTS::TYPE::BLOON type);
 
 	void update() override;
 
@@ -17,7 +17,7 @@ public:
 private:
 	std::string m_image_path;
 
-	void set_bloon_type(bloons::BLOON_TYPE type);
+	void set_bloon_type(CONSTANTS::TYPE::BLOON type);
 
 	void m_take_damage(int damage) override;
 // base

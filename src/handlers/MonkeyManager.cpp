@@ -48,25 +48,25 @@ void MonkeyManager::scan_bloons(const std::vector<std::shared_ptr<bloons::BaseBl
     // Let each monkey attacker scan for bloons
     for (auto& attacker : m_all_monkey_attackers) {
         switch (attacker->get_targeting()) {
-			case monkeys::TARGETING::FIRST:
+			case CONSTANTS::TYPE::TARGETING::FIRST:
 				for (const auto& bloon : bloon_vec_first) {
 					attacker->scan_bloon(bloon);
 					if (attacker->has_target()) break;
 				}
 			break;
-			case monkeys::TARGETING::LAST:
+			case CONSTANTS::TYPE::TARGETING::LAST:
 				for (const auto& bloon : bloon_vec_last) {
 					attacker->scan_bloon(bloon);
 					if (attacker->has_target()) break;
 				}
 			break;
-			case monkeys::TARGETING::STRONG:
+			case CONSTANTS::TYPE::TARGETING::STRONG:
 				for (const auto& bloon : bloon_vec_strong) {
 					attacker->scan_bloon(bloon);
 					if (attacker->has_target()) break;
 				}
 			break;
-			case monkeys::TARGETING::CLOSE:
+			case CONSTANTS::TYPE::TARGETING::CLOSE:
 				return;
 			default: break;
 		}
@@ -103,7 +103,7 @@ std::vector<std::shared_ptr<monkeys::BaseMonkey>> MonkeyManager::get_all_monkeys
 }
 
 bool MonkeyManager::place_dart_monkey(glm::vec2 position, const std::shared_ptr<layout::GameText> &money) {
-	int money_cost = CONSTANTS::MONKEY_CONSTANTS::DART.COST;
+	int money_cost = CONSTANTS::MONKEY::DART.COST;
 
     // if there isn't enough money
     if (money_cost > money->get_value()) {
@@ -124,7 +124,7 @@ bool MonkeyManager::place_dart_monkey(glm::vec2 position, const std::shared_ptr<
 }
 
 bool MonkeyManager::place_super_monkey(glm::vec2 position, const std::shared_ptr<layout::GameText> &money) {
-	int money_cost = CONSTANTS::MONKEY_CONSTANTS::SUPER.COST;
+	int money_cost = CONSTANTS::MONKEY::SUPER.COST;
 
     // if there isn't enough money
     if (money_cost > money->get_value()) {
@@ -145,7 +145,7 @@ bool MonkeyManager::place_super_monkey(glm::vec2 position, const std::shared_ptr
 }
 
 bool MonkeyManager::place_ice_monkey(glm::vec2 position, const std::shared_ptr<layout::GameText> &money) {
-	int money_cost = CONSTANTS::MONKEY_CONSTANTS::ICE.COST;
+	int money_cost = CONSTANTS::MONKEY::ICE.COST;
 
     // if there isn't enough money
     if (money_cost > money->get_value()) {
@@ -166,7 +166,7 @@ bool MonkeyManager::place_ice_monkey(glm::vec2 position, const std::shared_ptr<l
 }
 
 bool MonkeyManager::place_bomb_shooter(glm::vec2 position, const std::shared_ptr<layout::GameText> &money) {
-	int money_cost = CONSTANTS::MONKEY_CONSTANTS::BOMB.COST;
+	int money_cost = CONSTANTS::MONKEY::BOMB.COST;
 
     // if there isn't enough money
     if (money_cost > money->get_value()) {
@@ -187,7 +187,7 @@ bool MonkeyManager::place_bomb_shooter(glm::vec2 position, const std::shared_ptr
 }
 
 bool MonkeyManager::place_tack_shooter(glm::vec2 position, const std::shared_ptr<layout::GameText> &money) {
-	int money_cost = CONSTANTS::MONKEY_CONSTANTS::TACK.COST;
+	int money_cost = CONSTANTS::MONKEY::TACK.COST;
 
     // if there isn't enough money
     if (money_cost > money->get_value()) {
@@ -208,7 +208,7 @@ bool MonkeyManager::place_tack_shooter(glm::vec2 position, const std::shared_ptr
 }
 
 bool MonkeyManager::place_boomerang_monkey(glm::vec2 position, const std::shared_ptr<layout::GameText> &money) {
-	int money_cost = CONSTANTS::MONKEY_CONSTANTS::BOOMERANG.COST;
+	int money_cost = CONSTANTS::MONKEY::BOOMERANG.COST;
 
     // if there isn't enough money
     if (money_cost > money->get_value()) {

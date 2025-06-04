@@ -1,22 +1,13 @@
 #ifndef BASE_PROJECTILE_HPP
 #define BASE_PROJECTILE_HPP
 
+#include "constants/TYPE.hpp"
 #include "Util/GameObject.hpp"
 
 namespace hitboxes {class I_BaseHitbox;}
 namespace bloons {class BaseBloon;}
 
 namespace projectiles {
-
-enum class PROJECTILE_TYPE {
-	DART,
-	BOMB,
-	EXPLOSION,
-	BOOMERANG,
-	ICE,
-	SUPER,
-	TACK
-};
 
 class BaseProjectile : public Util::GameObject {
 protected:
@@ -37,7 +28,7 @@ public:
 	
 	virtual void deal_damage(std::shared_ptr<bloons::BaseBloon> bloon) = 0;
 
-	virtual PROJECTILE_TYPE get_type() const = 0;
+	virtual CONSTANTS::TYPE::PROJECTILE get_type() const = 0;
 protected:
 	std::shared_ptr<hitboxes::I_BaseHitbox> m_hitbox;
 
