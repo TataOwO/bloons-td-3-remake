@@ -20,10 +20,14 @@ public:
 	// calls on_click() if clicked, returns true if success
 	bool process_click(const glm::vec2 click_pos) const {
 		return // evaluate
-			on_click
+			m_enabled && on_click
 			&& m_hitbox->contains_point(click_pos)
 			&& on_click();
 	}
+
+	// enable / disable
+	void enable() {m_enabled = true;};
+	void disable() {m_enabled = false;};
 
 	// function setter
 	void set_removal(const std::function<bool()> &func) {removal_func = func;}
@@ -41,6 +45,8 @@ protected:
 	std::function<bool()> removal_func;
 
 	std::shared_ptr<hitboxes::I_BaseHitbox> m_hitbox;
+
+	bool m_enabled = true;
 
 	float z_index = 0;
 // base
