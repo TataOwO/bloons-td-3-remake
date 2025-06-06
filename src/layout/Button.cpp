@@ -7,6 +7,7 @@ namespace layout {
 bool Button::update(const glm::vec2& pos, const bool& clicked) {
 	if (!m_hitbox) return false;
 	if (!m_hitbox->contains_point(pos)) {
+		m_state = BUTTON_STATE::INACTIVE;
 		SetDrawable(m_normal_drawable);
 		return false;
 	}
@@ -16,6 +17,8 @@ bool Button::update(const glm::vec2& pos, const bool& clicked) {
 		SetDrawable(m_hover_drawable);
 		return false;
 	}
+	
+	m_state = BUTTON_STATE::CLICK;
 	
 	// bool clicked = process_click(pos);
 	//if (clicked) m_state = BUTTON_STATE::INACTIVE;

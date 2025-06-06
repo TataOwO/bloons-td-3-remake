@@ -23,6 +23,8 @@ public:
 	void enable() override;
 	void disable() override;
 	
+	BUTTON_STATE get_button_state() const {return m_state;};
+	
 	void set_drawable(const std::shared_ptr<Core::Drawable>&);
 	void set_hover_drawable(const std::shared_ptr<Core::Drawable>&);
 private:

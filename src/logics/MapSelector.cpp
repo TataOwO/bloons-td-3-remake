@@ -14,17 +14,26 @@
 namespace logics {
 
 MapSelector::MapSelector() {
+	m_peaceful_background = std::make_shared<map::MapBackground>();
+	m_peaceful_background->set_layers(std::vector<std::string>{RESOURCE_DIR"/images/maps/peaceful_map.png"});
+	m_ice_background = std::make_shared<map::MapBackground>();
+	m_ice_background->set_layers(std::vector<std::string>{RESOURCE_DIR"/images/maps/ice_map.png",RESOURCE_DIR"/images/maps/ice_map_frozen.png",RESOURCE_DIR"/images/maps/ice_map_sleeping_frog.png"});
+	m_teleport_background = std::make_shared<map::MapBackground>();
+	m_teleport_background->set_layers(std::vector<std::string>{RESOURCE_DIR"/images/maps/teleport_map_background.png", RESOURCE_DIR"/images/maps/teleport_map_1.png"});
+	m_summon_background = std::make_shared<map::MapBackground>();
+	m_summon_background->set_layers(std::vector<std::string>{RESOURCE_DIR"/images/maps/summon_map.png"});
+	
 	m_background = std::make_shared<map::MapBackground>();
+	m_background = m_peaceful_background;
 	AddChild(m_background);
-	m_background->set_layers(std::vector<std::string>{RESOURCE_DIR"/images/maps/peaceful_map.png"});
 	
 	auto dark_background = std::make_shared<Util::GameObject>();
 	dark_background->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/dark_background.png"));
 	AddChild(dark_background);
 	dark_background->SetZIndex(1);
 	
-	auto peaceful_button = std::make_shared<layout::Button>();
-	peaceful_hitbox = std::make_shared<hitboxes::RectangularHitbox>(glm::vec2{-288,0}, glm::vec2{180,180}, 0);
+	peaceful_button = std::make_shared<layout::Button>();
+	auto peaceful_hitbox = std::make_shared<hitboxes::RectangularHitbox>(glm::vec2{-288,0}, glm::vec2{180,180}, 0);
 	peaceful_button->set_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/peaceful_map.png"));
 	peaceful_button->set_hover_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/peaceful_map_yellow.png"));
 	peaceful_button->set_on_click([&]() {
@@ -39,8 +48,8 @@ MapSelector::MapSelector() {
 	AddChild(peaceful_button);
 	m_button_vec.push_back(peaceful_button);
 	
-	auto ice_button = std::make_shared<layout::Button>();
-	ice_hitbox = std::make_shared<hitboxes::RectangularHitbox>(glm::vec2{-96,0}, glm::vec2{180,180}, 0);
+	ice_button = std::make_shared<layout::Button>();
+	auto ice_hitbox = std::make_shared<hitboxes::RectangularHitbox>(glm::vec2{-96,0}, glm::vec2{180,180}, 0);
 	ice_button->set_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/ice_map.png"));
 	ice_button->set_hover_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/ice_map_yellow.png"));
 	ice_button->set_on_click([&]() {
@@ -55,8 +64,8 @@ MapSelector::MapSelector() {
 	AddChild(ice_button);
 	m_button_vec.push_back(ice_button);
 	
-	auto summon_button = std::make_shared<layout::Button>();
-	summon_hitbox = std::make_shared<hitboxes::RectangularHitbox>(glm::vec2{96,0}, glm::vec2{180,180}, 0);
+	summon_button = std::make_shared<layout::Button>();
+	auto summon_hitbox = std::make_shared<hitboxes::RectangularHitbox>(glm::vec2{96,0}, glm::vec2{180,180}, 0);
 	summon_button->set_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/summon_map.png"));
 	summon_button->set_hover_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/summon_map_yellow.png"));
 	summon_button->set_on_click([&]() {
@@ -71,8 +80,8 @@ MapSelector::MapSelector() {
 	AddChild(summon_button);
 	m_button_vec.push_back(summon_button);
 	
-	auto teleport_button = std::make_shared<layout::Button>();
-	teleport_hitbox = std::make_shared<hitboxes::RectangularHitbox>(glm::vec2{288,0}, glm::vec2{180,180}, 0);
+	teleport_button = std::make_shared<layout::Button>();
+	auto teleport_hitbox = std::make_shared<hitboxes::RectangularHitbox>(glm::vec2{288,0}, glm::vec2{180,180}, 0);
 	teleport_button->set_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/teleport_map.png"));
 	teleport_button->set_hover_drawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/buttons/maps/teleport_map_yellow.png"));
 	teleport_button->set_on_click([&]() {
@@ -111,9 +120,31 @@ void MapSelector::update() {
 		if (clickable->process_click(mouse_pos)) break;
 	}
 
-	for (auto& button: m_button_vec) {
-		// breaks when a clickable is successfully clicked
-		if (button->update(mouse_pos, LB)) break;
+	// map background change
+	peaceful_button->update(mouse_pos, LB);
+	ice_button->update(mouse_pos, LB);
+	teleport_button->update(mouse_pos, LB);
+	summon_button->update(mouse_pos, LB);
+	
+	if (peaceful_button->get_button_state() == layout::BUTTON_STATE::HOVER) {
+		RemoveChild(m_background);
+		m_background = m_peaceful_background;
+		AddChild(m_background);
+	}
+	if (ice_button->get_button_state() == layout::BUTTON_STATE::HOVER) {
+		RemoveChild(m_background);
+		m_background = m_ice_background;
+		AddChild(m_background);
+	}
+	if (teleport_button->get_button_state() == layout::BUTTON_STATE::HOVER) {
+		RemoveChild(m_background);
+		m_background = m_teleport_background;
+		AddChild(m_background);
+	}
+	if (summon_button->get_button_state() == layout::BUTTON_STATE::HOVER) {
+		RemoveChild(m_background);
+		m_background = m_summon_background;
+		AddChild(m_background);
 	}
 	
 	switch (secret_map_state) {

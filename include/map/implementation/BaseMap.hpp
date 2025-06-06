@@ -37,7 +37,7 @@ protected:
 	
 	std::vector<std::shared_ptr<hitboxes::I_BaseHitbox>> m_obstacles;
 	
-	int m_current_wave = 1;
+	int m_current_wave = 0;
 private:
 	bool route_is_visible = false;
 

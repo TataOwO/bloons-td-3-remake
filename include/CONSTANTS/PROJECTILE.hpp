@@ -46,7 +46,7 @@ namespace CONSTANTS::PROJECTILE {
 	constexpr Projectile SUPER {
 		1,
 		1,
-		14,
+		15,
 		1,
 		20.0f
 	};

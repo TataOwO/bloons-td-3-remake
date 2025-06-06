@@ -32,10 +32,15 @@ private:
 	std::vector<std::shared_ptr<inputs::Clickable>> m_clickable_vec;
 	std::vector<std::shared_ptr<layout::Button>> m_button_vec;
 	
-	std::shared_ptr<hitboxes::I_BaseHitbox> peaceful_hitbox;
-	std::shared_ptr<hitboxes::I_BaseHitbox> ice_hitbox;
-	std::shared_ptr<hitboxes::I_BaseHitbox> teleport_hitbox;
-	std::shared_ptr<hitboxes::I_BaseHitbox> summon_hitbox;
+	std::shared_ptr<layout::Button> peaceful_button;
+	std::shared_ptr<layout::Button> ice_button;
+	std::shared_ptr<layout::Button> teleport_button;
+	std::shared_ptr<layout::Button> summon_button;
+
+	std::shared_ptr<map::MapBackground> m_peaceful_background;
+	std::shared_ptr<map::MapBackground> m_ice_background;
+	std::shared_ptr<map::MapBackground> m_teleport_background;
+	std::shared_ptr<map::MapBackground> m_summon_background;
 
 	int secret_map_state = 0;
 // base

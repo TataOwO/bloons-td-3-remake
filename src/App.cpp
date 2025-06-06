@@ -22,9 +22,14 @@ void App::Start() {
 	break;
 	case CONSTANTS::TYPE::GAME_STATE::EXIT_GAME:
 		set_state(State::END);
+		return;
 	break;
 	default: break;
 	}
+	
+	///////// DO NOT REMOVE THIS LINE /////////
+	       set_state(App::State::UPDATE);
+	///////// DO NOT REMOVE THIS LINE /////////
 }
 
 void App::Update() {
