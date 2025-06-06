@@ -17,6 +17,8 @@ public:
 	void set_value(const int& v);
 	void add_value(const int& v);
 	void sub_value(const int& v);
+	
+	void set_blink_red();
 private:
 	int m_value = 0;
 	bool m_is_changed = false;
@@ -24,6 +26,9 @@ private:
 	std::shared_ptr<Util::Text> m_text_obj;
 	
 	std::string m_prefix;
+	
+	int m_tick = 0;
+	bool is_flashing = false;
 
 // base
 public:

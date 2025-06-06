@@ -8,7 +8,8 @@
 #include <cmath>
 #include <algorithm>
 
-#include "Constants.hpp"
+#include "constants/HITBOX.hpp"
+
 
 namespace hitboxes {
 

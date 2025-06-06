@@ -12,11 +12,11 @@
 #include "projectiles/BaseProjectile.hpp"
 
 #include "bloons/BaseBloon.hpp"
+#include "constants/MONKEY.hpp"
 
 #include "hitboxes/CircularHitbox.hpp"
 #include "layout/GameText.hpp"
 
-#include "Constants.hpp"
 
 #include "utility/functions.hpp"
 

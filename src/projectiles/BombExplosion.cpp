@@ -3,9 +3,9 @@
 #include "Util/Image.hpp"
 #include "utility/functions.hpp"
 
-#include "Constants.hpp"
 
 #include "bloons/BaseBloon.hpp"
+#include "constants/PROJECTILE.hpp"
 #include "hitboxes/RectangularHitbox.hpp"
 #include "Util/Animation.hpp"
 

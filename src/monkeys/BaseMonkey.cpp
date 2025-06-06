@@ -1,11 +1,12 @@
 #include "monkeys/BaseMonkey.hpp"
 
-#include "Constants.hpp"
+#include "constants/MONKEY.hpp"
 #include "hitboxes/CircularHitbox.hpp"
 #include "hitboxes/RectangularHitbox.hpp"
 #include "map/route/Route.hpp"
 #include "Util/Image.hpp"
 #include "utility/functions.hpp"
+#include "CONSTANTS/Z_INDEX.hpp"
 
 namespace monkeys {
 

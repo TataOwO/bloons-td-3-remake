@@ -1,8 +1,8 @@
 #include "projectiles/BaseProjectile.hpp"
 
-#include "Constants.hpp"
 #include "bloons/BaseBloon.hpp"
 #include "utility/functions.hpp"
+#include "CONSTANTS/Z_INDEX.hpp"
 
 namespace projectiles {
 

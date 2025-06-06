@@ -1,14 +1,12 @@
 #include "logics/MainGame.hpp"
 
-#include "Constants.hpp"
+#include "CONSTANTS/OPERATION.hpp"
 #include "handlers/BloonManager.hpp"
 #include "handlers/BloonWaveManager.hpp"
 #include "handlers/ClickHandler.hpp"
 #include "handlers/MonkeyManager.hpp"
-#include "handlers/PathManager.hpp"
 #include "handlers/ProjectileManager.hpp"
 #include "layout/GameText.hpp"
-#include "map/route/RoutePath.hpp"
 #include "Util/Image.hpp"
 #include "Util/Input.hpp"
 
@@ -100,6 +98,9 @@ void MainGame::init(const CONSTANTS::TYPE::MAP& map_type) {
 	m_click_handler->set_monkey_obstacles(m_map->get_obstacles());
 	AddChild(m_click_handler);
 
+	// resets next game state
+	m_game_next_state = CONSTANTS::TYPE::GAME_STATE::NO_CHANGE;
+
 	// hp display
 	// TODO: UI
 	m_hp_text->set_value(CONSTANTS::OPERATION::GAME_HP);
@@ -108,7 +109,7 @@ void MainGame::init(const CONSTANTS::TYPE::MAP& map_type) {
 }
 
 void MainGame::update() {
-	if (should_exit_game()) return;
+	if (m_game_next_state != CONSTANTS::TYPE::GAME_STATE::NO_CHANGE) return;
 
 	m_wave_manager->update(m_bloon_manager);
 
@@ -142,7 +143,7 @@ void MainGame::update() {
 	// update money
 	// TODO: UI
 	m_money_text->add_value(m_bloon_manager->get_accumulated_money());
-	
+
 	// update wave
 	// TODO: UI
 	m_wave_text->set_value(m_wave_manager->get_current_wave_number());
@@ -160,26 +161,56 @@ void MainGame::update() {
 		-mouse_ptsd_pos.y
 	};
 
+	bool left_button = Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB);
+	bool right_button = Util::Input::IsKeyUp(Util::Keycode::MOUSE_RB);
 	// monkey place controller first
 	m_click_handler->update_monkey_placement_controller(
 		mouse_pos,
-		Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB),
-		Util::Input::IsKeyUp(Util::Keycode::MOUSE_RB),
+		left_button,
+		right_button,
 		m_money_text
 	);
 	// then handles clickable objects
 	m_click_handler->update(
 		mouse_pos,
-		Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)
+		left_button
 	);
-}
 
-bool MainGame::should_select_map() const {
-	return m_click_handler->should_goto_map_selector();
-}
-
-bool MainGame::should_exit_game() const {
-	return m_click_handler->should_exit_game();
+	// this will decide what the next game screen will be
+	if (m_click_handler->should_goto_map_selector()) {
+		m_game_next_state = CONSTANTS::TYPE::GAME_STATE::MAP_SELECTOR;
+	}
+	else if (m_click_handler->should_exit_game()) {
+		m_game_next_state = CONSTANTS::TYPE::GAME_STATE::EXIT_GAME;
+	}
+	else if (m_hp_text->get_value() <= 0) {
+		m_game_next_state = CONSTANTS::TYPE::GAME_STATE::GAME_END_SCREEN;
+		m_player_won_state = CONSTANTS::TYPE::END_SCREEN::FAILED;
+	}
+	else if (m_wave_manager->is_all_waves_completed()) {
+		m_game_next_state = CONSTANTS::TYPE::GAME_STATE::GAME_END_SCREEN;
+		m_player_won_state = CONSTANTS::TYPE::END_SCREEN::WON;
+	}
+	
+	// utility
+	// R for route display toggle
+	if (Util::Input::IsKeyUp(Util::Keycode::R)) {
+		m_map->toggle_show_route();
+	}
+	
+	// cheat codes
+	// W for skip wave
+	if (!m_wave_manager->is_wave_in_progress() && Util::Input::IsKeyUp(Util::Keycode::W)) {
+		m_wave_manager->_CHEAT_CODE_ADD_ROUND();
+	}
+	// M for money hacks
+	if (Util::Input::IsKeyUp(Util::Keycode::M)) {
+		m_money_text->set_value(99999999);
+	}
+	// H for HP hacks
+	if (Util::Input::IsKeyUp(Util::Keycode::H)) {
+		m_hp_text->set_value(99999999);
+	}
 }
 
 }

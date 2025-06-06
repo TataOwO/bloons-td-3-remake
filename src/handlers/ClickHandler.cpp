@@ -1,6 +1,5 @@
 #include "handlers/ClickHandler.hpp"
 
-#include "Constants.hpp"
 
 #include "handlers/MonkeyManager.hpp"
 #include "handlers/PathManager.hpp"
@@ -20,6 +19,7 @@
 #include "hitboxes/RectangularHitbox.hpp"
 #include "hitboxes/HitboxGroup.hpp"
 #include "Util/Image.hpp"
+#include "CONSTANTS/Z_INDEX.hpp"
 
 namespace handlers {
 

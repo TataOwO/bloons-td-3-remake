@@ -2,13 +2,9 @@
 #define MAIN_GAME_HPP
 
 #include "Util/GameObject.hpp"
-
-namespace CONSTANTS::TYPE {
-	enum class MAP;
-}
+#include "CONSTANTS/TYPE.hpp"
 
 namespace map::implementation {class BaseMap;}
-namespace map::implementation {enum class MAP_TYPE;}
 namespace handlers {class MonkeyManager;};
 namespace handlers {class BloonManager;};
 namespace handlers {class ProjectileManager;};
@@ -24,8 +20,8 @@ public:
 	void init(const CONSTANTS::TYPE::MAP& map_type);
 	void update();
 	
-	bool should_select_map() const;
-	bool should_exit_game() const;
+	CONSTANTS::TYPE::GAME_STATE get_next_game_state() const {return m_game_next_state;};
+	CONSTANTS::TYPE::END_SCREEN get_end_screen_state() const {return m_player_won_state;};
 private:
 	unsigned long long game_tick = 0;
 	unsigned int wave = 1;
@@ -44,6 +40,10 @@ private:
 
 	// clicks
 	std::shared_ptr<handlers::ClickHandler> m_click_handler;
+
+	// determines what the next screen would be
+	CONSTANTS::TYPE::GAME_STATE m_game_next_state = CONSTANTS::TYPE::GAME_STATE::NO_CHANGE;
+	CONSTANTS::TYPE::END_SCREEN m_player_won_state = CONSTANTS::TYPE::END_SCREEN::WON;
 
 	// TODO: UI
 	std::shared_ptr<layout::GameText> m_hp_text;

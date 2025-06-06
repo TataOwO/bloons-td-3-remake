@@ -83,6 +83,14 @@ enum class END_SCREEN {
 	FAILED
 };
 
+enum class GAME_STATE {
+	MAP_SELECTOR,
+	MAIN_GAME,
+	GAME_END_SCREEN,
+	EXIT_GAME,
+	NO_CHANGE,
+};
+
 }
 
 #endif

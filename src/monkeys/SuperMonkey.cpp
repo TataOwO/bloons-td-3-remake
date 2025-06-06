@@ -1,7 +1,7 @@
 #include "monkeys/SuperMonkey.hpp"
 
-#include "Constants.hpp"
 #include "bloons/BaseBloon.hpp"
+#include "constants/MONKEY.hpp"
 #include "hitboxes/CircularHitbox.hpp"
 
 #include "projectiles/SuperProjectile.hpp"

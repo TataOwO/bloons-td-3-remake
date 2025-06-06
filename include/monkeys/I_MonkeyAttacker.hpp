@@ -1,5 +1,6 @@
 #ifndef I_MONKEY_ATTACKER_HPP
 #define I_MONKEY_ATTACKER_HPP
+#include "CONSTANTS/TYPE.hpp"
 
 namespace bloons {class BaseBloon;}
 namespace projectiles {class BaseProjectile;}

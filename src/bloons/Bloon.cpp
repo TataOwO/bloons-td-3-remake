@@ -1,12 +1,13 @@
 #include "bloons/Bloon.hpp"
 
-#include "Constants.hpp"
 
 #include "bloons/BaseBloon.hpp"
 #include "hitboxes/CircularHitbox.hpp"
 #include "map/route/Route.hpp"
 #include "Util/Image.hpp"
 #include <string>
+
+#include "constants/BLOON.hpp"
 
 namespace bloons {
 

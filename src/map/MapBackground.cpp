@@ -1,7 +1,7 @@
 #include "map/MapBackground.hpp"
 
-#include "Constants.hpp"
 #include "Util/Image.hpp"
+#include "CONSTANTS/Z_INDEX.hpp"
 
 namespace map {
 

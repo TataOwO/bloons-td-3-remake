@@ -2,7 +2,10 @@
 #define BASE_MONKEY_HPP
 
 #include "Util/GameObject.hpp"
-#include "Constants.hpp"
+
+namespace CONSTANTS::MONKEY {
+	struct MONKE;
+}
 
 namespace hitboxes {class CircularHitbox;}
 namespace map::route {class Route;}

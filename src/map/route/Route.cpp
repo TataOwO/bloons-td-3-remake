@@ -2,7 +2,7 @@
 
 #include "Util/Image.hpp"
 
-#include "Constants.hpp"
+#include "CONSTANTS/Z_INDEX.hpp"
 #include "hitboxes/RectangularHitbox.hpp"
 
 namespace map::route {
@@ -36,7 +36,7 @@ Route::Route(glm::vec2 start_point, glm::vec2 end_point, bool tts) : m_teleport_
 	m_Drawable = std::make_shared<Util::Image>(m_image_path, false);
 
 	this->SetZIndex(CONSTANTS::Z_INDEX::ROUTE);
-	// this->SetVisible(false);
+	this->SetVisible(false);
 };
 
 RouteConnection Route::route_is_connected(const std::shared_ptr<Route> &route) {

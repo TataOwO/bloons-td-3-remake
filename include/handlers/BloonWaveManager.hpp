@@ -21,7 +21,7 @@ public:
 	bool is_wave_in_progress() const;
 	void reset();
 	int get_current_tick() const {return current_tick;};
-
+	void _CHEAT_CODE_ADD_ROUND();
 private:
 	// handles update based on the state
 	void handle_waiting_for_start(const std::shared_ptr<handlers::BloonManager>& bloon_manager);

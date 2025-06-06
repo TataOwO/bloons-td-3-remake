@@ -1,6 +1,5 @@
 #include "App.hpp"
 
-#include "Constants.hpp"
 #include "Util/Image.hpp"
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -10,12 +9,19 @@ void App::Start() {
 	LOG_TRACE("Start");
 	
 	switch (m_current_game_state) {
-	case GameState::MAP_SELECTOR:
+	case CONSTANTS::TYPE::GAME_STATE::MAP_SELECTOR:
 		m_render_manager->AddChild(m_map_selector);
 	break;
-	case GameState::MAIN_GAME:
+	case CONSTANTS::TYPE::GAME_STATE::MAIN_GAME:
 		m_render_manager->AddChild(m_main_game);
-		m_main_game->init(m_map_selector->get_map_type());
+		m_main_game->init(m_current_map_type);
+	break;
+	case CONSTANTS::TYPE::GAME_STATE::GAME_END_SCREEN:
+		m_render_manager->AddChild(m_end_screen);
+		m_end_screen->init(m_end_screen_state, m_current_map_type); // get param from main game
+	break;
+	case CONSTANTS::TYPE::GAME_STATE::EXIT_GAME:
+		set_state(State::END);
 	break;
 	default: break;
 	}
@@ -23,24 +29,36 @@ void App::Start() {
 
 void App::Update() {
 	switch (m_current_game_state) {
-	case GameState::MAP_SELECTOR:
+	case CONSTANTS::TYPE::GAME_STATE::MAP_SELECTOR: {
 		m_map_selector->update();
 		if (m_map_selector->should_switch()) {
 			m_CurrentState = State::START;
-			m_current_game_state = GameState::MAIN_GAME;
+			m_current_game_state = CONSTANTS::TYPE::GAME_STATE::MAIN_GAME;
 			m_render_manager->RemoveChild(m_map_selector);
+			m_current_map_type = m_map_selector->get_map_type();
 		}
+	}
 	break;
-	case GameState::MAIN_GAME:
+	case CONSTANTS::TYPE::GAME_STATE::MAIN_GAME: {
 		m_main_game->update();
-		if (m_main_game->should_select_map()) {
+		auto state = m_main_game->get_next_game_state();
+		if (state != CONSTANTS::TYPE::GAME_STATE::NO_CHANGE) {
 			m_CurrentState = State::START;
-			m_current_game_state = GameState::MAP_SELECTOR;
+			m_current_game_state = state;
+			m_end_screen_state = m_main_game->get_end_screen_state();
 			m_render_manager->RemoveChild(m_main_game);
 		}
-		if (m_main_game->should_exit_game()) {
-			m_CurrentState = State::END;
+	}
+	break;
+	case CONSTANTS::TYPE::GAME_STATE::GAME_END_SCREEN: {
+		m_end_screen->update();
+		auto state = m_end_screen->get_next_game_state();
+		if (state != CONSTANTS::TYPE::GAME_STATE::NO_CHANGE) {
+			m_CurrentState = State::START;
+			m_current_game_state = state;
+			m_render_manager->RemoveChild(m_end_screen);
 		}
+	}
 	break;
 	default: break;
 	}

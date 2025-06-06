@@ -3,11 +3,12 @@
 #include "Util/Image.hpp"
 #include <iostream>
 
-#include "Constants.hpp"
+#include "constants/MONKEY.hpp"
 #include "handlers/MonkeyManager.hpp"
 #include "handlers/PathManager.hpp"
 #include "hitboxes/CircularHitbox.hpp"
 #include "utility/functions.hpp"
+#include "CONSTANTS/Z_INDEX.hpp"
 
 namespace placement {
 

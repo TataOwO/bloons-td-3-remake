@@ -9,7 +9,8 @@
 #include <algorithm>
 #include <limits>
 
-#include "Constants.hpp"
+#include "constants/HITBOX.hpp"
+
 
 namespace hitboxes {
 RectangularHitbox::RectangularHitbox(const glm::vec2& center, const glm::vec2& dimensions, float rotation)

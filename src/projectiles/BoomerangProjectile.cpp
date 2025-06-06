@@ -4,9 +4,9 @@
 #include "Util/Animation.hpp"
 #include "utility/functions.hpp"
 
-#include "Constants.hpp"
 
 #include "bloons/BaseBloon.hpp"
+#include "constants/PROJECTILE.hpp"
 #include "hitboxes/OvalHitbox.hpp"
 
 namespace projectiles {

@@ -106,6 +106,10 @@ void BloonWaveManager::reset() {
     wave_state = CONSTANTS::TYPE::WAVE_STATE::WAITING_FOR_START;
 }
 
+void BloonWaveManager::_CHEAT_CODE_ADD_ROUND() {
+	++current_wave_index;
+}
+
 BloonWaveManager::~BloonWaveManager() {
 
 }
