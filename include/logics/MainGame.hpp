@@ -44,6 +44,10 @@ private:
 	// determines what the next screen would be
 	CONSTANTS::TYPE::GAME_STATE m_game_next_state = CONSTANTS::TYPE::GAME_STATE::NO_CHANGE;
 	CONSTANTS::TYPE::END_SCREEN m_player_won_state = CONSTANTS::TYPE::END_SCREEN::WON;
+	
+	// help
+	std::shared_ptr<Util::GameObject> m_help_screen;
+	bool m_help_screen_display = false;
 
 	// TODO: UI
 	std::shared_ptr<layout::GameText> m_hp_text;

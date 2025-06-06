@@ -2,6 +2,7 @@
 
 #include "handlers/PathManager.hpp"
 #include "map/MapBackground.hpp"
+#include "map/implementation/IceMapFrog.hpp"
 #include "map/route/Route.hpp"
 #include "map/route/RoutePath.hpp"
 
@@ -57,10 +58,10 @@ IceMap::IceMap() {
 		glm::vec2{109, 685},
 		glm::vec2{81, 720},
 	};
-	
+
 	// routes
 	std::vector<std::shared_ptr<map::route::Route>> route_vec1 = {};
-	
+
 	glm::vec2 prev = points.at(0);
 	for (unsigned int i=1; i<points.size(); ++i) {
 		glm::vec2 now = points.at(i);
@@ -78,13 +79,15 @@ IceMap::IceMap() {
 
 	AddChild(m_path_manager);
 	
+	m_frog = std::make_shared<map::implementation::IceMapFrog>();
+	AddChild(m_frog);
+
 	// background initialization
 	std::vector<std::string> background_images = {
 		RESOURCE_DIR"/images/maps/ice_map.png",
-		RESOURCE_DIR"/images/maps/ice_map_frozen.png",
-		RESOURCE_DIR"/images/maps/ice_map_sleeping_frog.png"
+		RESOURCE_DIR"/images/maps/ice_map_frozen.png"
 	};
-	
+
 	m_background = std::make_shared<map::MapBackground>();
 	m_background->set_layers(background_images);
 	AddChild(m_background);
@@ -96,7 +99,7 @@ void IceMap::set_wave(int wave_number) {
 }
 
 void IceMap::update() {
-	
+	m_frog->update();
 }
 
 IceMap::~IceMap() {

@@ -7,7 +7,7 @@
 
 void App::Start() {
 	LOG_TRACE("Start");
-	
+
 	switch (m_current_game_state) {
 	case CONSTANTS::TYPE::GAME_STATE::MAP_SELECTOR:
 		m_render_manager->AddChild(m_map_selector);
@@ -26,7 +26,7 @@ void App::Start() {
 	break;
 	default: break;
 	}
-	
+
 	///////// DO NOT REMOVE THIS LINE /////////
 	       set_state(App::State::UPDATE);
 	///////// DO NOT REMOVE THIS LINE /////////
@@ -67,7 +67,7 @@ void App::Update() {
 	break;
 	default: break;
 	}
-	
+
 	m_render_manager->Update();
 
 	/*

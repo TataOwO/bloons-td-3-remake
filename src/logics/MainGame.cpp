@@ -17,6 +17,7 @@
 #include "map/implementation/TeleportMap.hpp"
 #include "map/implementation/SecretMap.hpp"
 
+#include <iostream>
 
 namespace logics {
 
@@ -39,6 +40,12 @@ MainGame::MainGame() {
 	m_hp_text->m_Transform.translation = {360,330};
 	m_money_text->m_Transform.translation = {360,280};
 	m_wave_text->m_Transform.translation = {360,230};
+
+	m_help_screen = std::make_shared<Util::GameObject>();
+	m_help_screen->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/help_screen.png"));
+	m_help_screen->SetVisible(false);
+	m_help_screen->SetZIndex(100);
+	AddChild(m_help_screen);
 
 	AddChild(m_map);
 	AddChild(m_monkey_manager);
@@ -160,7 +167,7 @@ void MainGame::update() {
 		 mouse_ptsd_pos.x,
 		-mouse_ptsd_pos.y
 	};
-
+	
 	bool left_button = Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB);
 	bool right_button = Util::Input::IsKeyUp(Util::Keycode::MOUSE_RB);
 	// monkey place controller first
@@ -193,6 +200,11 @@ void MainGame::update() {
 	}
 
 	// utility
+	// P for help screen
+	if (Util::Input::IsKeyUp(Util::Keycode::P)) {
+		m_help_screen_display = !m_help_screen_display;
+		m_help_screen->SetVisible(m_help_screen_display); 
+	}
 	// R for route display toggle
 	if (Util::Input::IsKeyUp(Util::Keycode::R)) {
 		m_map->toggle_show_route();
