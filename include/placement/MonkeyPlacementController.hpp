@@ -21,7 +21,7 @@ class MonkeyPlacementController : public Util::GameObject {
 public:
 	MonkeyPlacementController(const std::shared_ptr<handlers::PathManager> &path_manager, const std::shared_ptr<handlers::MonkeyManager> &monkey_manager);
 
-	void set_monkey(const CONSTANTS::TYPE::PLACABLE& type);
+	void set_monkey(const CONSTANTS::TYPE::PLACABLE& type, const std::shared_ptr<layout::GameText> &current_money);
 
 	void update();
 

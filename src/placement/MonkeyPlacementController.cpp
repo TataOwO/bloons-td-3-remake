@@ -9,6 +9,7 @@
 #include "hitboxes/CircularHitbox.hpp"
 #include "utility/functions.hpp"
 #include "CONSTANTS/Z_INDEX.hpp"
+#include "layout/GameText.hpp"
 
 namespace placement {
 
@@ -30,7 +31,7 @@ void MonkeyPlacementController::update() {
 	update_visual_state();
 }
 
-void MonkeyPlacementController::set_monkey(const CONSTANTS::TYPE::PLACABLE& type) {
+void MonkeyPlacementController::set_monkey(const CONSTANTS::TYPE::PLACABLE& type, const std::shared_ptr<layout::GameText> &current_money) {
 	m_current_monkey_type = type;
 
 	if (type == CONSTANTS::TYPE::PLACABLE::_NULL) {
@@ -40,7 +41,7 @@ void MonkeyPlacementController::set_monkey(const CONSTANTS::TYPE::PLACABLE& type
 	}
 	
 	CONSTANTS::MONKEY::Monke monke_stat;
-
+	
 	std::string monke_name = "";
 	switch (type) {
 	case CONSTANTS::TYPE::PLACABLE::DART:
@@ -85,6 +86,11 @@ void MonkeyPlacementController::set_monkey(const CONSTANTS::TYPE::PLACABLE& type
 	default:
 		SetVisible(false);
 		m_is_active = false;
+		return;
+	}
+
+	if (current_money->get_value() < monke_stat.COST) {
+		current_money->set_blink_red();
 		return;
 	}
 

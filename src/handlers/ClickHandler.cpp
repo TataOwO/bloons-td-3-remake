@@ -23,21 +23,21 @@
 
 namespace handlers {
 
-ClickHandler::ClickHandler(const std::shared_ptr<handlers::PathManager>& path_manager, const std::shared_ptr<handlers::MonkeyManager>& monkey_manager, const std::shared_ptr<handlers::BloonWaveManager>& bloon_wave_manager) : m_bloon_wave_manager(bloon_wave_manager) {
+ClickHandler::ClickHandler(const std::shared_ptr<handlers::PathManager>& path_manager, const std::shared_ptr<handlers::MonkeyManager>& monkey_manager, const std::shared_ptr<handlers::BloonWaveManager>& bloon_wave_manager, const std::shared_ptr<layout::GameText> &current_money) : m_bloon_wave_manager(bloon_wave_manager) {
 	m_monkey_placement_manager = std::make_shared<placement::MonkeyPlacementController>(path_manager, monkey_manager);
 	AddChild(m_monkey_placement_manager);
 
-	auto dart_button = m_add_new_monkey_placement_button(CONSTANTS::TYPE::PLACABLE::DART, glm::vec2{288,120});
+	auto dart_button = m_add_new_monkey_placement_button(CONSTANTS::TYPE::PLACABLE::DART, glm::vec2{288,120}, current_money);
 	add_existing_button(dart_button);
-	auto super_button = m_add_new_monkey_placement_button(CONSTANTS::TYPE::PLACABLE::SUPER, glm::vec2{336,120});
+	auto super_button = m_add_new_monkey_placement_button(CONSTANTS::TYPE::PLACABLE::SUPER, glm::vec2{336,120}, current_money);
 	add_existing_button(super_button);
-	auto ice_button = m_add_new_monkey_placement_button(CONSTANTS::TYPE::PLACABLE::ICE, glm::vec2{384,120});
+	auto ice_button = m_add_new_monkey_placement_button(CONSTANTS::TYPE::PLACABLE::ICE, glm::vec2{384,120}, current_money);
 	add_existing_button(ice_button);
-	auto bomb_button = m_add_new_monkey_placement_button(CONSTANTS::TYPE::PLACABLE::BOMB, glm::vec2{432,120});
+	auto bomb_button = m_add_new_monkey_placement_button(CONSTANTS::TYPE::PLACABLE::BOMB, glm::vec2{432,120}, current_money);
 	add_existing_button(bomb_button);
-	auto tack_button = m_add_new_monkey_placement_button(CONSTANTS::TYPE::PLACABLE::TACK, glm::vec2{288,72});
+	auto tack_button = m_add_new_monkey_placement_button(CONSTANTS::TYPE::PLACABLE::TACK, glm::vec2{288,72}, current_money);
 	add_existing_button(tack_button);
-	auto boomer_button = m_add_new_monkey_placement_button(CONSTANTS::TYPE::PLACABLE::BOOMERANG, glm::vec2{336,72});
+	auto boomer_button = m_add_new_monkey_placement_button(CONSTANTS::TYPE::PLACABLE::BOOMERANG, glm::vec2{336,72}, current_money);
 	add_existing_button(boomer_button);
 
 	// map button
@@ -213,7 +213,7 @@ void ClickHandler::remove_button(const std::vector<std::shared_ptr<layout::Butto
 	}
 }
 
-std::shared_ptr<layout::Button> ClickHandler::m_add_new_monkey_placement_button(const CONSTANTS::TYPE::PLACABLE& type, const glm::vec2& pos) {
+std::shared_ptr<layout::Button> ClickHandler::m_add_new_monkey_placement_button(const CONSTANTS::TYPE::PLACABLE& type, const glm::vec2& pos, const std::shared_ptr<layout::GameText> &current_money) {
 	// creates new button
 	std::shared_ptr<layout::Button> new_button = std::make_shared<layout::Button>();
 
@@ -227,8 +227,8 @@ std::shared_ptr<layout::Button> ClickHandler::m_add_new_monkey_placement_button(
 	new_button->set_removal([]() {
 		return false;
 	});
-	new_button->set_on_click([mpm = m_monkey_placement_manager, t=type]() {
-		mpm->set_monkey(t);
+	new_button->set_on_click([mpm = m_monkey_placement_manager, t=type, cm=current_money]() {
+		mpm->set_monkey(t, cm);
 		return true;
 	});
 

@@ -19,7 +19,7 @@ namespace handlers {
 
 class ClickHandler final : public utility::Mortal, public Util::GameObject {
 public:
-	ClickHandler(const std::shared_ptr<handlers::PathManager>& path_manager, const std::shared_ptr<handlers::MonkeyManager>& monkey_manager, const std::shared_ptr<handlers::BloonWaveManager>& bloon_wave_manager);
+	ClickHandler(const std::shared_ptr<handlers::PathManager>& path_manager, const std::shared_ptr<handlers::MonkeyManager>& monkey_manager, const std::shared_ptr<handlers::BloonWaveManager>& bloon_wave_manager, const std::shared_ptr<layout::GameText> &current_money);
 
 	void update(const glm::vec2& mouse_pos, bool left_button);
 	void update_monkey_placement_controller(const glm::vec2& mouse_pos, bool left_button, bool right_button, const std::shared_ptr<layout::GameText> &current_money) const;
@@ -39,7 +39,7 @@ public:
 	bool should_exit_game() const {return *m_exit_state;}
 	void clear_states() const {*m_exit_state = *m_map_state = false;}
 private:
-	std::shared_ptr<layout::Button> m_add_new_monkey_placement_button(const CONSTANTS::TYPE::PLACABLE&, const glm::vec2&);
+	std::shared_ptr<layout::Button> m_add_new_monkey_placement_button(const CONSTANTS::TYPE::PLACABLE&, const glm::vec2&, const std::shared_ptr<layout::GameText> &current_money);
 
 	void add_existing_button(const std::shared_ptr<layout::Button>& button);
 	void remove_button(const std::vector<std::shared_ptr<layout::Button>>& b_vec);

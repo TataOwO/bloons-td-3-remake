@@ -94,7 +94,7 @@ void MainGame::init(const CONSTANTS::TYPE::MAP& map_type) {
 
 	// initialize click manager
 	RemoveChild(m_click_handler);
-	m_click_handler = std::make_shared<handlers::ClickHandler>(m_path_manager, m_monkey_manager, m_wave_manager);
+	m_click_handler = std::make_shared<handlers::ClickHandler>(m_path_manager, m_monkey_manager, m_wave_manager, m_money_text);
 	m_click_handler->set_monkey_obstacles(m_map->get_obstacles());
 	AddChild(m_click_handler);
 
@@ -191,13 +191,13 @@ void MainGame::update() {
 		m_game_next_state = CONSTANTS::TYPE::GAME_STATE::GAME_END_SCREEN;
 		m_player_won_state = CONSTANTS::TYPE::END_SCREEN::WON;
 	}
-	
+
 	// utility
 	// R for route display toggle
 	if (Util::Input::IsKeyUp(Util::Keycode::R)) {
 		m_map->toggle_show_route();
 	}
-	
+
 	// cheat codes
 	// W for skip wave
 	if (!m_wave_manager->is_wave_in_progress() && Util::Input::IsKeyUp(Util::Keycode::W)) {
@@ -210,6 +210,10 @@ void MainGame::update() {
 	// H for HP hacks
 	if (Util::Input::IsKeyUp(Util::Keycode::H)) {
 		m_hp_text->set_value(99999999);
+	}
+	// D for death (set HP to 1)
+	if (Util::Input::IsKeyUp(Util::Keycode::D)) {
+		m_hp_text->set_value(1);
 	}
 }
 
