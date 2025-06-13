@@ -15,7 +15,7 @@ namespace CONSTANTS::PROJECTILE {
 		2,
 		1,
 		15,
-		20,
+		22,
 		0.0f, // doesn't matter
 	};
 
@@ -31,7 +31,7 @@ namespace CONSTANTS::PROJECTILE {
 		1,
 		0,
 		3,
-		20,
+		40,
 		0, // doesn't matter
 	};
 
@@ -46,8 +46,8 @@ namespace CONSTANTS::PROJECTILE {
 	constexpr Projectile SUPER {
 		1,
 		1,
-		15,
-		1,
+		10,
+		2,
 		20.0f
 	};
 
@@ -55,7 +55,7 @@ namespace CONSTANTS::PROJECTILE {
 		1,
 		1,
 		25,
-		3,
+		5,
 		0.0f // doesn't matter
 	};
 
@@ -63,7 +63,7 @@ namespace CONSTANTS::PROJECTILE {
 		1,
 		0,
 		7,
-		1,
+		2,
 		20.0f
 	};
 
@@ -72,7 +72,7 @@ namespace CONSTANTS::PROJECTILE {
 		6,
 		30,
 		100,
-		30.0f
+		50.0f
 	};
 }
 

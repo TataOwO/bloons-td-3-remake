@@ -12,6 +12,7 @@ namespace projectiles {
 
 IceProjectile::IceProjectile(const glm::vec2& position, float rotation) : BaseProjectile() {
 	m_hitbox = std::make_shared<hitboxes::CircularHitbox>(position, 60);
+	m_Transform.translation = position;
 
 	auto stat = CONSTANTS::PROJECTILE::ICE;
 

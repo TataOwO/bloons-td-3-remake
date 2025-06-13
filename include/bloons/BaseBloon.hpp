@@ -31,6 +31,9 @@ public:
 
 	glm::vec2 get_pos() const {return m_Transform.translation;};
 
+	// damage
+	virtual int get_damage() const = 0;
+
 	int get_length_to_exit();
 
 	std::shared_ptr<hitboxes::I_BaseHitbox> get_hitbox() {return m_hitbox;}

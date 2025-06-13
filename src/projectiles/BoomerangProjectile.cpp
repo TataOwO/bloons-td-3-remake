@@ -13,6 +13,7 @@ namespace projectiles {
 
 BoomerangProjectile::BoomerangProjectile(const glm::vec2& position, float rotation) : BaseProjectile() {
 	m_hitbox = std::make_shared<hitboxes::OvalHitbox>(position, glm::vec2(10,30), rotation+M_PI/6);
+	m_Transform.translation = position;
 	
 	for (auto& move_dir: move_direction_reference_vector) {
 		m_move_direction_vec.push_back(utility::rotate_vec2(move_dir, rotation));

@@ -4,5 +4,12 @@
 ## 遊戲名稱
 - Bloons Tower Defense 3
 
-## frontpage test
-![front](https://cdn.discordapp.com/attachments/466744266442670091/1382955494334791730/NlehtdE.png?ex=684d092b&is=684bb7ab&hm=d5190a95ec2bce7fb314d071e3443262696c62b3b083b45d06e4d1c8f091d1a1&)
+## 封面
+![front](https://cdn.discordapp.com/attachments/466744266442670091/1382967335039799296/Opp1bMS.png?ex=684d1432&is=684bc2b2&hm=e1281b94b3d86d5e47e9043099edd01d4c4c666a4f2d0977353915bf46ecdeb6&)
+
+## 專案簡介
+
+### 遊戲簡介
+BTD是我近幾年都有在不斷接觸的遊戲系列，由於機制簡單好理解、畫風樸實無華，於是選擇了這款遊戲來重製。
+
+遊戲提供了4張地圖、1張隱藏地圖，共5張地圖，氣球總共分60波分批出現。玩家有200HP，每當氣球到達跑到終點，就會根據氣球自身的血量扣除玩家的HP。

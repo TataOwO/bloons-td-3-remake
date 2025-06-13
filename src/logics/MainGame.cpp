@@ -104,6 +104,10 @@ void MainGame::init(const CONSTANTS::TYPE::MAP& map_type) {
 	}
 	AddChild(m_map);
 
+	// resets autoplay state
+	m_autoplay = false;
+	m_autoplay_obj->SetVisible(false);
+
 	// get path manager from map object
 	auto m_path_manager = m_map->get_path_manager();
 
@@ -128,7 +132,7 @@ void MainGame::update() {
 
 	// wave update
 	m_wave_manager->update(m_bloon_manager);
-
+	
 	// auto
 	if (m_autoplay && !m_wave_manager->is_wave_in_progress()) m_wave_manager->set_spawn_new_wave();
 
@@ -151,6 +155,9 @@ void MainGame::update() {
 	m_projectile_manager->add_new_projectiles(
 		m_monkey_manager->get_new_projectiles()
 	);
+	
+	// clear projectiles if wave ended
+	if (!m_wave_manager->is_wave_in_progress()) m_projectile_manager->clear_all_projectiles();
 
 	// remove projectiles from monkey manager
 	m_monkey_manager->clear_new_projectiles();

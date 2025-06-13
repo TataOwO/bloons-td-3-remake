@@ -17,7 +17,7 @@ namespace CONSTANTS::MONKEY {
 	} Monke;
 	
 	constexpr Monke DART {
-		215,
+		170,
 		30,
 		100,
 		11,
@@ -28,9 +28,9 @@ namespace CONSTANTS::MONKEY {
 	};
 	
 	constexpr Monke SUPER {
-		3400,
+		2125,
 		40,
-		140,
+		170,
 		11,
 		-24,
 		2,
@@ -39,7 +39,7 @@ namespace CONSTANTS::MONKEY {
 	};
 	
 	constexpr Monke ICE {
-		225,
+		375,
 		30,
 		60,
 		0,
@@ -50,34 +50,34 @@ namespace CONSTANTS::MONKEY {
 	};
 	
 	constexpr Monke BOMB {
-		615,
+		525,
 		30,
-		120,
+		130,
 		20,
 		0,
-		40,
+		45,
 		RESOURCE_DIR"/images/monke/bomb/",
 		1.5,
 	};
 	
 	constexpr Monke TACK {
-		305,
+		220,
 		30,
 		70,
 		0,
 		0,
-		45,
+		28,
 		RESOURCE_DIR"/images/monke/tack.png",
 		1.5,
 	};
 	
 	constexpr Monke BOOMERANG {
-		440,
-		30,
+		265,
+		34,
 		130,
 		11,
 		-24,
-		37,
+		36,
 		RESOURCE_DIR"/images/monke/boomerang.png",
 		1.5,
 	};

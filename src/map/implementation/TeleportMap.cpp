@@ -69,8 +69,8 @@ TeleportMap::TeleportMap() {
 	};
 
 	m_animations_vec = {
-		std::make_shared<Util::Animation>(anim1,false,42,false),
-		std::make_shared<Util::Animation>(anim2,false,42,false),
+		std::make_shared<Util::Animation>(anim1,true,42,false),
+		std::make_shared<Util::Animation>(anim2,true,42,false),
 	};
 	
 	m_animation = m_animations_vec.at(1);

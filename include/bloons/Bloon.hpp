@@ -10,6 +10,8 @@ public:
 	Bloon(const std::shared_ptr<map::route::Route> &start_route, CONSTANTS::TYPE::BLOON type);
 
 	void update() override;
+	
+	int get_damage() const override;
 
 	void handle_take_damage(int damage) override; // TODO: remove this
 

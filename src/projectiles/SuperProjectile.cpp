@@ -12,6 +12,7 @@ namespace projectiles {
 
 SuperProjectile::SuperProjectile(const glm::vec2& position, float rotation) : BaseProjectile() {
 	m_hitbox = std::make_shared<hitboxes::RectangularHitbox>(position, glm::vec2(10,20), rotation);
+	m_Transform.translation = position;
 	
 	auto stat = CONSTANTS::PROJECTILE::SUPER;
 	

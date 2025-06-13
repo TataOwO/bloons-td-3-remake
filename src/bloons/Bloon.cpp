@@ -26,6 +26,12 @@ void Bloon::update() {
 	m_move();
 };
 
+int Bloon::get_damage() const {
+	if (m_type == CONSTANTS::TYPE::BLOON::CERAMIC) return 60;
+	if (m_type == CONSTANTS::TYPE::BLOON::RAINBOW) return 20;
+	return get_hp();
+}
+
 void Bloon::handle_take_damage(int damage) {
 	m_take_damage(damage);
 

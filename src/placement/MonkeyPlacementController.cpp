@@ -97,7 +97,7 @@ void MonkeyPlacementController::set_monkey(const CONSTANTS::TYPE::PLACABLE& type
 	m_Transform.scale = {monke_stat.IMAGE_SCALE,monke_stat.IMAGE_SCALE};
 	std::string filetype = ".png";
 
-	std::string prefix = RESOURCE_DIR"/images/monke/";
+	std::string prefix = RESOURCE_DIR"/images/monke/placable/";
 	std::string placable_path = prefix + monke_name + filetype;
 	std::string unplacable_path = prefix + monke_name + "_red" + filetype;
 

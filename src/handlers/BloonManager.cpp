@@ -32,7 +32,7 @@ void BloonManager::update(const std::shared_ptr<handlers::PathManager>& path_man
 
 		// Check if bloon reached the end
 		if (bloon->is_at_end()) {
-			game_hp->sub_value(bloon->get_hp());
+			game_hp->sub_value(bloon->get_damage());
 			should_remove = true;
 		}
 
@@ -173,6 +173,11 @@ void BloonManager::handle_bloon_destruction(const std::shared_ptr<bloons::BaseBl
 	
 	// Handle special effects based on bloon type
 	switch (bloon->get_type()) {
+	case CONSTANTS::TYPE::BLOON::MOAB: {
+		// MOAB bloons spawn 4 CERAMIC bloons when destroyed
+		spawn_child_bloons(bloon, CONSTANTS::TYPE::BLOON::CERAMIC, 4);
+	}
+	break;
 	case CONSTANTS::TYPE::BLOON::CERAMIC: {
 		// ceramic bloons spawn 4 rainbow bloons when destroyed
 		spawn_child_bloons(bloon, CONSTANTS::TYPE::BLOON::RAINBOW, 4);
