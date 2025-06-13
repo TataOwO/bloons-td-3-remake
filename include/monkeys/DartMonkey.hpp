@@ -24,7 +24,7 @@ public:
 
 	bool can_attack() override;
 	
-	static CONSTANTS::TYPE::MONKEY get_type() {return CONSTANTS::TYPE::MONKEY::DART;}
+	CONSTANTS::TYPE::MONKEY get_type() override {return CONSTANTS::TYPE::MONKEY::DART;}
 
 private: // I monkey attacker
 	void update_attack_interval() override;

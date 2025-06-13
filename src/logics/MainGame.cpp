@@ -1,6 +1,7 @@
 #include "logics/MainGame.hpp"
 
 #include "CONSTANTS/OPERATION.hpp"
+#include "CONSTANTS/Z_INDEX.hpp"
 #include "handlers/BloonManager.hpp"
 #include "handlers/BloonWaveManager.hpp"
 #include "handlers/ClickHandler.hpp"
@@ -46,6 +47,13 @@ MainGame::MainGame() {
 	m_help_screen->SetVisible(false);
 	m_help_screen->SetZIndex(100);
 	AddChild(m_help_screen);
+	
+	m_autoplay_obj = std::make_shared<Util::GameObject>();
+	m_autoplay_obj->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/images/auto_play.png"));
+	m_autoplay_obj->SetZIndex(CONSTANTS::Z_INDEX::ESCAPE_BUTTON);
+	m_autoplay_obj->SetVisible(false);
+	m_autoplay_obj->m_Transform.translation = {360, 0};
+	AddChild(m_autoplay_obj);
 
 	AddChild(m_map);
 	AddChild(m_monkey_manager);
@@ -75,16 +83,16 @@ void MainGame::init(const CONSTANTS::TYPE::MAP& map_type) {
 	// initialize map object
 	switch (map_type) {
 		case CONSTANTS::TYPE::MAP::SUMMON: {
-			auto map = std::make_shared<map::implementation::SummonMap>();
-			// map->
+			auto map = std::make_shared<map::implementation::SummonMap>(m_monkey_manager);
 			m_map = map;
 		}
 		break;
 		case CONSTANTS::TYPE::MAP::PEACEFUL:
 			m_map = std::make_shared<map::implementation::PeacefulMap>();
 		break;
-		case CONSTANTS::TYPE::MAP::ICE:
+		case CONSTANTS::TYPE::MAP::ICE: {
 			m_map = std::make_shared<map::implementation::IceMap>();
+		}
 		break;
 		case CONSTANTS::TYPE::MAP::TELEPORT:
 			m_map = std::make_shared<map::implementation::TeleportMap>();
@@ -118,11 +126,16 @@ void MainGame::init(const CONSTANTS::TYPE::MAP& map_type) {
 void MainGame::update() {
 	if (m_game_next_state != CONSTANTS::TYPE::GAME_STATE::NO_CHANGE) return;
 
+	// wave update
 	m_wave_manager->update(m_bloon_manager);
 
+	// auto
+	if (m_autoplay && !m_wave_manager->is_wave_in_progress()) m_wave_manager->set_spawn_new_wave();
+
+	// map update
 	m_map->set_wave(m_wave_manager->get_current_wave_number());
 	m_map->update();
-
+	
 	// bloons update
 	m_bloon_manager->update(m_map->get_path_manager(), m_wave_manager->get_current_tick(), m_hp_text);
 
@@ -141,6 +154,9 @@ void MainGame::update() {
 
 	// remove projectiles from monkey manager
 	m_monkey_manager->clear_new_projectiles();
+	
+	// remove sold monkeys
+	m_monkey_manager->process_sold_monkeys(m_money_text);
 
 	// projectile update (mostly just collision check)
 	m_projectile_manager->update(
@@ -161,26 +177,22 @@ void MainGame::update() {
 	m_money_text->update();
 	m_wave_text->update();
 
-	// get mouse pos
+	// get mouse data
 	auto mouse_ptsd_pos = Util::Input::GetCursorPosition();
 	glm::vec2 mouse_pos = {
 		 mouse_ptsd_pos.x,
 		-mouse_ptsd_pos.y
 	};
-	
 	bool left_button = Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB);
 	bool right_button = Util::Input::IsKeyUp(Util::Keycode::MOUSE_RB);
-	// monkey place controller first
-	m_click_handler->update_monkey_placement_controller(
+	
+	// then handles clicks
+	m_click_handler->update(
 		mouse_pos,
 		left_button,
 		right_button,
+		m_monkey_manager,
 		m_money_text
-	);
-	// then handles clickable objects
-	m_click_handler->update(
-		mouse_pos,
-		left_button
 	);
 
 	// this will decide what the next game screen will be
@@ -208,6 +220,11 @@ void MainGame::update() {
 	// R for route display toggle
 	if (Util::Input::IsKeyUp(Util::Keycode::R)) {
 		m_map->toggle_show_route();
+	}
+	// A for autoplay
+	if (Util::Input::IsKeyUp(Util::Keycode::A)) {
+		m_autoplay = !m_autoplay;
+		m_autoplay_obj->SetVisible(m_autoplay);
 	}
 
 	// cheat codes

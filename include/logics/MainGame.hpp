@@ -48,6 +48,10 @@ private:
 	// help
 	std::shared_ptr<Util::GameObject> m_help_screen;
 	bool m_help_screen_display = false;
+	
+	// autoplay
+	std::shared_ptr<Util::GameObject> m_autoplay_obj;
+	bool m_autoplay = false;
 
 	// TODO: UI
 	std::shared_ptr<layout::GameText> m_hp_text;

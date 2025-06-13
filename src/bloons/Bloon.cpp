@@ -107,13 +107,14 @@ void Bloon::set_bloon_type(CONSTANTS::TYPE::BLOON type) {
 }
 
 void Bloon::m_take_damage(int damage) {
+	m_hp -= damage;
+	
 	// if ceramic, only give 10$ when hp reaches 0
 	if (m_type == CONSTANTS::TYPE::BLOON::CERAMIC) {
 		m_accumulated_money += (m_hp==0)? 10: 0;
+	} else {
+		m_accumulated_money += damage;
 	}
-	
-	m_hp -= damage;
-	m_accumulated_money += damage;
 };
 
 Bloon::~Bloon() {

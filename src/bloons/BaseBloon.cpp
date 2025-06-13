@@ -106,8 +106,7 @@ const std::shared_ptr<Core::Drawable> BaseBloon::get_bloon_drawable(CONSTANTS::T
 			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON::BLACK.IMAGE_PATH  )),
 			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON::LEAD.IMAGE_PATH   )),
 			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON::RAINBOW.IMAGE_PATH)),
-			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON::CERAMIC.IMAGE_PATH)),
-			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON::MOAB::IMAGE_PATH  ))
+			std::make_shared<Util::Image>(std::string(CONSTANTS::BLOON::CERAMIC.IMAGE_PATH))
 		};
 		
 		initialized = true;

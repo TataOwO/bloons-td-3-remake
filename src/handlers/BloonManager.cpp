@@ -8,6 +8,7 @@
 #include "bloons/BaseBloon.hpp"
 
 #include "bloons/Bloon.hpp"
+#include "bloons/MOAB.hpp"
 #include "layout/GameText.hpp"
 #include "map/route/RoutePath.hpp"
 #include "map/route/Route.hpp"
@@ -227,7 +228,9 @@ void BloonManager::process_spawn_queue(const std::shared_ptr<handlers::PathManag
 		auto spawn_route = path_manager->get_random_route_path()->get_start_route();
 
 		// Create and add the new bloon
-		auto new_bloon = std::make_shared<bloons::Bloon>(spawn_route, spawn_info.type);
+		std::shared_ptr<bloons::BaseBloon> new_bloon;
+		if (spawn_info.type == CONSTANTS::TYPE::BLOON::MOAB) new_bloon = std::make_shared<bloons::MOAB>(spawn_route);
+		else new_bloon = std::make_shared<bloons::Bloon>(spawn_route, spawn_info.type);
 		add_bloon(new_bloon);
 	}
 }

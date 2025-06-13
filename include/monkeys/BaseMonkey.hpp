@@ -1,6 +1,7 @@
 #ifndef BASE_MONKEY_HPP
 #define BASE_MONKEY_HPP
 
+#include "constants/TYPE.hpp"
 #include "Util/GameObject.hpp"
 
 namespace CONSTANTS::MONKEY {
@@ -25,6 +26,16 @@ public:
 	glm::vec2 get_position() const;
 
 	std::shared_ptr<hitboxes::CircularHitbox> get_hitbox() {return m_base_hitbox;}
+	
+	// is attcker?
+	bool is_monke_attacker() const {return is_attacker;};
+	
+	virtual CONSTANTS::TYPE::MONKEY get_type() = 0;
+	
+	// sold state
+	void set_sold() {is_sold = true;};
+	bool shall_be_sold() const {return is_sold;};
+	int get_sold_money() const {return sold_money;};
 protected:
 	std::string m_image_path;
 
@@ -38,6 +49,13 @@ protected:
 	glm::vec2 m_face_position;
 	
 	void initialize_with_stat(const CONSTANTS::MONKEY::MONKE &);
+
+	// attacker?
+	bool is_attacker = false;
+	
+	// sold
+	bool is_sold = false;
+	float sold_money = 0;
 
 protected:
 	explicit BaseMonkey(glm::vec2 position);

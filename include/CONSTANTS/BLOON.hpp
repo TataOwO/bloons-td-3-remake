@@ -16,8 +16,8 @@ namespace CONSTANTS::BLOON {
 
 	namespace MOAB {
 		constexpr int HP = 200;
-		constexpr float dimension[2] = {210,130};
-		constexpr std::string_view IMAGE_PATH = RESOURCE_DIR"/images/bloons/btd6_MOAB.png";
+		constexpr float DIMENSION[2] = {105,65};
+		constexpr std::string_view IMAGE_PATH = RESOURCE_DIR"/images/bloons/MOAB/";
 		constexpr float SPEED = 2.4;
 	}
 

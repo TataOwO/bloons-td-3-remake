@@ -66,6 +66,14 @@ namespace CONSTANTS::PROJECTILE {
 		1,
 		20.0f
 	};
+
+	constexpr Projectile GDO {
+		5,
+		6,
+		30,
+		100,
+		30.0f
+	};
 }
 
 #endif

@@ -30,6 +30,10 @@ TackShooter::TackShooter(glm::vec2 position)
 	m_projectile_spawn_position = {stat.PROJECTILE_SPAWN_X, stat.PROJECTILE_SPAWN_Y};
 
 	m_attack_interval = stat.ATTACK_INTERVAL;
+	
+	sold_money = stat.COST * 0.8;
+	
+	is_attacker = true;
 };
 
 void TackShooter::scan_bloon(std::shared_ptr<bloons::BaseBloon> bloon) {

@@ -1,49 +1,50 @@
-#ifndef TACK_SHOOTER_HPP
-#define TACK_SHOOTER_HPP
+#ifndef MONKEY_GOD_HPP
+#define MONKEY_GOD_HPP
 
 #include "monkeys/BaseMonkey.hpp"
 #include "monkeys/I_MonkeyAttacker.hpp"
 
 namespace monkeys {
 
-class TackShooter final : public monkeys::BaseMonkey, public monkeys::I_MonkeyAttacker {
+class MonkeyGod final : public monkeys::BaseMonkey, public monkeys::I_MonkeyAttacker {
 public:
-	explicit TackShooter(glm::vec2 position);
+	explicit MonkeyGod(glm::vec2 position);
 
 	void scan_bloon(std::shared_ptr<bloons::BaseBloon> bloon) override;
-	
+	void get_random_target(const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec);
+
 	void reset_target() override;
-	
+
 	std::shared_ptr<bloons::BaseBloon> get_target() override;
-	
+
 	bool has_projectile() override {return !m_spawned_projectile.empty();}
 
 	std::vector<std::shared_ptr<projectiles::BaseProjectile>> get_spawned_projectile() override;
-	
+
 	void attack() override;
 
 	bool can_attack() override;
 
-	CONSTANTS::TYPE::MONKEY get_type() override {return CONSTANTS::TYPE::MONKEY::TACK;}
+	CONSTANTS::TYPE::MONKEY get_type() override {return CONSTANTS::TYPE::MONKEY::GOD;}
 
 private: // I monkey attacker
 	void update_attack_interval() override;
-	
+
 	void spawn_projectile(glm::vec2 position) override;
-	
+
 	void face_towards(glm::vec2 position) override; // TODO: change this to protected
 
 // base
 public:
-    TackShooter(const TackShooter&) = delete;
+    MonkeyGod(const MonkeyGod&) = delete;
 
-    TackShooter(TackShooter&&) = delete;
+    MonkeyGod(MonkeyGod&&) = delete;
 
-    TackShooter& operator=(const TackShooter&) = delete;
+    MonkeyGod& operator=(const MonkeyGod&) = delete;
 
-    TackShooter& operator=(TackShooter&&) = delete;
+    MonkeyGod& operator=(MonkeyGod&&) = delete;
 
-	~TackShooter() override;
+	~MonkeyGod() override;
 };
 
 }

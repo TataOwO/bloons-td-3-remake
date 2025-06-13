@@ -81,6 +81,18 @@ namespace CONSTANTS::MONKEY {
 		RESOURCE_DIR"/images/monke/boomerang.png",
 		1.5,
 	};
+	
+	constexpr Monke GOD {
+		-99999999, // doesn't matter
+		50,
+		960, // full range
+		0,
+		0,
+		2,
+		RESOURCE_DIR"/images/monke/monking.png",
+		1.5,
+	};
+	
 }
 
 #endif

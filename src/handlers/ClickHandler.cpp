@@ -20,6 +20,7 @@
 #include "hitboxes/HitboxGroup.hpp"
 #include "Util/Image.hpp"
 #include "CONSTANTS/Z_INDEX.hpp"
+#include "monkeys/BaseMonkey.hpp"
 
 namespace handlers {
 
@@ -116,7 +117,15 @@ ClickHandler::ClickHandler(const std::shared_ptr<handlers::PathManager>& path_ma
 	add_existing_button(m_wave_button);
 }
 
-void ClickHandler::update(const glm::vec2& mouse_pos, bool LB) {
+void ClickHandler::update(const glm::vec2& mouse_pos, bool LB, bool RB, const std::shared_ptr<handlers::MonkeyManager>& monkey_manager, const std::shared_ptr<layout::GameText> &current_money) {
+	// monkey place controller first
+	update_monkey_placement_controller(
+		mouse_pos,
+		LB,
+		RB,
+		current_money
+	);
+	
 	for (auto& clickable: m_clickable_vec) {
 		if (clickable->shall_be_removed()) {
 			m_removal_queue.push_back(clickable);
@@ -149,6 +158,15 @@ void ClickHandler::update(const glm::vec2& mouse_pos, bool LB) {
 	// removes buttons
 	remove_button(m_button_removal_queue);
 	m_button_removal_queue.clear();
+	
+	// sells monkey
+	if (!RB) return; // exits early
+	for (auto monke: monkey_manager->get_all_monkeys()) {
+		if (monke->get_hitbox()->contains_point(mouse_pos)) {
+			monke->set_sold();
+			std::cout << "monke sold" << std::endl;
+		}
+	}
 }
 
 void ClickHandler::update_monkey_placement_controller(const glm::vec2 & mouse_pos, const bool left_button, const bool right_button, const std::shared_ptr<layout::GameText> &current_money) const {

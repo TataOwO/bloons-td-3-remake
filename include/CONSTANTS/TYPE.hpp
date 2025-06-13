@@ -22,7 +22,8 @@ enum class MONKEY {
 	BOOMERANG,
 	ICE,
 	SUPER,
-	TACK
+	TACK,
+	GOD
 };
 
 enum class HITBOX {

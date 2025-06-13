@@ -1,4 +1,4 @@
-#include "projectiles/TackProjectile.hpp"
+#include "projectiles/GdoProjectile.hpp"
 
 #include "Util/Image.hpp"
 #include "utility/functions.hpp"
@@ -10,28 +10,31 @@
 
 namespace projectiles {
 
-TackProjectile::TackProjectile(const glm::vec2& position, float rotation) : BaseProjectile() {
+GdoProjectile::GdoProjectile(const glm::vec2& position, float rotation) : BaseProjectile() {
 	m_hitbox = std::make_shared<hitboxes::RectangularHitbox>(position, glm::vec2(10,20), rotation);
 	
-	auto stat = CONSTANTS::PROJECTILE::TACK;
+	auto stat = CONSTANTS::PROJECTILE::GDO;
 	
 	m_damage = stat.DAMAGE;
 	m_pierce = stat.PIERCE;
 	m_survive_period = stat.SURVIVE_PERIOD;
 	
-	m_Drawable = std::make_shared<Util::Image>(RESOURCE_DIR"/images/projectiles/tack.png", false);
+	m_Drawable = std::make_shared<Util::Image>(RESOURCE_DIR"/images/projectiles/plasma.png", false);
 	
-	m_Transform.scale = {1.5, 1.5};
+	// m_Transform.scale = {2, 2};
 	
 	// Setting initial velocity based on rotation
 	// Since rotation=0 faces upwards, we need to calculate velocity accordingly
 	float speed = stat.SPEED; // Adjust dart speed as needed
-	m_velocity = utility::rotate_vec2(glm::vec2(0, speed), rotation);
+	m_velocity = utility::rotate_vec2(glm::vec2(0, -speed), rotation);
 	
 	SetVisible(true);
+	
+	m_lead_popping_power = true;
+	m_frozen_popping_power = true;
 }
 
-void TackProjectile::update() {
+void GdoProjectile::update() {
 	// Update position based on velocity
 	m_move();
 	
@@ -39,7 +42,7 @@ void TackProjectile::update() {
 	++m_tick;
 }
 
-void TackProjectile::deal_damage(std::shared_ptr<bloons::BaseBloon> bloon) {
+void GdoProjectile::deal_damage(std::shared_ptr<bloons::BaseBloon> bloon) {
 	// skips if projectile is dead or bloon doesn't exist
 	if (is_dead()) return;
 	if (bloon == nullptr) return;
@@ -78,7 +81,7 @@ void TackProjectile::deal_damage(std::shared_ptr<bloons::BaseBloon> bloon) {
 	m_hit_bloon_vec.push_back(bloon);
 }
 
-void TackProjectile::m_move() {
+void GdoProjectile::m_move() {
 	glm::vec2 current_position = m_hitbox->get_position();
 	
 	glm::vec2 new_position = current_position + m_velocity;
@@ -92,7 +95,7 @@ void TackProjectile::m_move() {
 	m_Transform.rotation = m_hitbox->get_rotation();
 }
 
-TackProjectile::~TackProjectile() {
+GdoProjectile::~GdoProjectile() {
 	
 }
 
