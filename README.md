@@ -1,24 +1,19 @@
-# PTSD Template
+# btd3 remake something
 
-This is a [PTSD](https://github.com/ntut-open-source-club/practical-tools-for-simple-design) framework template for students taking OOPL2024s.
+This is a project built using [PTSD](https://github.com/ntut-open-source-club/practical-tools-for-simple-design) framework  
+please refer to that page to understand how you can install this because i think it's pointless to explain something that already existed and explained better than i can ||(or in other words, i'm lazy ☠️☠)||
 
-## Quick Start
+but that's basically it
+while in game, you can:  
+press A to auto play
+press P for some other keys
 
-1. Use this template to create a new repository
-   ![github screenshot](https://github.com/ntut-rick/ptsd-template/assets/126899559/ef62242f-03ed-481d-b858-12b730c09beb)
+while in the map selector, you can type `NTUTOOPL` to access the secret map
 
-2. Clone your repository
+while in the ice map, if you click the frog enough times, you will wake it up and he will be angy :(
 
-   ```bash
-   git clone YOUR_GIT_URL --recursive
-   ```
+while in the third map, if monkeys are placed in the correct order, there will be a monking
 
-3. Build your project
-
-  > [!WARNING]
-  > Please build your project in `Debug` because our `Release` path is broken D:
-   
-   ```sh
-   cmake -DCMAKE_BUILD_TYPE=Debug -B build # -G Ninja
-   ```
-   better read [PTSD README](https://github.com/ntut-open-source-club/practical-tools-for-simple-design)
+please refer to this video for more information:  
+https://www.youtube.com/watch?v=T9QNXvGoIfM  
+or if you can't understand mandarin, too bad for you
