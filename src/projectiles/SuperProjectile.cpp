@@ -93,7 +93,7 @@ void SuperProjectile::m_move() {
 	m_Transform.translation = new_position;
 	
 	// Also update rotation of the drawable to match the hitbox
-	m_Transform.rotation = m_hitbox->get_rotation();
+	m_Transform.rotation = m_hitbox->get_rotation() + M_PI;
 }
 
 SuperProjectile::~SuperProjectile() {

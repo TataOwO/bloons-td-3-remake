@@ -2,5 +2,5 @@
   "title": "BLOONS TOWER DEFENSE 3 REMAKE",
   "window_width": 960,
   "window_height": 720,
-  "fps_cap": 120
+  "fps_cap": 30
 }

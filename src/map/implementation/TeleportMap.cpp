@@ -94,6 +94,7 @@ void TeleportMap::set_wave(int wave_number) {
 	RemoveChild(m_path_manager);
 	m_path_manager = m_wave_paths.at(m_current_wave%2);
 	AddChild(m_path_manager);
+	m_animation = m_animations_vec.at(m_current_wave%2);
 	m_animation->Play();
 	SetDrawable(m_animation);
 	m_animation_was_playing = true;
@@ -105,8 +106,8 @@ void TeleportMap::update() {
 	// if the previous animation ended
 	if (m_animation_was_playing && m_animation->GetState() != Util::Animation::State::PLAY) {
 		// update to the new animation
-		m_animation = m_animations_vec.at(m_current_wave%2);
-		SetDrawable(m_animation);
+		// m_animation = m_animations_vec.at(m_current_wave%2);
+		// SetDrawable(m_animation);
 		m_animation_was_playing = false;
 	}
 }
