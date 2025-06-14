@@ -18,6 +18,7 @@ public:
 	void add_value(const int& v);
 	void sub_value(const int& v);
 	
+	// activates when an illegal action is called
 	void set_blink_red();
 private:
 	int m_value = 0;

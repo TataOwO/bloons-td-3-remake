@@ -14,11 +14,13 @@ class PathManager final : public Util::GameObject {
 public:
 	PathManager(const std::vector<std::shared_ptr<map::route::RoutePath>>& paths);
 
+	// i forgor
 	std::shared_ptr<map::route::Route> get_collided_route(const std::shared_ptr<hitboxes::I_BaseHitbox> &hitbox);
 
-public:
+	// routes
 	std::vector<std::shared_ptr<map::route::Route>> get_all_routes() {return m_all_routes;};
 
+	// bloons random path
 	std::shared_ptr<map::route::RoutePath> get_random_route_path() const;
 private:
 	std::vector<std::shared_ptr<map::route::RoutePath>> m_paths = {};

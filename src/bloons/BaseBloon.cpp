@@ -94,6 +94,7 @@ double BaseBloon::get_random_z_index() {
 
 std::array<std::shared_ptr<Core::Drawable>, 10> BaseBloon::bloon_drawable_arr = {};
 
+// statically initialized bloon drawables
 const std::shared_ptr<Core::Drawable> BaseBloon::get_bloon_drawable(CONSTANTS::TYPE::BLOON t) {
 	static bool initialized = false;
 	if (!initialized) {

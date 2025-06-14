@@ -14,10 +14,10 @@ protected:
 	BaseProjectile();
 
 public:
-	// Check collision with another hitbox
+	// collision check
 	bool is_collided_with(const std::shared_ptr<bloons::BaseBloon> &bloon) const;
 
-	// Update the projectile's state (e.g., movement)
+	// projectile update
 	virtual void update() = 0;
 
 	bool is_dead() const {return !has_pierce() || timed_out();}

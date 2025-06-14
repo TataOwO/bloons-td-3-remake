@@ -26,11 +26,11 @@ class MonkeyManager final : public Util::GameObject {
 public:
 	MonkeyManager();
 
-	// Collision detection methods
+	// collision detection
 	bool hitbox_is_collided_with_monkeys(const std::shared_ptr<hitboxes::I_BaseHitbox> &hitbox);
 	bool point_is_collided_with_monkeys(glm::vec2 point);
 	
-	// Monkey creation and management
+	// monkey creation
 	bool place_dart_monkey(glm::vec2 position, const std::shared_ptr<layout::GameText> &money);
 	bool place_super_monkey(glm::vec2 position, const std::shared_ptr<layout::GameText> &money);
 	bool place_ice_monkey(glm::vec2 position, const std::shared_ptr<layout::GameText> &money);
@@ -39,15 +39,15 @@ public:
 	bool place_boomerang_monkey(glm::vec2 position, const std::shared_ptr<layout::GameText> &money);
 	void spawn_god_monkey();
 	
-	// Game loop methods
+	// attack
 	void scan_bloons(const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec_first, const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec_last, const std::vector<std::shared_ptr<bloons::BaseBloon>>& bloon_vec_strong);
 	void process_attacks();
 	
-	// Projectile handling
+	// projectile
 	std::vector<std::shared_ptr<projectiles::BaseProjectile>> get_new_projectiles();
 	void clear_new_projectiles();
 	
-	// Getters
+	// monkeys
 	std::vector<std::shared_ptr<monkeys::BaseMonkey>> get_all_monkeys() const;
 	void clear_all_monkeys();
 	

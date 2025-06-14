@@ -13,7 +13,7 @@ public:
 	
 	int get_damage() const override;
 
-	void handle_take_damage(int damage) override; // TODO: remove this
+	void handle_take_damage(int damage) override;
 
 	bool has_hp_left() const override {return m_hp>0;}
 private:

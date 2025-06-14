@@ -18,19 +18,23 @@ public:
 	Route(glm::vec2 start_point, glm::vec2 end_point, bool tts=false);
 
 	RouteConnection route_is_connected(const std::shared_ptr<Route> &route);
-
+	
+	// linked list implementation
 	std::shared_ptr<Route> get_next_route() const;
 
+	// begin and end
 	glm::vec2 get_start_point() const;
 	glm::vec2 get_end_point() const;
 
 	double recursive_calculate_exit_length();
 	double get_length_to_exit() const {return m_length_to_exit;};
 
+	// for teleport map
 	bool should_teleport_to_start() const {return m_teleport_to_start;}
 
 	void set_next_route(const std::shared_ptr<Route> &next_route);
 
+	// not supposed to be here but whatever
 	static glm::vec2 convert_pos(glm::vec2 v);
 	
 	std::shared_ptr<hitboxes::RectangularHitbox> get_hitbox() {return m_hitbox;}

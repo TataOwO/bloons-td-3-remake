@@ -21,9 +21,11 @@ class ClickHandler final : public utility::Mortal, public Util::GameObject {
 public:
 	ClickHandler(const std::shared_ptr<handlers::PathManager>& path_manager, const std::shared_ptr<handlers::MonkeyManager>& monkey_manager, const std::shared_ptr<handlers::BloonWaveManager>& bloon_wave_manager, const std::shared_ptr<layout::GameText> &current_money);
 
+	// updates
 	void update(const glm::vec2& mouse_pos, bool left_button, bool right_button, const std::shared_ptr<handlers::MonkeyManager>& monkey_manager, const std::shared_ptr<layout::GameText> &current_money);
 	void update_monkey_placement_controller(const glm::vec2& mouse_pos, bool left_button, bool right_button, const std::shared_ptr<layout::GameText> &current_money) const;
 
+	// all clickables
 	std::vector<std::shared_ptr<inputs::Clickable>> get_clickables() const {return m_clickable_vec;};
 
 	// monket placement obstacles

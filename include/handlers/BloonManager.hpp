@@ -55,6 +55,7 @@ public:
 	const std::vector<std::shared_ptr<bloons::BaseBloon>>& get_bloons_by_back() const;
 	const std::vector<std::shared_ptr<bloons::BaseBloon>>& get_bloons_by_strong() const;
 
+	// get bloons
 	const std::vector<std::shared_ptr<bloons::BaseBloon>>& get_all_bloons() const {return m_active_bloons;};
 private:
 	// removes bloons in the removal queue

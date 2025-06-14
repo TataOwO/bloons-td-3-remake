@@ -19,13 +19,17 @@ public:
 	virtual void update() = 0;
 	virtual CONSTANTS::TYPE::MAP get_map_type() const = 0;
 	
+	// route
 	void set_show_route(bool show);
 	void toggle_show_route() {set_show_route(!route_is_visible);};
 	
+	// path manager is created and managed by map
 	std::shared_ptr<handlers::PathManager> get_path_manager() {return m_path_manager;};
 
+	// in case if there are unique clickables in a map
 	std::vector<std::shared_ptr<inputs::Clickable>> get_clickables() {return m_clickables;};
 	
+	// for where the monkeys can not be placed
 	std::vector<std::shared_ptr<hitboxes::I_BaseHitbox>> get_obstacles() const {return m_obstacles;};
 protected:
 	std::shared_ptr<map::MapBackground> m_background;
