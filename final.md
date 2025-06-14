@@ -1,6 +1,6 @@
 # 國立臺北科技大學
 # 2025 資工系物件導向程式設計實習 期末報告
-# Author: Group 18
+# Author: Group 18, NTUT TataOwO
 
 ## 遊戲名稱
 - Bloons Tower Defense 3
