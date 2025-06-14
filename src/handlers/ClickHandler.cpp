@@ -162,6 +162,8 @@ void ClickHandler::update(const glm::vec2& mouse_pos, bool LB, bool RB, const st
 	// sells monkey
 	if (!RB) return; // exits early
 	for (auto monke: monkey_manager->get_all_monkeys()) {
+		if (monke->get_type() == CONSTANTS::TYPE::MONKEY::GOD) continue;
+		
 		if (monke->get_hitbox()->contains_point(mouse_pos)) {
 			monke->set_sold();
 			std::cout << "monke sold" << std::endl;
